@@ -8,14 +8,12 @@ login/logout
 
 register an account
 	-add personal info (email [valid .edu email], password, optional [name and bio])
-	-add availability (dates and times)
 	-add classes (choose from drop-down list)
 
 manage an account
 	-update classes
 	-update personal info
 	-update privacy (add/edit your block list)
-	-update availability
 
 matchmaking
 	-retrieving matches
