@@ -2,6 +2,8 @@
 StudyBear  
 ==========  
 
+//Test edit Darcie 01/25/15
+
 Purpose:  To create an Android application(and backing server application) that facilitates setting users(students) up for studying  
   
 Team:  Jeremy Scott, Darcie Odom, Chad Reynolds  
