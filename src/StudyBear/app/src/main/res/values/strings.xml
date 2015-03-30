@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Study Bear</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_darcie_match">DarcieMAtch</string>
+    <string name="title_activity_chad_match">ChadMatch</string>
+
+    <string-array name="profile_array">
+        <item>Classes</item>
+        <item>Bio</item>
+    </string-array>
+
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_edit_profile">EditProfile</string>
+
+        <string-array name="universitys">
+            <item>GEORGIA REGENTS UNIVERSITY</item>
+            <item>University of South Carolina - Aiken</item>
+        </string-array>
+
+
+</resources>
