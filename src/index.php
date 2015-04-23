@@ -50,6 +50,11 @@ switch($_GET["rtype"])
 	case 'editProfile':
 		 echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
 			break;
+
+	case 'getMessages':
+	
+			echo $dbconn->getMessages($_GET["username"]);
+		break;
 	
 	
 }

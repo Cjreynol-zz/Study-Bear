@@ -20,6 +20,7 @@
             <item>GEORGIA REGENTS UNIVERSITY</item>
             <item>University of South Carolina - Aiken</item>
         </string-array>
+    <string name="title_activity_inbox">inboxActivity</string>
 
 
 </resources>

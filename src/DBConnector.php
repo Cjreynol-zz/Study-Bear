@@ -125,6 +125,24 @@ class DBConnector
 		if($stm->execute())
 			echo "success";
 	}
+
+	#messages
+	function getMessages($userName){
+		$sql  = "SELECT * from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime;";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+
+		$message = $stm->fetch();
+		$messageArray;
+		while ($message[0] != null){
+			$messageArray[] = $message;
+			$message = $stm->fetch();
+		}
+
+		$result["messageList"] = $messageArray;
+		return json_encode($result);
+	}
 }
 ?>
 

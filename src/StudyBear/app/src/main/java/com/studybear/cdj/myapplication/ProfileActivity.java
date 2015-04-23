@@ -36,7 +36,7 @@ public class ProfileActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String url = "http://127.0.0.1/studybear/?rtype=getProfile&username="+username;
+        String url = "http://10.8.5.68/studybear/?rtype=getProfile&username="+username;
 
         bio = (TextView) findViewById(R.id.Biography);
         classes = (TextView) findViewById(R.id.Classes);
@@ -104,6 +104,13 @@ public class ProfileActivity extends ActionBarActivity {
     public void EditProfile(View v)
     {
         Intent intent = new Intent(this, EditProfile.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
+    public void inboxActivity (View v)
+    {
+        Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
     }
