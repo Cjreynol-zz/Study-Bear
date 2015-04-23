@@ -74,11 +74,13 @@ FOREIGN KEY(classId) REFERENCES CLASS(classId)
 
 CREATE TABLE USER_ENROLLMENT(
 userName VARCHAR(20),
-teachingId INTEGER(10),
+professorId INTEGER(10),
+classId VARCHAR(10),
 enrollmentStatus VARCHAR(1),
-PRIMARY KEY (userName, teachingId),
+PRIMARY KEY (userName, professorId, classId),
 FOREIGN KEY (userName) REFERENCES USER(userName),
-FOREIGN KEY (teachingId) REFERENCES TEACHING(teachingId)
+FOREIGN KEY (professorId) REFERENCES TEACHING(professorId),
+FOREIGN KEY (classId) REFERENCES TEACHING(classId)
 )ENGINE=INNODB;
 
 /* TO BE IMPLEMENTED

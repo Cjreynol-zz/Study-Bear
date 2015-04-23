@@ -68,22 +68,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp" />
 
-        <EditText
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/Email"
-            android:hint="Email"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp" />
+            android:id="@+id/listView" />
 
     </LinearLayout>
     </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal">
 
         <Button
@@ -96,6 +91,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:onClick="Submit"/>
+
     </RelativeLayout>
 
 

@@ -27,20 +27,13 @@
             android:label="@string/title_activity_profile" >
         </activity>
         <activity
-            android:name=".DarcieMAtch"
-            android:label="@string/title_activity_darcie_match" >
-        </activity>
-        <activity
-            android:name=".ChadMatch"
-            android:label="@string/title_activity_chad_match" >
-        </activity>
-        <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
             android:name=".EditProfile"
-            android:label="@string/title_activity_edit_profile" >
+            android:label="@string/title_activity_edit_profile"
+            android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
     </application>
 
