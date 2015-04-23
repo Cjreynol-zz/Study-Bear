@@ -63,7 +63,7 @@ public class LoginActivity extends ActionBarActivity {
         final String password = v2.getText().toString();
 
         //Constructing URL to be requested
-        url = R.string.server_address + "index.php?rtype=login";
+        url = getResources().getString(R.string.server_address) + "index.php?rtype=login";
 
         //Creating Volley String Request which is a class that constructs a simple Http request that will receive a response back
         //in the form of a string

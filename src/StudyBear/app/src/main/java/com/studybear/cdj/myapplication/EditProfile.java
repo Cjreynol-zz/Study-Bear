@@ -88,7 +88,7 @@ public class EditProfile extends ActionBarActivity {
     public void Submit(View v){
         university = "Georgia Regents University";
 
-        String url = R.string.server_address + "?rtype=editProfile";
+        String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
