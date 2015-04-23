@@ -44,11 +44,14 @@ switch($_GET["rtype"])
 		if(isset($_GET["username"]) )
 			echo $dbconn->getProfile($_GET["username"]);
 		else
-			echo "error";
+			echo "error0";
 				break;
 			
 	case 'editProfile':
-		 echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
+	if($_POST["fname"] != null &&  $_POST["lname"] != null)
+		 echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"], $_POST["classList"]); #, $_POST["classList"]
+	 else
+		 echo "error1";
 			break;
 
 	case 'getMessages':

@@ -61,7 +61,7 @@ class DBConnector
 		else
 		{
 			#Inserting new users into database and returning success message if sql passes, error otherwise
-			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', '', '');";
+			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', ' ', '');";
 			$stm = $this->conn->prepare($sql);
 			
 			if($stm->execute())
@@ -76,54 +76,96 @@ class DBConnector
 	{
 		$sql = "SELECT firstName,lastName, biography, universityName FROM USER WHERE userName = '$uname';";
 		$stm = $this->conn->prepare($sql);
-		if($stm->execute())
-		{
-			$result = $stm->fetch(PDO::FETCH_ASSOC);
-			#Classes brings back multiple records from the database, so to avoid weird json_encoding, I just 
-			#wrote a second query and appended the key/value pair to the end of the first array by class number.
-			$class_sql = 
-			"SELECT CONCAT(C.classId,'-', C.className,', ', D.professorLname,', ',D.professorFname)
-			FROM USER_ENROLLMENT A 
-				inner join TEACHING B ON A.teachingId = B.teachingId
-				inner join CLASS C ON B.classId = C.classId
-				inner join PROFESSOR D ON B.professorId = D.professorId
-			WHERE A.userName = '$uname';";
-			
-			$stm2 = $this->conn->prepare($class_sql);
-				if($stm2->execute())
-				{
-					$class_result = $stm2->fetch();
-					$i = 1;
-					
-					$class_array;
-					if($class_result == false)
-						$class_array = array("No Classes");
-					else
-					{			
-						while($class_result[0] != null)
-						{
-							$class_array[] = $class_result[0];
-							$i++;
-							$class_result = $stm2->fetch();
-						}
-						$result["CLASSES"] = $class_array;
-					}
-				}		
-			return json_encode($result);
-		}
-		else	
+		if($stm->execute())		
+			$result = $stm->fetch(PDO::FETCH_ASSOC);	
+		else
 			return "error";
+		
+		#Classes brings back multiple records from the database, so to avoid weird json_encoding, I just 
+		#wrote a second query and appended the key/value pair to the end of the first array by class number.
+		$classes_sql = 
+		"SELECT C.classId, C.className, D.professorLname,D.professorFname
+		FROM USER_ENROLLMENT A 
+			inner join TEACHING B ON A.professorId = B.professorId
+			and A.classId = B.classId
+			inner join CLASS C ON B.classId = C.classId
+			inner join PROFESSOR D ON B.professorId = D.professorId
+		WHERE A.userName = '$uname';";
+			
+		$stm2 = $this->conn->prepare($classes_sql);
+			if($stm2->execute())
+			{
+				$class = $stm2->fetch();
+
+				$classes_array;
+				if($class == false)
+					$classes_array = array("No Classes");
+				else
+				{			
+					while($class[0] != null)
+					{
+						$classes_array[] = $class;
+						$class = $stm2->fetch();
+					}
+					$result["classList"] = $classes_array;
+				}
+			}
+		
+		$university_sql = "SELECT * FROM UNIVERSITY;";
+		$stm3 = $this->conn->prepare($university_sql);
+
+		if($stm3->execute())
+		{
+			
+			$university = $stm3->fetch();
+			$universityArray;
+			while ($university[0] != null)
+			{
+				$universityArray[] = $university;
+				$university = $stm3->fetch();
+			}
+				$result["universityList"] = $universityArray;			
+		}
+		return json_encode($result);
+		
+		return "error";
 	}
 	
 	#Make sure client populates whats already saved in database first and then call this function
-	function editProfile($fname, $lname, $biography, $university, $uname){
+	function editProfile($fname, $lname, $biography, $university, $uname, $classList){
+		
 		$sql = "UPDATE USER 
-		SET firstName = '$fname', lastName = '$lname', biography = '$biography', universityname = '$university'
-		where userName = '$uname';";
+		SET firstName = '$fname', lastName = '$lname', biography = '$biography', universityname = '$university' 
+		WHERE userName = '$uname';";
 		
 		$stm = $this->conn->prepare($sql);
-		if($stm->execute())
-			echo "success";
+		
+		$deleteList = json_decode($classList);
+		
+		if($deleteList != null)
+		{		
+			for($i = 0; $i < Count($deleteList); $i++)
+			{
+				$array = explode(",", $deleteList[$i]);
+				$classid = $array[0];
+				$pfname = $array[3];
+				$plname = $array[2];
+		
+				$sql2 = 
+				"DELETE FROM USER_ENROLLMENT
+				WHERE userName = '$uname' AND 
+				professorId = (SELECT professorId FROM PROFESSOR WHERE professorFname = '$pfname' AND professorLname = '$plname') AND
+				classId = '$classid';";
+			
+				$stm2 = $this->conn->prepare($sql2);
+				$stm2->execute();			
+			}
+		}
+	
+	if($stm->execute())
+			return "success";
+		else
+			return "error";
 	}
 
 	#messages

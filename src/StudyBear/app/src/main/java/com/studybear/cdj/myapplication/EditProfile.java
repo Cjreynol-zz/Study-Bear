@@ -1,14 +1,20 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,7 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.android.volley.Response.*;
@@ -32,58 +40,88 @@ public class EditProfile extends ActionBarActivity {
     private String username;
     private String fname;
     private String lname;
-    //String email;
     private String university;
     private String biography;
     private EditText fnameView;
     private EditText lnameView;
-    //EditText emailView;
     private Spinner universityView;
     private EditText biographyView;
+    public static JSONArray classList;
+    private static final String TAG = "EditProfile";
+    public static ArrayList<String> array;
+    private String classes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
-        Intent getUser = getIntent();
-        username = getUser.getStringExtra("username");
         networkRequest = NetworkController.getInstance(getApplicationContext());
-        String url = "http://10.8.5.68/studybear/?rtype=getProfile&username="+username;
+        Intent getUserInfo = getIntent();
+        username = getUserInfo.getStringExtra("username");
+        fname = getUserInfo.getStringExtra("fname");
+        lname = getUserInfo.getStringExtra("lname");
+        biography = getUserInfo.getStringExtra("bio");
+        classes = getUserInfo.getStringExtra("classes");
+        classList = new JSONArray();
+        //classList.put(" ");
 
         fnameView = (EditText) findViewById(R.id.Fname);
         lnameView = (EditText) findViewById(R.id.Lname);
-        //emailView = (EditText) findViewById(R.id.Email);
         universityView = (Spinner) findViewById(R.id.spinner);
         biographyView = (EditText) findViewById(R.id.Biography);
+        TextView tv = new TextView(this);
+        tv.setText(classes);
+        LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
+        ly.addView(tv);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
         R.array.universitys, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        universityView.setAdapter(adapter);
 
-        JsonObjectRequest getProfile = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        fnameView.setText(fname);
+        lnameView.setText(lname);
+        biographyView.setText(biography);
+
+    }
+
+    public void Submit(View v){
+        university = "Georgia Regents University";
+
+        String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject json) {
-                try
-                {
-                    JSONObject populate = json;
-                    biographyView.setText(populate.getString("biography"));
-                    fnameView.setText(populate.getString("firstName"));
-                    lnameView.setText(populate.getString("lastName"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onResponse(String s) {
+                if(s.trim().equals("success"))
+                Toast.makeText(getBaseContext(), "Profile Updated Successfully.", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
+                Log.d(TAG, s);
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(),"Cannot communicate with Server.",Toast.LENGTH_LONG).show();
             }
-        });
-        networkRequest.addToRequestQueue(getProfile);
+        }){
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("fname", fnameView.getText().toString().trim());
+                params.put("lname", lnameView.getText().toString().trim());
+                params.put("university", university);
+                params.put("biography", biographyView.getText().toString().trim());
+                params.put("uname", username);
+                params.put("classList", classList.toString());
 
+                return params;
+            }
+        };
+
+        networkRequest.addToRequestQueue(postRequest);
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username",username);
+        startActivity(intent);
     }
 
     @Override
@@ -107,46 +145,6 @@ public class EditProfile extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void Submit(View v){
-
-        fname = fnameView.getText().toString().trim();
-        lname = lnameView.getText().toString().trim();
-        //email = emailView.getText().toString().trim();
-        //university = universityView.getSelectedItem().toString().trim();
-        university = "Georgia Regents University";
-        biography = biographyView.getText().toString().trim();
 
 
-        String url = "http://127.0.0.1/studybear/?rtype=editProfile";
-
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                Toast.makeText(getBaseContext(), "Profile Updated Successfully.", Toast.LENGTH_LONG).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(),"Cannot communicate with Server.",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> params = new HashMap<>();
-                params.put("fname", fname);
-                params.put("lname", lname);
-                //params.put("email", email);
-                params.put("university", university);
-                params.put("biography", biography);
-                params.put("uname", username);
-
-                return params;
-            }
-        };
-        networkRequest.addToRequestQueue(postRequest);
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username",username);
-        startActivity(intent);
-
-    }
 }

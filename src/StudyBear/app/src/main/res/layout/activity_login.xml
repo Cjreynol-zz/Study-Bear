@@ -47,8 +47,8 @@
             android:hint="User Name"
             android:layout_marginBottom="7dp"
             android:layout_marginTop="50dp"
-            android:textColor="#FFFFFF"
             android:text="odarcie" />
+            android:textColor="#FFFFFF" />
 
         <EditText
             android:layout_width="match_parent"

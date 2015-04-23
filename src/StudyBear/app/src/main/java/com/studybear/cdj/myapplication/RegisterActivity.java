@@ -75,6 +75,7 @@ public class RegisterActivity extends ActionBarActivity {
 
         else if(fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || email.isEmpty())
             Toast.makeText(getBaseContext(),"All user fields must be filled out.", Toast.LENGTH_LONG).show();
+
         else if(!email.contains("@") || !email.contains("edu") || !email.contains("."))
             Toast.makeText(getBaseContext(),"Invalid email format.", Toast.LENGTH_LONG).show();
 
@@ -85,14 +86,13 @@ public class RegisterActivity extends ActionBarActivity {
         }
 
         else if(pword.length() < 8){
-            Toast.makeText(getBaseContext(),"Passwords must be atleast 8 characters.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),"Passwords must be at least 8 characters.", Toast.LENGTH_LONG).show();
             pwordview.setText(null);
             confirm.setText(null);
         }
         else {
 
-
-        String url = "http://10.8.5.68/studybear/?rtype=register";
+        String url = getResources().getString(R.string.server_address)+ "?rtype=register";
         StringRequest registerPost = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -127,11 +127,6 @@ public class RegisterActivity extends ActionBarActivity {
         } ;
             //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
             networkRequest.addToRequestQueue(registerPost);
-
-
         }
-
-
-
     }
 }
