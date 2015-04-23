@@ -34,7 +34,7 @@ public class inboxActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String url = "http://192.168.1.11/studybear/?rtype=getMessages&username="+username;
+        String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
