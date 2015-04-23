@@ -92,8 +92,7 @@ public class RegisterActivity extends ActionBarActivity {
         }
         else {
 
-
-        String url = "http://127.0.0.1/studybear/?rtype=register";
+        String url = "//http://192.168.17.1/?rtype=register";
         StringRequest registerPost = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override

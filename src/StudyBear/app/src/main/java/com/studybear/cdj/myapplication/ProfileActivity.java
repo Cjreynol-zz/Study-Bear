@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,21 +49,26 @@ public class ProfileActivity extends ActionBarActivity {
             public void onResponse(JSONObject json) {
                 try
                 {
-                    JSONObject populate = json;
-                    bio.setText("Biography:\n" + populate.getString("biography"));
-                    name.setText(populate.getString("firstName") + " " + populate.getString("lastName"));
-                    university.setText(populate.getString("universityName"));
+                    bio.setText("Biography:\n" + json.getString("biography"));
+                    name.setText(json.getString("firstName") + " " + json.getString("lastName"));
+                    university.setText(json.getString("universityName"));
 
-                    JSONArray classList = populate.getJSONArray("CLASSES");
-                    StringBuilder classString = new StringBuilder();
+                    JSONArray classList = json.getJSONArray("classList");
+                    StringBuilder classListString = new StringBuilder();
+                    JSONObject classItem;
+                    String classItemString;
+
                     for(int i = 0; i < classList.length(); i++)
                     {
-                        if(i + 1 == classList.length())
-                            classString.append("- " + classList.getString(i));
-                        else
-                             classString.append("- " + classList.getString(i) + "\n\n");
+                        classItem = classList.getJSONObject(i);
+                        classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+
+                            if(i + 1 == classList.length())
+                                classListString.append(classItemString);
+                            else
+                                classListString.append(classItemString + "\n");
                     }
-                    classes.setText("Classes:\n" + classString.toString());
+                    classes.setText("Classes:\n" + classListString.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -74,6 +80,25 @@ public class ProfileActivity extends ActionBarActivity {
             }
         });
         networkRequest.addToRequestQueue(profileAttr);
+    }
+
+    public void EditProfile(View v)
+    {
+        Intent intent = new Intent(this, EditProfile.class);
+        String [] nameArray = name.getText().toString().trim().split(" ");
+        intent.putExtra("fname", nameArray[0]);
+        intent.putExtra("lname", nameArray[1]);
+        intent.putExtra("username", username);
+        intent.putExtra("bio", bio.getText().toString().trim().substring(11));
+        intent.putExtra("university", university.getText().toString().trim());
+        intent.putExtra("classes", classes.getText().toString().trim());
+        startActivity(intent);
+    }
+
+    public void Logout(View v)
+    {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
     @Override
     public void onBackPressed(){
@@ -99,18 +124,5 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void EditProfile(View v)
-    {
-        Intent intent = new Intent(this, EditProfile.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-    }
-
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }
