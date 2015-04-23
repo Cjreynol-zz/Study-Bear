@@ -70,10 +70,6 @@ public class EditProfile extends ActionBarActivity {
         lnameView = (EditText) findViewById(R.id.Lname);
         universityView = (Spinner) findViewById(R.id.spinner);
         biographyView = (EditText) findViewById(R.id.Biography);
-        TextView tv = new TextView(this);
-        tv.setText(classes);
-        LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
-        ly.addView(tv);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
         R.array.universitys, android.R.layout.simple_spinner_item);
@@ -83,6 +79,19 @@ public class EditProfile extends ActionBarActivity {
         fnameView.setText(fname);
         lnameView.setText(lname);
         biographyView.setText(biography);
+        LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
+
+        String [] classParse = classes.split("\n");
+        ArrayList<TextView> tvList = new ArrayList<>();
+        for (int i = 0; i < classParse.length; i++)
+        {
+            TextView tv = new TextView(this);
+            tvList.add(tv);
+        }
+
+        for (int i = 0; i < classParse.length; i++)
+            ly.addView(tvList.get(i));
+
 
     }
 
