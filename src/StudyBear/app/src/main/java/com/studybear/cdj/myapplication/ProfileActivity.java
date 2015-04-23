@@ -125,14 +125,6 @@ public class ProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-<<<<<<< HEAD
-
-    public void EditProfile(View v)
-    {
-        Intent intent = new Intent(this, EditProfile.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-    }
 
     public void inboxActivity (View v)
     {
@@ -141,25 +133,4 @@ public class ProfileActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-||||||| merged common ancestors
-
-    public void EditProfile(View v)
-    {
-        Intent intent = new Intent(this, EditProfile.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-    }
-
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-=======
->>>>>>> 0a7f2d0df68111db4aef37485f060b1c220d55a1
 }

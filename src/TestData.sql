@@ -40,3 +40,9 @@ WHERE professorFname = 'Ryan'
 AND professorLname = 'Wilson' 
 AND classId = 'CSCI 3520' 
 AND universityName = 'Georgia Regents University';
+
+INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('odarcie', 'creynolds', 'hi', 'yo', now());
+INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('creynolds', 'odarcie', 'hola', 'bonjor', now());
+INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('jbeezy88', 'odarcie', 'hello', 'This is Cheeeeese', now());
+
+
