@@ -56,7 +56,6 @@ public class EditProfile extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         networkRequest = NetworkController.getInstance(getApplicationContext());
-
         Intent getUserInfo = getIntent();
         username = getUserInfo.getStringExtra("username");
         fname = getUserInfo.getStringExtra("fname");
@@ -98,7 +97,7 @@ public class EditProfile extends ActionBarActivity {
     public void Submit(View v){
         university = "Georgia Regents University";
 
-        String url = "http://192.168.17.1/?rtype=editProfile";
+        String url = R.string.server_address + "?rtype=editProfile";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
