@@ -41,7 +41,7 @@ public class ChadMatch extends ActionBarActivity {
 
     public void FindMatches(View v)
     {
-        Intent intent = new Intent(this, DarcieMAtch.class);
+        Intent intent = new Intent(this, DarcieMatch.class);
         startActivity(intent);
     }
 }

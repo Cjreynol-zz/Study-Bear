@@ -49,7 +49,7 @@ public class EditProfile extends ActionBarActivity {
         Intent getUser = getIntent();
         username = getUser.getStringExtra("username");
         networkRequest = NetworkController.getInstance(getApplicationContext());
-        String url = "http://127.0.0.1/studybear/?rtype=getProfile&username="+username;
+        String url = "http://10.8.4.138/studybear/?rtype=getProfile&username="+username;
 
         fnameView = (EditText) findViewById(R.id.Fname);
         lnameView = (EditText) findViewById(R.id.Lname);
