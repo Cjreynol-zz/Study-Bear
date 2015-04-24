@@ -1,11 +1,14 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -35,43 +38,78 @@ public class inboxActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
+        final LinearLayout ly  = (LinearLayout) findViewById(R.id.layout8);
+
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
                 try
                 {
-                TextView messageList = (TextView) findViewById(R.id.textView7);
-                JSONArray mList = json.getJSONArray("messageList");
-                StringBuilder mListString = new StringBuilder();
-                JSONObject mItem;
-                String mItemString;
-                String printString;
+                    JSONArray messageList = json.getJSONArray("messageList");
+                    StringBuilder mListString = new StringBuilder();
+                    JSONObject mItem;
+                    String mItemString = "";
+                    String printString;
 
-                for(int i = 0; i < mList.length(); i++)
-                {
-                    mItem = mList.getJSONObject(i);
-                    String sUser = mItem.getString("sendingUser");
-                    String rUser  = mItem.getString("receivingUser");
+                    for(int i = 0; i < messageList.length(); i++)
+                    {
+                    mItem = messageList.getJSONObject(i);
+                    final String sUser = mItem.getString("sendingUser");
+                    final String rUser  = mItem.getString("receivingUser");
                     String dtime = mItem.getString("niceDate");
 
                     if(sUser.equals(username)) {
                         if (dict.containsValue(rUser) != true) {
                             dict.put(mItem.getString("msgId"), rUser);
                             mItemString = rUser + "  " + dtime;
-                            mListString.append(mItemString + "\n");
+                            TextView tv = new TextView(getApplicationContext());
+                            tv.setText(mItemString);
+                            tv.setTextColor(Color.parseColor("#315172"));
+                            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            llp.setMargins(0, 0, 0, 20); // llp.setMargins(left, top, right, bottom);
+                            tv.setLayoutParams(llp);
+                            tv.setClickable(true);
+                            tv.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getApplicationContext(), ConvoActivity.class);
+                                    intent.putExtra("buddy", rUser);
+                                    startActivity(intent);
+                                }
+                            });
+                            ly.addView(tv);
                         }
                     }
                     if(rUser.equals(username)) {
                         if (dict.containsValue(sUser) != true) {
                             dict.put(mItem.getString("msgId"), sUser);
                             mItemString = sUser + "  " + dtime;
-                            mListString.append(mItemString + "\n");
+                            TextView tv = new TextView(getApplicationContext());
+                            tv.setText(mItemString);
+                            tv.setTextColor(Color.parseColor("#315172"));
+                            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            llp.setMargins(0, 0, 0, 20); // llp.setMargins(left, top, right, bottom);
+                            tv.setLayoutParams(llp);
+                            tv.setClickable(true);
+                            tv.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getApplicationContext(), ConvoActivity.class);
+                                    intent.putExtra("buddy", sUser);
+                                    intent.putExtra("username", username);
+                                    startActivity(intent);
+                                }
+                            });
+                            ly.addView(tv);
                         }
                     }
 
+
                 }
-                    messageList.setText(mListString);
+
 
 
                 } catch (JSONException e) {
@@ -91,10 +129,6 @@ public class inboxActivity extends ActionBarActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-    @Override
-    public void onBackPressed(){
-
-    }
 
     public void inboxActivity (View v)
     {
@@ -112,6 +146,7 @@ public class inboxActivity extends ActionBarActivity {
 
     public void NewMessage (View v){
         Intent intent = new Intent(this, NewMessage.class);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 

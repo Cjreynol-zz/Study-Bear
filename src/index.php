@@ -52,9 +52,14 @@ switch($_GET["rtype"])
 			break;
 
 	case 'getMessages':
-	
 			echo $dbconn->getMessages($_GET["username"]);
 		break;
+	case 'getConvo':
+			echo $dbconn->getMessages($_GET["buddy"]);
+		break;
+	case 'newMessage':
+			echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
+			break;
 	
 	
 }
