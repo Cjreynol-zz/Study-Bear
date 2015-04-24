@@ -1,5 +1,6 @@
 package com.studybear.cdj.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.ActionBarActivity;
@@ -81,15 +82,20 @@ public class EditProfile extends ActionBarActivity {
         LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
 
         String [] classParse = classes.split("\n");
-        ArrayList<TextView> tvList = new ArrayList<>();
         for (int i = 0; i < classParse.length; i++)
         {
             TextView tv = new TextView(this);
-            tvList.add(tv);
+            tv.setText(classParse[i]);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    classList.put()
+                }
+            });
+
+            ly.addView(tv);
         }
 
-        for (int i = 0; i < classParse.length; i++)
-            ly.addView(tvList.get(i));
 
 
     }
