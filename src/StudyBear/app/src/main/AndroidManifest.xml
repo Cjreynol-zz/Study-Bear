@@ -33,7 +33,11 @@
         <activity
             android:name=".EditProfile"
             android:label="@string/title_activity_edit_profile"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".EditClasses"
+            android:label="@string/title_activity_edit_classes" >
         </activity>
     </application>
 
