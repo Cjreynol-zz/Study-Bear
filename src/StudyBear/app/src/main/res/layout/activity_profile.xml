@@ -118,7 +118,8 @@
             android:id="@+id/button4"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/button6"
-            android:layout_toStartOf="@+id/button6" />
+            android:layout_toStartOf="@+id/button6"
+            android:onClick="findMatch"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"

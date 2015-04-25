@@ -168,6 +168,24 @@ class DBConnector
 		if($stm->execute())
 			echo "success";
 	}
+	
+	function getMatches($userName) {
+		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";
+		
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute()) {
+		
+			$user = $stm->fetch();
+			$userArray;
+			while ($user[0] != null){
+				$userArray[] = $user;
+				$user = $stm->fetch();
+			}
+		
+			$result["userList"] = $userArray;
+			return json_encode($result);
+		}
+	}
 }
 ?>
 

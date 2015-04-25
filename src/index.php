@@ -45,21 +45,30 @@ switch($_GET["rtype"])
 			echo $dbconn->getProfile($_GET["username"]);
 		else
 			echo "error";
-				break;
+		break;
 			
 	case 'editProfile':
-		 echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
-			break;
+		echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
+		break;
 
 	case 'getMessages':
-			echo $dbconn->getMessages($_GET["username"]);
+		echo $dbconn->getMessages($_GET["username"]);
 		break;
+		
 	case 'getConvo':
-			echo $dbconn->getMessages($_GET["buddy"]);
+		echo $dbconn->getMessages($_GET["buddy"]);
 		break;
+		
 	case 'newMessage':
-			echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
-			break;
+		echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
+		break;
+	
+	case 'getMatches':
+		if (isset($_GET["username"]))
+			echo $dbconn->getMatches($_GET["username"]);
+		else
+			echo $dbconn->getMatches("");
+		break;
 	
 	
 }

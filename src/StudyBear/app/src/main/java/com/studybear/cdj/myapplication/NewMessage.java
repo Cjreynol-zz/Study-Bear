@@ -98,6 +98,7 @@ public class NewMessage extends ActionBarActivity {
             Intent intent = new Intent(this, inboxActivity.class);
             intent.putExtra("username",username);
             startActivity(intent);
+            finish();
         }
     }
 }
