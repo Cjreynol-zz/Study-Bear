@@ -169,7 +169,7 @@ class DBConnector
 	}
 	
 	function editClasses($username){
-		$sql_university_list = "SELECT * FROM UNIVERSITY;";
+		$sql_university_list = "SELECT * FROM UNIVERSITY WHERE universityName <> ' ';";
 		$stm = $this->conn->prepare($sql_university_list);
 		$stm->execute();
 		
@@ -184,24 +184,28 @@ class DBConnector
 			inner join CLASS B on A.classId = B.classId
 			inner join PROFESSOR C on A.professorId = C.professorId
 		WHERE B.universityName = '$university';";
-		$result;
-		$stm2 = $this->conn->prepare($classes_sql);
-			if($stm2->execute())
+
+		$stm = $this->conn->prepare($classes_sql);
+			if($stm->execute())
 			{
-				$class = $stm2->fetch();
+				$class = $stm->fetch();
 
 				$classes_array;
 				if($class == false)
-					$classes_array = array("No Classes");
+				{
+					$classes_array = array(array("classId"=>"No Classes", "className"=>" ", "professorLname"=> " ", "professorFname" => " "));
+					$result["classes"] = $classes_array;	
+					return json_encode($result);	
+				}
 				else
 				{			
 					while($class[0] != null)
 					{
 						$classes_array[] = $class;
-						$class = $stm2->fetch();
+						$class = $stm->fetch();
 					}
-					$result["classList"] = $classes_array;	
-					return $result;					
+					$result["classes"] = $classes_array;	
+					return json_encode($result);					
 				}
 			}
 			
