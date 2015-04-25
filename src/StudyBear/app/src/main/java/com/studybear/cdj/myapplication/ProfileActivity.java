@@ -125,4 +125,12 @@ public class ProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void inboxActivity (View v)
+    {
+        Intent intent = new Intent(this, inboxActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
 }
