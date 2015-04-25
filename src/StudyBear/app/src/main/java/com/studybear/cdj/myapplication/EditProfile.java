@@ -1,5 +1,6 @@
 package com.studybear.cdj.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.ActionBarActivity;
@@ -38,18 +39,12 @@ import static com.android.volley.Response.*;
 public class EditProfile extends ActionBarActivity {
     private NetworkController networkRequest;
     private String username;
-    private String fname;
-    private String lname;
     private String university;
-    private String biography;
     private EditText fnameView;
     private EditText lnameView;
-    private Spinner universityView;
     private EditText biographyView;
     public static JSONArray classList;
     private static final String TAG = "EditProfile";
-    public static ArrayList<String> array;
-    private String classes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,38 +52,51 @@ public class EditProfile extends ActionBarActivity {
         setContentView(R.layout.activity_edit_profile);
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent getUserInfo = getIntent();
+
         username = getUserInfo.getStringExtra("username");
-        fname = getUserInfo.getStringExtra("fname");
-        lname = getUserInfo.getStringExtra("lname");
-        biography = getUserInfo.getStringExtra("bio");
-        classes = getUserInfo.getStringExtra("classes");
+        String fname = getUserInfo.getStringExtra("fname");
+        String lname = getUserInfo.getStringExtra("lname");
+        String biography = getUserInfo.getStringExtra("bio");
+        String classes = getUserInfo.getStringExtra("classes");
         classList = new JSONArray();
-        //classList.put(" ");
 
         fnameView = (EditText) findViewById(R.id.Fname);
         lnameView = (EditText) findViewById(R.id.Lname);
-        universityView = (Spinner) findViewById(R.id.spinner);
         biographyView = (EditText) findViewById(R.id.Biography);
-        TextView tv = new TextView(this);
-        tv.setText(classes);
-        LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
-        ly.addView(tv);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+/*      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
         R.array.universitys, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner universityView = (Spinner) findViewById(R.id.spinner);
         universityView.setAdapter(adapter);
-
+*/
         fnameView.setText(fname);
         lnameView.setText(lname);
         biographyView.setText(biography);
+        final LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
 
+        String [] classParse = classes.split("\n");
+        for (int i = 0; i < classParse.length; i++)
+        {
+            final TextView tv = new TextView(this);
+            tv.setText(classParse[i]);
+           /* tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    classList.put(tv.getText().toString());
+                    Toast.makeText(getApplicationContext(), tv.getText().toString(), Toast.LENGTH_LONG).show();
+                    ly.removeView(tv);
+                }
+            }); */
+            ly.addView(tv);
+        }
     }
 
     public void Submit(View v){
         university = "Georgia Regents University";
 
-        String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
+        String url = getResources().getResourceName(R.string.server_address)+ "?rtype=getProfile";
+
         StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -117,12 +125,17 @@ public class EditProfile extends ActionBarActivity {
                 return params;
             }
         };
-
         networkRequest.addToRequestQueue(postRequest);
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
+    }
+
+    public void editClasses(View v){
+        Intent intent = new Intent(this, EditClasses.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     @Override

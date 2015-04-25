@@ -32,9 +32,16 @@
         </activity>
         <activity
             android:name=".EditProfile"
-            android:label="Edit Profile"
+            android:label="@string/title_activity_edit_profile"
             android:windowSoftInputMode="stateHidden|adjustPan" >
-        </activity>
+    </activity>
+
+        <activity
+            android:name=".EditClasses"
+            android:label="@string/title_activity_edit_classes" >
+            </activity>
+
+
         <activity
             android:name=".inboxActivity"
             android:label="Messages" >
