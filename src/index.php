@@ -44,25 +44,47 @@ switch($_GET["rtype"])
 		if(isset($_GET["username"]) )
 			echo $dbconn->getProfile($_GET["username"]);
 		else
-			echo "error";
+			echo "error0";
 				break;
 			
 	case 'editProfile':
-		 echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
+		if($_POST["fname"] != null &&  $_POST["lname"] != null)
+			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"], $_POST["classList"]);
+		else
+			echo "error1";
+		break;
+			
+	case 'editClasses':
+		echo $dbconn->editClasses($_GET["username"]);
 			break;
+			
+	case 'getClasses':
+		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
+			echo "error";
+		break;
+			
 
 	case 'getMessages':
-			echo $dbconn->getMessages($_GET["username"]);
+		echo $dbconn->getMessages($_GET["username"]);
 		break;
+		
 	case 'getConvo':
-			echo $dbconn->getMessages($_GET["buddy"]);
+		echo $dbconn->getMessages($_GET["buddy"]);
 		break;
+		
 	case 'newMessage':
-			echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
-			break;
+		echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
+		break;
+	
+	case 'getMatches':
+		if (isset($_GET["username"]))
+			echo $dbconn->getMatches($_GET["username"]);
+		else
+			echo $dbconn->getMatches("");
+		break;
 	
 	
-}
+
 #To be implemented
 #function DeleteMessage(){}
 #unction SendMessage(){}

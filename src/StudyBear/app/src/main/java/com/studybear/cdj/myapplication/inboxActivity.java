@@ -78,6 +78,7 @@ public class inboxActivity extends ActionBarActivity {
                                     intent.putExtra("buddy", rUser);
                                     intent.putExtra("username", username);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                             ly.addView(tv);
@@ -102,6 +103,7 @@ public class inboxActivity extends ActionBarActivity {
                                     intent.putExtra("buddy", sUser);
                                     intent.putExtra("username", username);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                             ly.addView(tv);
@@ -129,6 +131,7 @@ public class inboxActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void inboxActivity (View v)
@@ -136,6 +139,7 @@ public class inboxActivity extends ActionBarActivity {
         Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
+        finish();
     }
 
     @Override

@@ -79,6 +79,7 @@ public class LoginActivity extends ActionBarActivity {
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                             intent.putExtra("username",username);
                             startActivity(intent);
+                            finish();
                         }
                         else {
                             Toast.makeText(getBaseContext(),"Check username and/or password",Toast.LENGTH_LONG).show();
@@ -108,6 +109,7 @@ public class LoginActivity extends ActionBarActivity {
     public void Register(View v){
         Intent intent = new Intent(this,RegisterActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void ForgotPassword(View v){

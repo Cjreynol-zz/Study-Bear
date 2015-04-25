@@ -37,7 +37,7 @@ public class ProfileActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String url = getResources().getString(R.string.server_address) + "?rtype=getProfile&username="+username;
+        String url = getResources().getString(R.string.server_address) + "?rtype=getProfile&username=" + username;
 
         bio = (TextView) findViewById(R.id.Biography);
         classes = (TextView) findViewById(R.id.Classes);
@@ -76,7 +76,7 @@ public class ProfileActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(getApplicationContext(),volleyError.toString(),Toast.LENGTH_LONG).show();
             }
         });
         networkRequest.addToRequestQueue(profileAttr);
@@ -93,12 +93,14 @@ public class ProfileActivity extends ActionBarActivity {
         intent.putExtra("university", university.getText().toString().trim());
         intent.putExtra("classes", classes.getText().toString().trim());
         startActivity(intent);
+        finish();
     }
 
     public void Logout(View v)
     {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
     @Override
     public void onBackPressed(){
@@ -131,6 +133,14 @@ public class ProfileActivity extends ActionBarActivity {
         Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
+        finish();
+    }
+
+    public void findMatch (View v) {
+        Intent intent = new Intent(this, MatchActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
     }
 
 }

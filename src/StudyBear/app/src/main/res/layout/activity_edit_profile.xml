@@ -68,11 +68,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listView" />
-
     </LinearLayout>
     </ScrollView>
 
@@ -84,13 +79,31 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="Save"
             android:id="@+id/button5"
             android:background="#ffffb12f"
             android:textColor="#FFFFFF"
+            android:onClick="Submit"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="Submit"/>
+            android:layout_toLeftOf="@+id/button2"
+            android:layout_toStartOf="@+id/button2"
+            android:layout_marginRight="47dp"
+            android:layout_marginEnd="47dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Classes"
+            android:id="@+id/button2"
+            android:background="#ffffb12f"
+            android:textColor="#FFFFFF"
+            android:onClick="editClasses"
+            android:layout_marginRight="76dp"
+            android:layout_marginEnd="76dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
 
     </RelativeLayout>
 
