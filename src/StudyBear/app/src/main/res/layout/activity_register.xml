@@ -16,7 +16,7 @@
         android:layout_weight=".45"
         android:id="@+id/registerrelativelayout">
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -26,7 +26,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30sp"
             android:textColor="#FFFFFF"
-            android:textSize="25sp" />
+            android:textSize="25sp" />-->
 
         </RelativeLayout>
 

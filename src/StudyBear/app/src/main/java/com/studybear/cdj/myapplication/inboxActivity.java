@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +29,7 @@ import java.util.Map;
 public class inboxActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public String username;
-    Map<String, String> dict = new HashMap<String, String>();
+    public ArrayList<String> buddies = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,8 @@ public class inboxActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        final LinearLayout inboxLayout  = (LinearLayout) findViewById(R.id.inboxLayout);
         String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
-        final LinearLayout ly  = (LinearLayout) findViewById(R.id.layout8);
-
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -48,23 +49,22 @@ public class inboxActivity extends ActionBarActivity {
                 {
                     JSONArray messageList = json.getJSONArray("messageList");
                     StringBuilder mListString = new StringBuilder();
-                    JSONObject mItem;
-                    String mItemString = "";
-                    String printString;
+                    JSONObject messageItem;
+                    String messageString = "";
 
                     for(int i = 0; i < messageList.length(); i++)
                     {
-                    mItem = messageList.getJSONObject(i);
-                    final String sUser = mItem.getString("sendingUser");
-                    final String rUser  = mItem.getString("receivingUser");
-                    String dtime = mItem.getString("niceDate");
+                        messageItem = messageList.getJSONObject(i);
+                        final String sUser = messageItem.getString("sendingUser");
+                        final String rUser  = messageItem.getString("receivingUser");
+                        String dtime = messageItem.getString("niceDate");
 
                     if(sUser.equals(username)) {
-                        if (dict.containsValue(rUser) != true) {
-                            dict.put(mItem.getString("msgId"), rUser);
-                            mItemString = rUser + "  " + dtime;
+                        if (!buddies.contains(rUser)) {
+                            buddies.add(rUser);
+                            messageString = rUser + "  " + dtime;
                             TextView tv = new TextView(getApplicationContext());
-                            tv.setText(mItemString);
+                            tv.setText(messageString);
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -81,15 +81,15 @@ public class inboxActivity extends ActionBarActivity {
                                     finish();
                                 }
                             });
-                            ly.addView(tv);
+                            inboxLayout.addView(tv);
                         }
                     }
                     if(rUser.equals(username)) {
-                        if (dict.containsValue(sUser) != true) {
-                            dict.put(mItem.getString("msgId"), sUser);
-                            mItemString = sUser + "  " + dtime;
+                        if (!buddies.contains(sUser)) {
+                            buddies.add(sUser);
+                            messageString = sUser + "  " + dtime;
                             TextView tv = new TextView(getApplicationContext());
-                            tv.setText(mItemString);
+                            tv.setText(messageString);
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -100,20 +100,16 @@ public class inboxActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(getApplicationContext(), ConvoActivity.class);
-                                    intent.putExtra("buddy", sUser);
+                                    intent.putExtra("buddy", rUser);
                                     intent.putExtra("username", username);
                                     startActivity(intent);
                                     finish();
                                 }
                             });
-                            ly.addView(tv);
+                            inboxLayout.addView(tv);
                         }
                     }
-
-
                 }
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -125,6 +121,28 @@ public class inboxActivity extends ActionBarActivity {
             }
         });
         networkRequest.addToRequestQueue(getMessagesRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void Logout(View v)
@@ -141,14 +159,6 @@ public class inboxActivity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
-
     public void NewMessage (View v){
         Intent intent = new Intent(this, NewMessage.class);
         intent.putExtra("username", username);
@@ -156,17 +166,10 @@ public class inboxActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
     }
 }
