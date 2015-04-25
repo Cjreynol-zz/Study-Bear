@@ -129,6 +129,7 @@ public class EditProfile extends ActionBarActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
+        finish();
     }
 
     public void editClasses(View v){

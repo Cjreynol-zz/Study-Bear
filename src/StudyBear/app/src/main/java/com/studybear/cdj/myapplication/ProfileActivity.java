@@ -93,12 +93,14 @@ public class ProfileActivity extends ActionBarActivity {
         intent.putExtra("university", university.getText().toString().trim());
         intent.putExtra("classes", classes.getText().toString().trim());
         startActivity(intent);
+        finish();
     }
 
     public void Logout(View v)
     {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
     @Override
     public void onBackPressed(){
@@ -131,6 +133,14 @@ public class ProfileActivity extends ActionBarActivity {
         Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
+        finish();
+    }
+
+    public void findMatch (View v) {
+        Intent intent = new Intent(this, MatchActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
     }
 
 }

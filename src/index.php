@@ -52,7 +52,7 @@ switch($_GET["rtype"])
 			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"], $_POST["classList"]);
 		else
 			echo "error1";
-				break;
+		break;
 			
 	case 'editClasses':
 		echo $dbconn->editClasses($_GET["username"]);
@@ -60,7 +60,31 @@ switch($_GET["rtype"])
 			
 	case 'getClasses':
 		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
-}
+			echo "error";
+		break;
+			
+
+	case 'getMessages':
+		echo $dbconn->getMessages($_GET["username"]);
+		break;
+		
+	case 'getConvo':
+		echo $dbconn->getMessages($_GET["buddy"]);
+		break;
+		
+	case 'newMessage':
+		echo $dbconn->newMessage($_POST["mTo"], $_POST["mBody"], $_POST["uName"]);
+		break;
+	
+	case 'getMatches':
+		if (isset($_GET["username"]))
+			echo $dbconn->getMatches($_GET["username"]);
+		else
+			echo $dbconn->getMatches("");
+		break;
+	
+	
+
 #To be implemented
 #function DeleteMessage(){}
 #unction SendMessage(){}

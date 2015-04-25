@@ -1,5 +1,6 @@
 package com.studybear.cdj.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -127,6 +128,10 @@ public class RegisterActivity extends ActionBarActivity {
         } ;
             //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
             networkRequest.addToRequestQueue(registerPost);
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

@@ -54,6 +54,10 @@
             android:name=".ConvoActivity"
             android:label="@string/title_activity_convo" >
         </activity>
+        <activity
+            android:name=".MatchActivity"
+            android:label="@string/title_activity_match" >
+        </activity>
     </application>
 
 </manifest>
