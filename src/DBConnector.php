@@ -211,6 +211,49 @@ class DBConnector
 			
 	}
 	
+	#messages
+	function getMessages($userName){
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+
+		$message = $stm->fetch();
+		$messageArray;
+		while ($message[0] != null){
+			$messageArray[] = $message;
+			$message = $stm->fetch();
+		}
+
+		$result["messageList"] = $messageArray;
+		return json_encode($result);
+	}
+
+	function getConvo($buddy){
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+
+		$message = $stm->fetch();
+		$messageArray;
+		while ($message[0] != null){
+			$messageArray[] = $message;
+			$message = $stm->fetch();
+		}
+
+		$result["messageList"] = $messageArray;
+		return json_encode($result);
+	}
+
+	function newMessage($mTo, $mBody, $uName){
+		$sql = "INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('$uName', '$mTo', '$mBody', 'hi', now());";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+			echo "success";
+	}
+	
 	function getMatches($userName) {
 		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";
 		

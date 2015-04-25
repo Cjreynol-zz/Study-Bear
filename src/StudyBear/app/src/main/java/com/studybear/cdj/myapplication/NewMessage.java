@@ -74,6 +74,8 @@ public class NewMessage extends ActionBarActivity {
         final String mTo = messageTo.getText().toString().trim();
         final String mBody = messageBody.getText().toString().trim();
 
+        String url1 = getResources().getString(R.string.server_address) + "?rtype=checkTo&mTo="+mTo;
+
         if(mTo.isEmpty()) {
             Toast.makeText(getBaseContext(), "Please enter a recipient", Toast.LENGTH_LONG).show();
         }
