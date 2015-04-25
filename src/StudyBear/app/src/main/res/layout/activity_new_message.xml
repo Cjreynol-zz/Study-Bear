@@ -24,7 +24,7 @@
             android:id="@+id/sendButton"
             android:layout_gravity="center_horizontal"
             style="?android:attr/borderlessButtonStyle"
-            android:background="#4675A3"
+            android:background="@drawable/sback"
             android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
             android:clickable="true"
@@ -39,8 +39,7 @@
             android:id="@+id/messageTo"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textColor="#FFFFFF"
-            android:hint="To " />
+            android:textColor="#FFFFFF"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -52,8 +51,7 @@
             android:gravity="top|left"
             android:maxLines="50"
             android:scrollbars="vertical"
-            android:textColor="#FFFFFF"
-            android:hint="Body"/>
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 

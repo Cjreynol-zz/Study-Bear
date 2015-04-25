@@ -26,6 +26,7 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = getIntent();
 
         //Creating NetworkController to handle Http/Network Request made by the application
         //NetworkController follows the singleton design pattern
@@ -106,6 +107,11 @@ public class LoginActivity extends ActionBarActivity {
 
     public void Register(View v){
         Intent intent = new Intent(this,RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void ForgotPassword(View v){
+        Intent intent = new Intent(this,ForgotPassword.class);
         startActivity(intent);
     }
 

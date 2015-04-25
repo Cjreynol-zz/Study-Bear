@@ -9,8 +9,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,15 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class ConvoActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public String buddy;
     public String username;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +66,12 @@ public class ConvoActivity extends ActionBarActivity {
                         mItemString = message;
                         TextView tv = new TextView(getApplicationContext());
                         tv.setText(mItemString);
-                        tv.setPadding(50,50,50,50);
+                        tv.setPadding(30, 30, 30, 30);
                         tv.setTextColor(Color.parseColor("#FFFFFF"));
                         tv.setBackgroundColor(Color.parseColor("#99315172"));
-                        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                        tv.setWidth(500);
+                        tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.sback));
+                        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                        tv.setWidth(600);
                         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -81,15 +80,14 @@ public class ConvoActivity extends ActionBarActivity {
 
 
 
-                        if(sUser.equals(buddy)){
+                        if(rUser.equals(buddy)){
                             llp.gravity = Gravity.RIGHT;
                             tv.setTextColor(Color.parseColor("#315172"));
-                            tv.setBackgroundColor(Color.parseColor("#99FFFFFF"));
+                            tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.rback));
                             tv.setLayoutParams(llp);
                         }
-                        else{
-
-                        }
+                        Button cButton = (Button) findViewById(R.id.cButton);
+                        cButton.setText("Send " + buddy + " a message");
 
                         lyc.addView(tv);
 
@@ -104,8 +102,16 @@ public class ConvoActivity extends ActionBarActivity {
             }
         });
         networkRequest.addToRequestQueue(getMessagesRequest);
+        final ScrollView scrollview = ((ScrollView) findViewById(R.id.convoScrollView));
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                scrollview.fullScroll(ScrollView.FOCUS_DOWN);
+                scrollview.setVisibility(View.VISIBLE);
+            }
+        };
+        scrollview.postDelayed(r, 200);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,6 +135,13 @@ public class ConvoActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void NewMessage (View v){
+        Intent intent = new Intent(this, NewMessage.class);
+        intent.putExtra("username", username);
+        intent.putExtra("fillTo", buddy);
+        startActivity(intent);
+    }
+
     public void inboxActivity (View v)
     {
         Intent intent = new Intent(this, inboxActivity.class);
@@ -141,4 +154,6 @@ public class ConvoActivity extends ActionBarActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+
 }

@@ -23,15 +23,27 @@ import java.util.Map;
 public class NewMessage extends ActionBarActivity {
     public NetworkController networkRequest;
     public String username;
+    public String fillTo = "";
+    TextView messageTo;
+    TextView messageBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message);
+        messageTo = (TextView) findViewById(R.id.messageTo);
+        messageBody = (TextView) findViewById(R.id.messageBody);
 
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        fillTo = intent.getStringExtra("fillTo");
+        if(fillTo != "")
+        {
+            messageTo.setText(fillTo, TextView.BufferType.EDITABLE);
+            messageBody.requestFocus();
+        }
+
     }
 
 
@@ -59,8 +71,6 @@ public class NewMessage extends ActionBarActivity {
     }
 
     public void NewMessage(View v) {
-        TextView messageTo = (TextView) findViewById(R.id.messageTo);
-        TextView messageBody = (TextView) findViewById(R.id.messageBody);
         final String mTo = messageTo.getText().toString().trim();
         final String mBody = messageBody.getText().toString().trim();
 

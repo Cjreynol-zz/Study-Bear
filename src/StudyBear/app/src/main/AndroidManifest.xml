@@ -47,6 +47,10 @@
             android:name=".ConvoActivity"
             android:label="@string/title_activity_convo" >
         </activity>
+        <activity
+            android:name=".ForgotPassword"
+            android:label="@string/title_activity_forgot_password" >
+        </activity>
     </application>
 
 </manifest>

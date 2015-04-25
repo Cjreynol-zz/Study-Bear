@@ -5,6 +5,37 @@
     android:layout_weight="1"
     android:background="@drawable/gradient">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:id="@+id/convoLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Message"
+                android:id="@+id/button"
+                android:onClick="NewMessage"
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@drawable/sback"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:layout_marginBottom="10dp"
+                />
+            ></LinearLayout>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,44 +44,9 @@
         android:fillViewport="false"
         android:background="#00ffffff"
         android:layout_margin="5dp"
-        android:layout_weight="1">
-
-    <LinearLayout
-        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.55"
-        android:id="@+id/layout1"
-        android:layout_marginBottom="15dp">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Message"
-            android:id="@+id/button"
-            android:onClick="NewMessage"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:layout_marginBottom="10dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mailbox"
-            android:id="@+id/textView8"
-            android:textSize="30sp"
-            android:textColor="#ffffff"
-            android:layout_marginTop="10sp"
-            android:layout_marginBottom="10sp"
-            />
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
@@ -60,7 +56,6 @@
             android:id="@+id/layout8"
             android:layout_marginBottom="15dp">
             </LinearLayout>
-        </LinearLayout>
     </ScrollView>
 
     <RelativeLayout

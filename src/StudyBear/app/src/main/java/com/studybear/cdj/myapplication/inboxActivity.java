@@ -76,6 +76,7 @@ public class inboxActivity extends ActionBarActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(getApplicationContext(), ConvoActivity.class);
                                     intent.putExtra("buddy", rUser);
+                                    intent.putExtra("username", username);
                                     startActivity(intent);
                                 }
                             });
