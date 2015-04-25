@@ -60,7 +60,8 @@ switch($_GET["rtype"])
 			
 	case 'getClasses':
 		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
-			break;
+			echo "error";
+		break;
 			
 
 	case 'getMessages':
@@ -68,7 +69,7 @@ switch($_GET["rtype"])
 		break;
 		
 	case 'getConvo':
-		echo $dbconn->getMessages($_GET["buddy"]);
+		echo $dbconn->getConvo($_GET["buddy"]);
 		break;
 		
 	case 'newMessage':
@@ -81,11 +82,14 @@ switch($_GET["rtype"])
 		else
 			echo $dbconn->getMatches("");
 		break;
-	
+
+	case 'checkTo':
+		echo $dbconn->checkTo($_POST["mTo"]);
+		break;
+	case 'checkEmail':
+		echo $dbconn->checkEmail($_POST["email"]);
+		break;
 	
 }
-#To be implemented
-#function DeleteMessage(){}
-#unction SendMessage(){}
 
 ?>
