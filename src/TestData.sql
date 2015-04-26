@@ -41,8 +41,11 @@ AND professorLname = 'Wilson'
 AND classId = 'CSCI 3520' 
 AND universityName = 'Georgia Regents University';
 
-INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('odarcie', 'creynolds', 'hi', 'yo', now());
-INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('creynolds', 'odarcie', 'hola', 'bonjor', now());
-INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('jbeezy88', 'odarcie', 'hello', 'This is Cheeeeese', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'hey! we have some classes together. Wanna study sometime?', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'sure, when can you meet up?', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('odarcie', 'jbeezy88', 'does 6pm tomorrow at the school work for you?', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('jbeezy88', 'odarcie', 'yeah, lets meet at allgood and find a study room', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'perfect! see you tomorrow!', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'cheeeeeese', 'hi', now());
 
 

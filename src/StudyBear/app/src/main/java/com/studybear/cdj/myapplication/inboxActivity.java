@@ -180,5 +180,20 @@ public class inboxActivity extends ActionBarActivity {
         return true;
     }
 
+    public void NewMessage (View v){
+        Intent intent = new Intent(this, NewMessage.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
+    }
+
 
 }
