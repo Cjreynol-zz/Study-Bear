@@ -61,7 +61,7 @@ public class ProfileActivity extends ActionBarActivity {
         classButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
+                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
                 intent.putExtra("username",username);
                 startActivity(intent);
                 finish();
