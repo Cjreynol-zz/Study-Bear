@@ -149,11 +149,10 @@ class DBConnector
 	}
 	
 	function getUniversity($username){
-		$sql_university_list = "SELECT * FROM UNIVERSITY WHERE universityName <> ' ';";
+		$sql_university_list = "SELECT * FROM UNIVERSITY WHERE universityName <> ' ';";		
 		$stm = $this->conn->prepare($sql_university_list);
 		$stm->execute();	
 		$universityList["List"] = $stm->fetchAll();
-		
 		
 		return json_encode($universityList);
 	}
@@ -165,28 +164,24 @@ class DBConnector
 			inner join CLASS B on A.classId = B.classId
 			inner join PROFESSOR C on A.professorId = C.professorId
 		WHERE B.universityName = '$university';";
-
-		$stm = $this->conn->prepare($classes_sql);
-			if($stm->execute())
+		$result;
+		$stm2 = $this->conn->prepare($classes_sql);
+			if($stm2->execute())
 			{
-				$class = $stm->fetch();
+				$class = $stm2->fetch();
 
 				$classes_array;
 				if($class == false)
-				{
-					$classes_array = array(array("classId"=>"No Classes", "className"=>" ", "professorLname"=> " ", "professorFname" => " "));
-					$result["classes"] = $classes_array;	
-					return json_encode($result);	
-				}
+					$classes_array = array("No Classes");
 				else
 				{			
 					while($class[0] != null)
 					{
 						$classes_array[] = $class;
-						$class = $stm->fetch();
+						$class = $stm2->fetch();
 					}
-					$result["classes"] = $classes_array;	
-					return json_encode($result);					
+					$result["classList"] = $classes_array;	
+					return $result;					
 				}
 			}
 			
@@ -208,6 +203,32 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
+	}
+
+	function checkTo($mTo){
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE userName = '$mTo');";
+
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return "error";
+		else
+			return "succes";
+	}
+
+	function checkEmail($email){
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE email = '$email');";
+
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return "error";
+		else
+			return "succes";
 	}
 }
 ?>

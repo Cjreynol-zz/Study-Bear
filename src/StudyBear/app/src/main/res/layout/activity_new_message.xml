@@ -1,44 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.studybear.cdj.myapplication.NewMessage"
     android:background="@drawable/gradient">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.55"
-        android:id="@+id/linearlayout6">
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send"
-            android:id="@+id/sendButton"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10sp"
             style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/sback"
-            android:layout_marginTop="10dp"
+            android:text="Send"
             android:textColor="#FFFFFF"
-            android:clickable="true"
-            android:onClick="NewMessage"/>
+            android:onClick="SendMessage"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
-            android:inputType="textPersonName"
-            android:ems="10"
+            android:layout_marginBottom="10sp"
             android:id="@+id/messageTo"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="7dp"
+            android:inputType="textPersonName"
+            android:hint="To"
             android:textColor="#FFFFFF"/>
 
         <EditText
@@ -48,11 +39,11 @@
             android:inputType="text|textMultiLine"
             android:lines="50"
             android:minLines="50"
-            android:gravity="top|left"
             android:maxLines="50"
             android:scrollbars="vertical"
+            android:gravity="top|start"
+            android:hint="Body"
             android:textColor="#FFFFFF"/>
 
     </LinearLayout>
-
 </LinearLayout>

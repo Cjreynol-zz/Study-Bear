@@ -23,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class ConvoActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public String buddy;
@@ -36,14 +35,15 @@ public class ConvoActivity extends ActionBarActivity {
 
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
-        buddy = intent.getStringExtra("buddy");
         username = intent.getStringExtra("username");
-        TextView tvBuddy = (TextView) findViewById(R.id.tvBuddy);
-        tvBuddy.setText(buddy);
+        buddy = intent.getStringExtra("buddy");
+        setTitle(buddy);
+        Button convoButton = (Button) findViewById(R.id.convoButton);
+        convoButton.setText("Send " + buddy + " a message");
         TextView tv = new TextView(this);
 
-        String url = getResources().getString(R.string.server_address) + "?rtype=getConvo&buddy="+buddy;
-        final LinearLayout lyc  = (LinearLayout) findViewById(R.id.cLayout);
+        String url = getResources().getString(R.string.server_address)+"?rtype=getConvo&buddy="+buddy;
+        final LinearLayout convoLayout  = (LinearLayout) findViewById(R.id.convoLayout);
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -51,21 +51,16 @@ public class ConvoActivity extends ActionBarActivity {
                 try
                 {
                     JSONArray messageList = json.getJSONArray("messageList");
-                    StringBuilder mListString = new StringBuilder();
-                    JSONObject mItem;
-                    String mItemString = "";
-                    String printString;
+                    JSONObject message;
 
                     for(int i = 0; i < messageList.length(); i++)
                     {
-                        mItem = messageList.getJSONObject(i);
-                        final String message = mItem.getString("body");
-                        final String sUser = mItem.getString("sendingUser");
-                        final String rUser  = mItem.getString("receivingUser");
+                        message = messageList.getJSONObject(i);
+                        final String body = message.getString("body");
+                        final String sUser = message.getString("sendingUser");
 
-                        mItemString = message;
                         TextView tv = new TextView(getApplicationContext());
-                        tv.setText(mItemString);
+                        tv.setText(body);
                         tv.setPadding(30, 30, 30, 30);
                         tv.setTextColor(Color.parseColor("#FFFFFF"));
                         tv.setBackgroundColor(Color.parseColor("#99315172"));
@@ -78,19 +73,13 @@ public class ConvoActivity extends ActionBarActivity {
                         llp.setMargins(0, 0, 0, 50); // llp.setMargins(left, top, right, bottom);
                         tv.setLayoutParams(llp);
 
-
-
-                        if(rUser.equals(buddy)){
+                        if(sUser.equals(username)){
                             llp.gravity = Gravity.RIGHT;
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.rback));
                             tv.setLayoutParams(llp);
                         }
-                        Button cButton = (Button) findViewById(R.id.cButton);
-                        cButton.setText("Send " + buddy + " a message");
-
-                        lyc.addView(tv);
-
+                        convoLayout.addView(tv);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -110,7 +99,7 @@ public class ConvoActivity extends ActionBarActivity {
                 scrollview.setVisibility(View.VISIBLE);
             }
         };
-        scrollview.postDelayed(r, 200);
+        scrollview.postDelayed(r, 100);
     }
 
     @Override
@@ -140,20 +129,14 @@ public class ConvoActivity extends ActionBarActivity {
         intent.putExtra("username", username);
         intent.putExtra("fillTo", buddy);
         startActivity(intent);
+        finish();
     }
 
-    public void inboxActivity (View v)
-    {
+    @Override
+    public void onBackPressed(){
         Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
+        finish();
     }
-
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-
 }

@@ -1,13 +1,11 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,37 +20,34 @@ import java.util.Map;
 
 public class NewMessage extends ActionBarActivity {
     public NetworkController networkRequest;
+    public TextView messageTo;
+    public TextView messageBody;
     public String username;
-    public String fillTo = "";
-    TextView messageTo;
-    TextView messageBody;
+    public String fillTo;
+    public Boolean error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message);
-        messageTo = (TextView) findViewById(R.id.messageTo);
-        messageBody = (TextView) findViewById(R.id.messageBody);
 
         networkRequest = NetworkController.getInstance(getApplicationContext());
+        messageTo = (TextView) findViewById(R.id.messageTo);
+        messageBody = (TextView) findViewById(R.id.messageBody);
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         fillTo = intent.getStringExtra("fillTo");
-        if(fillTo != "")
-        {
+        if (fillTo != null) {
             messageTo.setText(fillTo, TextView.BufferType.EDITABLE);
             messageBody.requestFocus();
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_message, menu);
         return true;
-
     }
 
     @Override
@@ -70,21 +65,53 @@ public class NewMessage extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void NewMessage(View v) {
+    public void SendMessage(View v) {
+        error = false;
         final String mTo = messageTo.getText().toString().trim();
         final String mBody = messageBody.getText().toString().trim();
 
-        String url1 = getResources().getString(R.string.server_address) + "?rtype=checkTo&mTo="+mTo;
+        String url = getResources().getString(R.string.server_address)+ "?rtype=checkTo";
+        StringRequest registerPost = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Testing to see if login passed or failed. If passed, the Server returns the string success/failed returns error
+                        //Log.d("Response", response);
+                        if(response.trim().equals("error")) {
+                            Toast.makeText(getBaseContext(), "Please enter valid username", Toast.LENGTH_LONG).show();
+                            error = true;
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(),"Server Error",Toast.LENGTH_LONG).show();
+            }
+        }){
 
-        if(mTo.isEmpty()) {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("mTo",mTo);
+                return params;
+            }
+        };
+        //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
+        networkRequest.addToRequestQueue(registerPost);
+        if(error){
+        }
+        else if(mTo.equals(username)){
+            Toast.makeText(getBaseContext(), "Cannot send message to yourself", Toast.LENGTH_LONG).show();
+        }
+        else if(mTo.isEmpty()) {
             Toast.makeText(getBaseContext(), "Please enter a recipient", Toast.LENGTH_LONG).show();
         }
         else if (mBody.isEmpty()){
             Toast.makeText(getBaseContext(), "Please enter text in message body", Toast.LENGTH_LONG).show();
         }
         else{
-            String url = getResources().getString(R.string.server_address) + "?rtype=newMessage";
-            StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            String url1 = getResources().getString(R.string.server_address) + "?rtype=newMessage";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
                     if(s.trim().equals("success"))
@@ -102,15 +129,23 @@ public class NewMessage extends ActionBarActivity {
                     params.put("mTo", mTo);
                     params.put("mBody", mBody);
                     params.put("uName", username);
-
                     return params;
                 }
             };
-            networkRequest.addToRequestQueue(postRequest);
-            Intent intent = new Intent(this, inboxActivity.class);
-            intent.putExtra("username",username);
-            startActivity(intent);
-            finish();
+            if(!error) {
+                networkRequest.addToRequestQueue(postRequest);
+                Intent intent = new Intent(this, inboxActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
+                finish();
+            }
         }
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, inboxActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
     }
 }

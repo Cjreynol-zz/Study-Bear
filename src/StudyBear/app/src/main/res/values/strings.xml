@@ -23,5 +23,7 @@
     <string name="title_activity_forgot_password">ForgotPassword</string>
     <string name="title_activity_match">MatchActivity</string>
     <string name="title_activity_edit_classes">EditClasses</string>
+    <string name="title_activity_email_submit">EmailSubmit</string>
+    <string name="title_activity_regitration_confirmation">RegitrationConfirmation</string>
 
 </resources>

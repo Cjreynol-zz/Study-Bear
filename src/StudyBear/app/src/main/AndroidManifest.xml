@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,39 +28,44 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="Register" >
+            android:label="Create Account" >
         </activity>
         <activity
             android:name=".EditProfile"
             android:label="@string/title_activity_edit_profile"
             android:windowSoftInputMode="stateHidden|adjustPan" >
-    </activity>
-
+        </activity>
         <activity
             android:name=".EditClasses"
             android:label="@string/title_activity_edit_classes" >
-            </activity>
-
-
+        </activity>
         <activity
             android:name=".inboxActivity"
             android:label="Messages" >
         </activity>
         <activity
             android:name=".NewMessage"
-            android:label="@string/title_activity_new_message" >
+            android:label="Compose Message" >
         </activity>
         <activity
             android:name=".ConvoActivity"
-            android:label="@string/title_activity_convo" >
+            android:label="" >
         </activity>
         <activity
             android:name=".ForgotPassword"
-            android:label="@string/title_activity_forgot_password" >
+            android:label="Reset Password" >
         </activity>
         <activity
             android:name=".MatchActivity"
             android:label="@string/title_activity_match" >
+        </activity>
+        <activity
+            android:name=".EmailSubmit"
+            android:label="" >
+        </activity>
+        <activity
+            android:name=".RegisterConfirm"
+            android:label="" >
         </activity>
     </application>
 
