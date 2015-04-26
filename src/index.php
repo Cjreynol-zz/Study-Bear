@@ -49,18 +49,17 @@ switch($_GET["rtype"])
 			
 	case 'editProfile':
 		if($_POST["fname"] != null &&  $_POST["lname"] != null)
-			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"], $_POST["classList"]);
+			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
 		else
 			echo "error1";
 		break;
 			
-	case 'editClasses':
-		echo $dbconn->editClasses($_GET["username"]);
-			break;
+	case 'getUniversity':
+		echo $dbconn->getUniversity($_GET["username"]);
+		break;
 			
 	case 'getClasses':
 		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
-			echo "error";
 		break;
 			
 
@@ -69,7 +68,7 @@ switch($_GET["rtype"])
 		break;
 		
 	case 'getConvo':
-		echo $dbconn->getMessages($_GET["buddy"]);
+		echo $dbconn->getConvo($_GET["buddy"]);
 		break;
 		
 	case 'newMessage':
@@ -83,10 +82,17 @@ switch($_GET["rtype"])
 			echo $dbconn->getMatches("");
 		break;
 	
-	
+	case 'saveClasses':
+		if (isset($_POST["username"]))
+			echo $dbconn->saveClasses($_POST["username"], $_POST["removeList"], $_POST["insertList"]);
+		break;
 
-#To be implemented
-#function DeleteMessage(){}
-#unction SendMessage(){}
+	case 'checkTo':
+		echo $dbconn->checkTo($_POST["mTo"]);
+		break;
+	case 'checkEmail':
+		echo $dbconn->checkEmail($_POST["email"]);
+		break;	
+}
 
 ?>

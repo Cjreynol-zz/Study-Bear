@@ -49,7 +49,7 @@ public class ProfileActivity extends ActionBarActivity {
             public void onResponse(JSONObject json) {
                 try
                 {
-                    bio.setText("Biography:\n" + json.getString("biography"));
+                    bio.setText(json.getString("biography"));
                     name.setText(json.getString("firstName") + " " + json.getString("lastName"));
                     university.setText(json.getString("universityName"));
 
@@ -66,9 +66,9 @@ public class ProfileActivity extends ActionBarActivity {
                             if(i + 1 == classList.length())
                                 classListString.append(classItemString);
                             else
-                                classListString.append(classItemString + "\n");
+                                classListString.append(classItemString + "\n\n");
                     }
-                    classes.setText("Classes:\n" + classListString.toString());
+                    classes.setText(classListString.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -89,7 +89,7 @@ public class ProfileActivity extends ActionBarActivity {
         intent.putExtra("fname", nameArray[0]);
         intent.putExtra("lname", nameArray[1]);
         intent.putExtra("username", username);
-        intent.putExtra("bio", bio.getText().toString().trim().substring(11));
+        intent.putExtra("bio", bio.getText().toString().trim());
         intent.putExtra("university", university.getText().toString().trim());
         intent.putExtra("classes", classes.getText().toString().trim());
         startActivity(intent);

@@ -129,7 +129,7 @@ public class RegisterActivity extends ActionBarActivity {
             //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
             networkRequest.addToRequestQueue(registerPost);
 
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, RegisterConfirm.class);
             startActivity(intent);
             finish();
         }
@@ -138,5 +138,6 @@ public class RegisterActivity extends ActionBarActivity {
     public void onBackPressed(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 }

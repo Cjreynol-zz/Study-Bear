@@ -22,6 +22,7 @@ import java.util.Map;
 public class LoginActivity extends ActionBarActivity {
     private  NetworkController networkController;
     private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
