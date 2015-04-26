@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,50 @@ public class ProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        ImageButton matchButton  = (ImageButton) findViewById(R.id.matchButton);
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton messageButton  = (ImageButton) findViewById(R.id.messageButton);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), inboxActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton classButton  = (ImageButton) findViewById(R.id.classButton);
+        classButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton profileButton  = (ImageButton) findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
