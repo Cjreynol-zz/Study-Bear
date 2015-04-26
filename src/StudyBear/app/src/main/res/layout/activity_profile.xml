@@ -3,8 +3,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layoutB"
+<<<<<<< HEAD
+    android:background="#5C85FF">
+||||||| merged common ancestors
+    android:layout_weight="1"
+    android:background="#5C85FF">
+=======
     android:layout_weight="1"
     android:background="@drawable/gradient">
+>>>>>>> 9660c8cbf75053a2cd7b870a72837495891fcb9e
 
     <LinearLayout
         android:orientation="horizontal"
@@ -117,6 +124,60 @@
         </LinearLayout>
     </ScrollView>
 
+<<<<<<< HEAD
+    <include layout="@layout/activity_action_bar"/>
+||||||| merged common ancestors
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#ff84cdff">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find Match"
+            android:id="@+id/button4"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button6"
+            android:layout_toStartOf="@+id/button6"
+            android:onClick="findMatch"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Messaging"
+            android:id="@+id/button6"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button7"
+            android:layout_toStartOf="@+id/button7"
+            android:onClick="inboxActivity"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:id="@+id/button7"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button8"
+            android:layout_toStartOf="@+id/button8"
+            android:onClick="Logout"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:id="@+id/button8"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="EditProfile"/>
+    </RelativeLayout>
+=======
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -185,6 +246,7 @@
             android:layout_toRightOf="@+id/button7"
             android:layout_toEndOf="@+id/button7" />
     </RelativeLayout>
+>>>>>>> 9660c8cbf75053a2cd7b870a72837495891fcb9e
 
 </LinearLayout>
 

@@ -69,7 +69,10 @@ public class ForgotPassword extends ActionBarActivity {
                             if (response.trim().equals("error"))
                                 Toast.makeText(getBaseContext(), "Please enter a registered email address", Toast.LENGTH_LONG).show();
                             else {
+                                Intent intent = new Intent(ForgotPassword.this, EmailSubmit.class);
+                                startActivity(intent);
                                 Toast.makeText(getBaseContext(), "Password request submitted", Toast.LENGTH_LONG).show();
+                                finish();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -88,9 +91,6 @@ public class ForgotPassword extends ActionBarActivity {
             };
             //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
             networkRequest.addToRequestQueue(registerPost);
-            Intent intent = new Intent(this, EmailSubmit.class);
-            startActivity(intent);
-            finish();
         }
     }
 
