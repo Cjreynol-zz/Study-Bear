@@ -15,49 +15,43 @@
         android:weightSum="1"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_weight="0.06">
 
-        <FrameLayout
-            android:layout_width="164dp"
-            android:layout_height="138dp"
-            android:layout_below="@+id/textView"
-            android:layout_toRightOf="@+id/textView"
-            android:layout_toEndOf="@+id/textView">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_launcher" />
-        </FrameLayout>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/relativelayout1">
+            android:id="@+id/LinearLayout1"
+            android:orientation="vertical"
+            android:background="#4675A3">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Name"
                 android:id="@+id/Name"
                 android:layout_above="@+id/University"
                 android:layout_centerHorizontal="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#FFFFFF"
+                android:hint="Name" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="School"
                 android:id="@+id/University"
                 android:layout_centerVertical="true"
                 android:layout_alignLeft="@+id/Name"
                 android:layout_alignStart="@+id/Name"
-                android:textSize="16sp" />
-        </RelativeLayout>
+                android:textSize="16sp"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#FFFFFF"
+                android:hint="School" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -80,21 +74,36 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/Biography"
-                android:layout_marginBottom="25dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Biography:"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="5dp" />
+                android:id="@+id/textView8"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/Biography"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Classes:"
+                android:id="@+id/textView9"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/Classes"
                 android:layout_marginBottom="25dp"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </ScrollView>
 
@@ -106,7 +115,11 @@
         android:background="#ff84cdff">
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3sp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Find Match"
@@ -114,10 +127,15 @@
             android:onClick="findMatch"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3sp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Messaging"
@@ -128,6 +146,11 @@
             android:layout_toEndOf="@+id/button4" />
 
         <Button
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3sp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
@@ -138,7 +161,11 @@
             android:layout_toEndOf="@+id/button6" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3sp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Edit"

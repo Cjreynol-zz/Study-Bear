@@ -99,7 +99,10 @@ class DBConnector
 
 				$classes_array;
 				if($class == false)
-					$classes_array = array("No Classes");
+				{
+					$classes_array = array(array("classId"=>"No Classes","className"=>" ","professorLname"=>" ","professorFname"=>" "));
+					return json_encode($classes_array);
+				}
 				else
 				{			
 					while($class[0] != null)
@@ -132,15 +135,12 @@ class DBConnector
 	}
 	
 	#Make sure client populates whats already saved in database first and then call this function
-	function editProfile($fname, $lname, $biography, $university, $uname, $classList){
+	function editProfile($fname, $lname, $biography, $university, $uname){
 		
 		$sql = "UPDATE USER 
 		SET firstName = '$fname', lastName = '$lname', biography = '$biography', universityname = '$university' 
-		WHERE userName = '$uname';";
-		
+		WHERE userName = '$uname';";	
 		$stm = $this->conn->prepare($sql);
-		
-		
 	
 	if($stm->execute())
 			return "success";
@@ -163,7 +163,7 @@ class DBConnector
 		FROM TEACHING A 
 			inner join CLASS B on A.classId = B.classId
 			inner join PROFESSOR C on A.professorId = C.professorId
-		WHERE B.universityName = '$university';";
+		WHERE B.universityName = '$university' order by 1 asc;";
 		$result;
 		$stm2 = $this->conn->prepare($classes_sql);
 			if($stm2->execute())
@@ -171,8 +171,10 @@ class DBConnector
 				$class = $stm2->fetch();
 
 				$classes_array;
-				if($class == false)
-					$classes_array = array("No Classes");
+				if($class == false){
+					$classes_array["classList"] = array(array("No Classes"));
+					return json_encode($classes_array);
+				}
 				else
 				{			
 					while($class[0] != null)
@@ -181,10 +183,9 @@ class DBConnector
 						$class = $stm2->fetch();
 					}
 					$result["classList"] = $classes_array;	
-					return $result;					
+					return json_encode($result);					
 				}
-			}
-			
+			}	
 	}
 	
 	function getMatches($userName) {
@@ -204,6 +205,50 @@ class DBConnector
 			return json_encode($result);
 		}
 	}
+	
+	function saveClasses($username, $removeList, $insertList){
+		
+		$deleteDecode = json_decode($removeList);
+		$insertDecode = json_decode($insertList);
+		
+		$classId;
+		$professorFname;
+		$professorLname;
+		
+		#return $removeList;
+		for($i = 0; $i < count($insertDecode); $i++){
+			$insertRow = explode(", ", $insertDecode[$i]);
+			$classId = $insertRow[0];
+			$professorFname = $insertRow[3];
+			$professorLname = $insertRow[2];
+			
+			$sql = "INSERT into USER_ENROLLMENT 
+				select '$username', C.professorId, B.classId, 'A'
+				from TEACHING A 
+			inner join CLASS B on A.classId = B.classId
+			inner join PROFESSOR C on A.professorId = C.professorId
+		WHERE B.classId = '$classId' and C.professorFname = '$professorFname' and C.professorLname = '$professorLname';";
+		
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		}
+		
+		for($i = 0; $i < count($deleteDecode); $i++){
+			$deleteRow = explode(", ", $deleteDecode[$i]);
+			$classId = $deleteRow[0];
+			$professorFname = $deleteRow[3];
+			$professorLname = $deleteRow[2];
+			
+			$sql = "DELETE FROM USER_ENROLLMENT
+			WHERE professorId IN (SELECT professorId from PROFESSOR where professorFname = '$professorFname' and professorLname = '$professorLname')
+			and classId = '$classId' and username = '$username';";
+			$stm = $this->conn->prepare($sql);
+			$stm->execute();
+		}
+					
+	}
+	
+	
 
 	function checkTo($mTo){
 		$sql = "SELECT EXISTS(SELECT * FROM user WHERE userName = '$mTo');";

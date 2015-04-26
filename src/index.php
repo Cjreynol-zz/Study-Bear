@@ -49,18 +49,17 @@ switch($_GET["rtype"])
 			
 	case 'editProfile':
 		if($_POST["fname"] != null &&  $_POST["lname"] != null)
-			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"], $_POST["classList"]);
+			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
 		else
 			echo "error1";
 		break;
 			
 	case 'getUniversity':
 		echo $dbconn->getUniversity($_GET["username"]);
-			break;
+		break;
 			
 	case 'getClasses':
 		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
-			echo "error";
 		break;
 			
 
@@ -84,8 +83,8 @@ switch($_GET["rtype"])
 		break;
 	
 	case 'saveClasses':
-		if (isset($_GET["username"]))
-			echo "success";
+		if (isset($_POST["username"]))
+			echo $dbconn->saveClasses($_POST["username"], $_POST["removeList"], $_POST["insertList"]);
 		break;
 
 	case 'checkTo':
