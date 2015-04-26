@@ -54,8 +54,8 @@ switch($_GET["rtype"])
 			echo "error1";
 		break;
 			
-	case 'editClasses':
-		echo $dbconn->editClasses($_GET["username"]);
+	case 'getUniversity':
+		echo $dbconn->getUniversity($_GET["username"]);
 			break;
 			
 	case 'getClasses':
@@ -81,6 +81,10 @@ switch($_GET["rtype"])
 		else
 			echo $dbconn->getMatches("");
 		break;
+	case 'saveClasses':
+		if (isset($_GET["username"]))
+			echo "success";
+
 	
 	
 }

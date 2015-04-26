@@ -140,40 +140,21 @@ class DBConnector
 		
 		$stm = $this->conn->prepare($sql);
 		
-		$deleteList = json_decode($classList);
 		
-		if($deleteList != null)
-		{		
-			for($i = 0; $i < Count($deleteList); $i++)
-			{
-				$array = explode(", ", $deleteList[$i]);
-				$classid = $array[0];
-				$pfname = $array[3];
-				$plname = $array[2];
-		
-				$sql2 = 
-				"DELETE FROM USER_ENROLLMENT
-				WHERE userName = '$uname' AND 
-				professorId = (SELECT professorId FROM PROFESSOR WHERE professorFname = '$pfname' AND professorLname = '$plname') AND
-				classId = '$classid';";
-			
-				$stm2 = $this->conn->prepare($sql2);
-				$stm2->execute();			
-			}
-		}
 	
 	if($stm->execute())
-			return "success" . $sql2;
+			return "success";
 		else
 			return "error";
 	}
 	
-	function editClasses($username){
+	function getUniversity($username){
 		$sql_university_list = "SELECT * FROM UNIVERSITY WHERE universityName <> ' ';";
 		$stm = $this->conn->prepare($sql_university_list);
-		$stm->execute();
-		
+		$stm->execute();	
 		$universityList["List"] = $stm->fetchAll();
+		
+		
 		return json_encode($universityList);
 	}
 	
@@ -209,49 +190,6 @@ class DBConnector
 				}
 			}
 			
-	}
-	
-	#messages
-	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
-
-		$stm = $this->conn->prepare($sql);
-		if($stm->execute())
-
-		$message = $stm->fetch();
-		$messageArray;
-		while ($message[0] != null){
-			$messageArray[] = $message;
-			$message = $stm->fetch();
-		}
-
-		$result["messageList"] = $messageArray;
-		return json_encode($result);
-	}
-
-	function getConvo($buddy){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
-
-		$stm = $this->conn->prepare($sql);
-		if($stm->execute())
-
-		$message = $stm->fetch();
-		$messageArray;
-		while ($message[0] != null){
-			$messageArray[] = $message;
-			$message = $stm->fetch();
-		}
-
-		$result["messageList"] = $messageArray;
-		return json_encode($result);
-	}
-
-	function newMessage($mTo, $mBody, $uName){
-		$sql = "INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('$uName', '$mTo', '$mBody', 'hi', now());";
-
-		$stm = $this->conn->prepare($sql);
-		if($stm->execute())
-			echo "success";
 	}
 	
 	function getMatches($userName) {
