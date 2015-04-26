@@ -45,6 +45,7 @@ public class EditProfile extends ActionBarActivity {
     private EditText biographyView;
     public static JSONArray classList;
     private static final String TAG = "EditProfile";
+    public String classes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,51 +58,47 @@ public class EditProfile extends ActionBarActivity {
         String fname = getUserInfo.getStringExtra("fname");
         String lname = getUserInfo.getStringExtra("lname");
         String biography = getUserInfo.getStringExtra("bio");
-        String classes = getUserInfo.getStringExtra("classes");
+        classes = getUserInfo.getStringExtra("classes");
         classList = new JSONArray();
 
         fnameView = (EditText) findViewById(R.id.Fname);
         lnameView = (EditText) findViewById(R.id.Lname);
         biographyView = (EditText) findViewById(R.id.Biography);
 
-/*      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        R.array.universitys, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner universityView = (Spinner) findViewById(R.id.spinner);
-        universityView.setAdapter(adapter);
-*/
         fnameView.setText(fname);
         lnameView.setText(lname);
         biographyView.setText(biography);
-        final LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
 
+        /*
+        final LinearLayout ly = (LinearLayout) findViewById(R.id.layoutD);
         String [] classParse = classes.split("\n");
         for (int i = 0; i < classParse.length; i++)
         {
             final TextView tv = new TextView(this);
             tv.setText(classParse[i]);
-           /* tv.setOnClickListener(new View.OnClickListener() {
+            tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     classList.put(tv.getText().toString());
                     Toast.makeText(getApplicationContext(), tv.getText().toString(), Toast.LENGTH_LONG).show();
                     ly.removeView(tv);
                 }
-            }); */
+            });
             ly.addView(tv);
         }
+        */
     }
 
     public void Submit(View v){
         university = "Georgia Regents University";
 
-        String url = getResources().getResourceName(R.string.server_address)+ "?rtype=getProfile";
+        String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 if(s.trim().equals("success"))
-                Toast.makeText(getBaseContext(), "Profile Updated Successfully.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
                 Log.d(TAG, s);
@@ -109,7 +106,7 @@ public class EditProfile extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(),"Cannot communicate with Server.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Server Error"+error.toString(),Toast.LENGTH_LONG).show();
             }
         }){
             @Override
@@ -135,7 +132,9 @@ public class EditProfile extends ActionBarActivity {
     public void editClasses(View v){
         Intent intent = new Intent(this, EditClasses.class);
         intent.putExtra("username", username);
+        intent.putExtra("classes", classes);
         startActivity(intent);
+        finish();
     }
 
     @Override
