@@ -83,13 +83,13 @@
             android:padding="3sp"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Add Class"
             android:id="@+id/button3"
             android:onClick="Add"/>
 
         <Button
-            android:background="#4675A3"
+            android:background="@drawable/sback"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
             android:padding="3sp"
@@ -100,5 +100,15 @@
             android:id="@+id/button10"
             android:layout_marginLeft="10dp"
             android:onClick="Save"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="*Tap a class to remove."
+            android:id="@+id/textView10"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:textStyle="italic" />
     </LinearLayout>
 </LinearLayout>
