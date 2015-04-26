@@ -6,15 +6,17 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.studybear.cdj.myapplication.EditClasses"
-    android:background="#ff2eb7ff">
+    android:background="@drawable/gradient"
+    android:id="@+id/layoutmain">
 
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="429dp"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:id="@+id/LinearLayoutC">
+        android:id="@+id/LinearLayoutC"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,14 +25,16 @@
             android:text="School"
             android:id="@+id/textView"
             android:layout_weight="0.00"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="#FFFFFF" />
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner2"
             android:layout_weight="0.00"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:background="#6196CA" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,13 +43,16 @@
             android:text="Classes"
             android:id="@+id/textView2"
             android:layout_weight="0.00"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner3"
-            android:layout_weight="0.00" />
+            android:layout_weight="0.00"
+            android:background="#6196CA" />
 
         <TextView
             android:layout_width="match_parent"
@@ -53,6 +60,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.00" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
             android:layout_weight="0.00" />
 
     </LinearLayout>
@@ -64,6 +77,11 @@
         android:layout_weight="0.00">
 
         <Button
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Class"
@@ -71,18 +89,16 @@
             android:onClick="Add"/>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove Class"
-            android:id="@+id/button9"
-            android:layout_marginLeft="10dp"
-            />
-
-        <Button
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/button10"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:onClick="Save"/>
     </LinearLayout>
 </LinearLayout>

@@ -2,26 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffda08">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:id="@+id/imageView2"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_launcher"/>
-    </FrameLayout>
+    android:background="@drawable/gradient">
 
     <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/scrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="20dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -34,13 +23,32 @@
         android:id="@+id/layoutD">
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="University"
+            android:id="@+id/textView7"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp" />
+
         <Spinner
             android:layout_width="365dp"
             android:layout_height="wrap_content"
             android:id="@+id/spinner"
             android:spinnerMode="dropdown"
             android:dropDownWidth="match_parent"
-            android:layout_marginBottom="5dp" />
+            android:background="#6196CA"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="First Name"
+            android:id="@+id/textView4"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -49,63 +57,95 @@
             android:ems="10"
             android:id="@+id/Fname"
             android:hint="First Name"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp" />
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Last Name"
+            android:id="@+id/textView5"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Lname"
             android:hint="Last Name"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp" />
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Biography"
+            android:id="@+id/textView6"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Biography"
             android:hint="Biography"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp" />
+            android:inputType="textLongMessage"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp"
+            android:lines="50"
+            android:gravity="top|start" />
 
     </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.00"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <Button
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/button5"
-            android:background="#ffffb12f"
-            android:textColor="#FFFFFF"
-            android:onClick="Submit"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/button2"
-            android:layout_toStartOf="@+id/button2"
-            android:layout_marginRight="47dp"
-            android:layout_marginEnd="47dp" />
+            android:onClick="Submit" />
 
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:padding="3sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:id="@+id/button9"
+            android:onClick="Back"/>
+
+        <Button
+            android:background="#4675A3"
+            android:textColor="#FFFFFF"
+            android:layout_margin="3dp"
+            android:padding="3sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Classes"
             android:id="@+id/button2"
-            android:background="#ffffb12f"
-            android:textColor="#FFFFFF"
-            android:onClick="editClasses"
-            android:layout_marginRight="76dp"
-            android:layout_marginEnd="76dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            />
+            android:onClick="editClasses" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
