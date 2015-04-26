@@ -8,26 +8,6 @@
     android:background="@drawable/gradient"
     android:orientation="vertical">
 
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight=".45">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Create Account"
-            android:id="@+id/textView8"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30sp"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp" />
-
-        </RelativeLayout>-->
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -99,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/sback"
+                android:background="@drawable/button"
                 android:id="@+id/registerButton"
                 android:text="Register"
                 android:layout_marginTop="20dp"

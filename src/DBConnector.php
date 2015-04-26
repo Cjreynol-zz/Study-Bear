@@ -209,7 +209,7 @@ class DBConnector
 	
 	#messages
 	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d  %l:%i%p') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -226,7 +226,7 @@ class DBConnector
 	}
 
 	function getConvo($buddy){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
+		$sql  = "SELECT * from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -243,6 +243,15 @@ class DBConnector
 	}
 
 	function newMessage($mTo, $mBody, $uName){
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE userName = '$mTo');";
+
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return "error";
+
 		$sql = "INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('$uName', '$mTo', '$mBody', 'hi', now());";
 
 		$stm = $this->conn->prepare($sql);
@@ -266,19 +275,6 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
-	}
-
-	function checkTo($mTo){
-		$sql = "SELECT EXISTS(SELECT * FROM user WHERE userName = '$mTo');";
-
-		$stm = $this->conn->prepare($sql);
-		$stm->execute();
-		$result = $stm->fetch();
-		
-		if($result[0] == 0)
-			return "error";
-		else
-			return "succes";
 	}
 
 	function checkEmail($email){

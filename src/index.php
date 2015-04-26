@@ -63,7 +63,6 @@ switch($_GET["rtype"])
 			echo "error";
 		break;
 			
-
 	case 'getMessages':
 		echo $dbconn->getMessages($_GET["username"]);
 		break;
@@ -83,9 +82,6 @@ switch($_GET["rtype"])
 			echo $dbconn->getMatches("");
 		break;
 
-	case 'checkTo':
-		echo $dbconn->checkTo($_POST["mTo"]);
-		break;
 	case 'checkEmail':
 		echo $dbconn->checkEmail($_POST["email"]);
 		break;
