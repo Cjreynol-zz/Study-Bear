@@ -149,7 +149,9 @@ class DBConnector
 	}
 	
 	function getUniversity($username){
-		$sql_university_list = "SELECT * FROM UNIVERSITY WHERE universityName <> ' ';";		
+		$sql_university_list = "SELECT universityName FROM user WHERE username ='$username'
+								UNION						
+								SELECT * FROM UNIVERSITY WHERE universityName NOT IN (SELECT universityName FROM user WHERE username ='$username');";		
 		$stm = $this->conn->prepare($sql_university_list);
 		$stm->execute();	
 		$universityList["List"] = $stm->fetchAll();
