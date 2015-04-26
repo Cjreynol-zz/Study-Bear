@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layoutB"
-    android:background="#5C85FF">
+    android:layout_weight="1"
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -117,7 +118,5 @@
     </ScrollView>
 
     <include layout="@layout/activity_action_bar"/>
-
-
 </LinearLayout>
 
