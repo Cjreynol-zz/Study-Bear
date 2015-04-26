@@ -12,7 +12,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:background="#00ffffff"
         android:id="@+id/convoScrollView"
-        android:layout_weight="1.63"
+        android:layout_weight=".9"
         android:focusable="true"
         android:scrollbars="none"
         android:visibility="invisible">
