@@ -101,11 +101,11 @@ public class RegisterActivity extends ActionBarActivity {
                     public void onResponse(String response) {
                         Log.d("Response", response);
                         if(response.trim().equals("success"))
-                            Toast.makeText(getBaseContext(),"Registration Success" + response,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),"Email Sent" ,Toast.LENGTH_LONG).show();
                         else if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!" + response.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Username Already Taken!", Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(getBaseContext(), "Registration Error!" + response, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Server Error!" + response, Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
             @Override

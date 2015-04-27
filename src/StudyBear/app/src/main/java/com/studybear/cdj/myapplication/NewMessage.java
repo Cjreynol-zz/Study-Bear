@@ -72,7 +72,7 @@ public class NewMessage extends ActionBarActivity {
     }
 
     public void SendMessage(View v) {
-        final String mTo = messageTo.getText().toString().trim();
+        final String mTo = messageTo.getText().toString().toLowerCase().trim();
         final String mBody = messageBody.getText().toString().trim();
 
         if(mTo.isEmpty()) {
