@@ -269,12 +269,22 @@ class DBConnector
 	}
 
 	function newMessage($mTo, $mBody, $uName){
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE username = '$mTo');";
+
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return "error";
+		else{
 		$sql = "INSERT INTO messages (sendingUser, receivingUser, body, subject, dateTime) VALUES ('$uName', '$mTo', '$mBody', 'hi', now());";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
 			echo "success";
-			}	
+		}
+	}
 
 	function getMatches($userName) {
 		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";

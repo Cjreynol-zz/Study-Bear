@@ -59,7 +59,7 @@
             android:ems="10"
             android:hint="User Name"
             android:textColor="#FFFFFF"
-            android:text="jscott88" />
+            android:text="odarcie" />
 
         <EditText
             android:layout_width="match_parent"

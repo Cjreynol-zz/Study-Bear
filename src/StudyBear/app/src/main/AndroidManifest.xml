@@ -67,6 +67,10 @@
             android:name=".RegisterConfirm"
             android:label="" >
         </activity>
+        <activity
+            android:name=".BlockList"
+            android:label="@string/title_activity_block_list" >
+        </activity>
     </application>
 
 </manifest>

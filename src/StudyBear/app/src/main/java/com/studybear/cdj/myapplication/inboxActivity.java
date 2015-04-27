@@ -153,14 +153,6 @@ public class inboxActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username",username);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_inbox, menu);
@@ -186,6 +178,21 @@ public class inboxActivity extends ActionBarActivity {
                 break;
         }
         return true;
+    }
+
+    public void NewMessage (View v){
+        Intent intent = new Intent(this, NewMessage.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
     }
 
 

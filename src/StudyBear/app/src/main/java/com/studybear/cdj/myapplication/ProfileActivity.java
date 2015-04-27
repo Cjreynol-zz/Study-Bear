@@ -3,6 +3,7 @@ package com.studybear.cdj.myapplication;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,26 +95,30 @@ public class ProfileActivity extends ActionBarActivity {
             public void onResponse(JSONObject json) {
                 try
                 {
+                    Log.d("JSONRESPONSE", json.toString());
                     bio.setText(json.getString("biography"));
                     name.setText(json.getString("firstName") + " " + json.getString("lastName"));
                     university.setText(json.getString("universityName"));
 
-                    JSONArray classList = json.getJSONArray("classList");
-                    StringBuilder classListString = new StringBuilder();
-                    JSONObject classItem;
-                    String classItemString;
+                    if(!json.isNull("classList")) {
+                        JSONArray classList = json.getJSONArray("classList");
+                        StringBuilder classListString = new StringBuilder();
+                        JSONObject classItem;
+                        String classItemString;
 
-                    for(int i = 0; i < classList.length(); i++)
-                    {
-                        classItem = classList.getJSONObject(i);
-                        classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+                        for (int i = 0; i < classList.length(); i++) {
+                            classItem = classList.getJSONObject(i);
+                            classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
 
-                            if(i + 1 == classList.length())
+                            if (i + 1 == classList.length())
                                 classListString.append(classItemString);
                             else
                                 classListString.append(classItemString + "\n\n");
+                        }
+                        classes.setText(classListString.toString());
                     }
-                    classes.setText(classListString.toString());
+                    else
+                        classes.setText("No Classes");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -165,14 +170,20 @@ public class ProfileActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void inboxActivity (View v)

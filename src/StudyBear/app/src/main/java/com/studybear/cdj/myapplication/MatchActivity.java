@@ -21,6 +21,7 @@ import org.json.JSONObject;
 public class MatchActivity extends ActionBarActivity {
 
     public NetworkController networkRequest;
+    public NavigationBarController navBar;
     public String username;
 
     public TextView matchName;
@@ -35,6 +36,8 @@ public class MatchActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        navBar = NavigationBarController.getInstance(this, username);
+
         String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username="+username;
 
         matchName = (TextView) findViewById(R.id.nameTextView);
@@ -71,21 +74,6 @@ public class MatchActivity extends ActionBarActivity {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
-    }
-
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void inboxActivity (View v)
-    {
-        Intent intent = new Intent(this, inboxActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
         finish();
