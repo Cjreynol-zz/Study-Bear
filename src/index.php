@@ -4,6 +4,7 @@
 #echo "Script started </br>";
 require_once "DBConnector.php";
 $dbconn = new DBConnector();
+//require_once "EmailServer.php";
 
 switch($_GET["rtype"])
 {
@@ -24,22 +25,9 @@ switch($_GET["rtype"])
 				
 	case 'register':
 		if(isset($_POST["fname"], $_POST["lname"], $_POST["uname"], $_POST["email"], $_POST["pword"], $_POST["pconfirm"]))
-		{
-			/*if(strpos($_POST["fname"], ' ') === false && strpos($_POST["lname"], ' ') === false 
-				&& strpos($_POST["uname"], ' ') === false && strpos($_POST["email"], ' ') === false 
-					&& strpos($_POST["pword"], ' ') === false && strlen($_POST["pword"]) >= 8
-						&& $_POST["pword"] === $_POST["pconfirm"])
-						{*/
-				echo $dbconn->Register($_POST["uname"], $_POST["fname"], $_POST["lname"], $_POST["email"], $_POST["pword"]);
-					break;
-			#}			
-			#else
-				#echo "error";
-		}
-		else
-			echo "index error";
-		break;
-		
+			echo $dbconn->Register($_POST["uname"], $_POST["fname"], $_POST["lname"], $_POST["email"], $_POST["pword"]);
+				break;
+				
 	case 'getProfile':
 		if(isset($_GET["username"]) )
 			echo $dbconn->getProfile($_GET["username"]);
@@ -56,6 +44,9 @@ switch($_GET["rtype"])
 			
 	case 'getUniversity':
 		echo $dbconn->getUniversity($_GET["username"]);
+		break;
+	case 'getUserClasses':
+		echo $dbconn->getUserClasses($_GET["username"]);
 		break;
 			
 	case 'getClasses':
@@ -89,6 +80,21 @@ switch($_GET["rtype"])
 	case 'checkEmail':
 		echo $dbconn->checkEmail($_POST["email"]);
 		break;	
+		
+	case 'accountActivate':
+		$activationId = $dbconn->getActivationId($_GET["username"]);
+		echo $activationId;
+		
+		if(isset($activationId) && !$activationId = ' ')
+			sendEmail($_GET["emailAddress"], $activationId, $_GET["username"]);
+		else
+			echo "Message no Sent";
+		break;
+		
+	case 'accountConfirm':
+		$dbconn->accountConfirm($_GET["actId"], $_GET["username"]);
+		echo "Thanks for activiating your account. You can now use StudyBear.";
+		break;
 }
 
 ?>
