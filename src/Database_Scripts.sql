@@ -83,6 +83,14 @@ FOREIGN KEY (professorId) REFERENCES TEACHING(professorId),
 FOREIGN KEY (classId) REFERENCES TEACHING(classId)
 )ENGINE=INNODB;
 
+CREATE TABLE USER_ACTIVATION(
+userName VARCHAR(20),
+actId VARCHAR(30),
+FOREIGN KEY(userName) REFERENCES USER(userName)
+)ENGINE=INNODB;
+
+
+
 /* TO BE IMPLEMENTED
 Preference (userName(FK))
 MatchResponses (userName(FK), suggesteduserName(FK), response)

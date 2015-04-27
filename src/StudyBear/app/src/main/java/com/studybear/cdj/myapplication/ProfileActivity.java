@@ -149,7 +149,9 @@ public class ProfileActivity extends ActionBarActivity {
     }
     @Override
     public void onBackPressed(){
-
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

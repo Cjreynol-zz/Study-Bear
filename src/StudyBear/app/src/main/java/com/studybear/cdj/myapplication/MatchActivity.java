@@ -68,6 +68,13 @@ public class MatchActivity extends ActionBarActivity {
         networkRequest.addToRequestQueue(matchRequest);
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
+    }
 
     public void Logout(View v)
     {
