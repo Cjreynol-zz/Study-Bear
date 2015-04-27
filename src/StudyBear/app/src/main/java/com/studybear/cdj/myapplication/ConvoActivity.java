@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +34,51 @@ public class ConvoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convo);
+
+
+        ImageButton matchButton  = (ImageButton) findViewById(R.id.matchButton);
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton messageButton  = (ImageButton) findViewById(R.id.messageButton);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), inboxActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton classButton  = (ImageButton) findViewById(R.id.classButton);
+        classButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ImageButton profileButton  = (ImageButton) findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
@@ -114,14 +161,20 @@ public class ConvoActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void NewMessage (View v){
