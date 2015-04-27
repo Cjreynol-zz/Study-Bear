@@ -7,9 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -163,20 +165,14 @@ public class ProfileActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            // action with ID action_settings was selected
-            case R.id.action_logout:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
-        return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void inboxActivity (View v)
@@ -192,6 +188,14 @@ public class ProfileActivity extends ActionBarActivity {
         intent.putExtra("username", username);
         startActivity(intent);
         finish();
+    }
+
+    public void editBiography (View V) {EditText editBio = (EditText) findViewById(R.id.editBio);
+        TextView Biography = (TextView) findViewById(R.id.Biography);
+        String bio = Biography.getText().toString();
+        editBio.setText(bio);
+        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
+        switcher.showNext(); //or switcher.showPrevious();
     }
 
 }
