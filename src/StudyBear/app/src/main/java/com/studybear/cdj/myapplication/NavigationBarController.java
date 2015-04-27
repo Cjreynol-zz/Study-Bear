@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -16,11 +17,10 @@ public class NavigationBarController {
     private Activity currentActivity;
     private String username;
 
-    private TextView matchButton;
-    private TextView inboxButton;
-    private TextView profileButton;
-    private TextView logoutButton;
-
+    private ImageButton matchButton;
+    private ImageButton messageButton;
+    private ImageButton classButton;
+    private ImageButton profileButton;
 
     private NavigationBarController(Activity activity, String uname) {
         currentActivity = activity;
@@ -41,55 +41,53 @@ public class NavigationBarController {
 
     private void getButtons(Activity activity) {
         // if the nav bar layout changes then these will have to be updated
-        matchButton = (TextView) activity.findViewById(R.id.findMatchButton);
-        inboxButton = (TextView) activity.findViewById(R.id.inboxButton);
-        profileButton = (TextView) activity.findViewById(R.id.profileButton);
-        logoutButton = (TextView) activity.findViewById(R.id.logoutButton);
+        matchButton = (ImageButton) activity.findViewById(R.id.matchButton);
+        messageButton = (ImageButton) activity.findViewById(R.id.messageButton);
+        classButton = (ImageButton) activity.findViewById(R.id.classButton);
+        profileButton = (ImageButton) activity.findViewById(R.id.profileButton);
     }
 
     private void addListeners(final Activity activity, final String username) {
+
         matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, MatchActivity.class);
-                intent.putExtra("username", username);
+                intent.putExtra("username",username);
                 activity.startActivity(intent);
                 activity.finish();
             }
         });
 
-        inboxButton.setOnClickListener(new View.OnClickListener() {
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, inboxActivity.class);
-                intent.putExtra("username", username);
+                intent.putExtra("username",username);
                 activity.startActivity(intent);
                 activity.finish();
             }
         });
 
-        // only go to EditProfile if you are on the profile activity
-        // otherwise, go to the profile activity
-        if (activity instanceof  ProfileActivity)
-            profileButton.setText("Edit Profile");
+        classButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, EditClasses.class);
+                intent.putExtra("username",username);
+                activity.startActivity(intent);
+                activity.finish();
+            }
+        });
+
         profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                if (activity instanceof ProfileActivity) {
-                    ((ProfileActivity) activity).EditProfile(v);
-                }
-                else {
-                    Intent intent = new Intent(activity, ProfileActivity.class);
-                    intent.putExtra("username", username);
-                    activity.startActivity(intent);
-                    activity.finish();
-                }
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, LoginActivity.class);
+                Intent intent = new Intent(activity, ProfileActivity.class);
+                intent.putExtra("username",username);
                 activity.startActivity(intent);
                 activity.finish();
             }
         });
+
     }
 }

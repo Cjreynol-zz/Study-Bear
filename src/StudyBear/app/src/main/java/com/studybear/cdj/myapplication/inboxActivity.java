@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class inboxActivity extends ActionBarActivity {
     public NetworkController networkRequest;
+    public NavigationBarController navigationBarRequest;
     public String username;
     public ArrayList<String> buddies = new ArrayList<String>();
     public int counter = 0;
@@ -64,55 +65,13 @@ public class inboxActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
-        ImageButton matchButton  = (ImageButton) findViewById(R.id.matchButton);
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton messageButton  = (ImageButton) findViewById(R.id.messageButton);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), inboxActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton classButton  = (ImageButton) findViewById(R.id.classButton);
-        classButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton profileButton  = (ImageButton) findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
+        navigationBarRequest = NavigationBarController.getInstance(this, username);
+        navigationBarRequest.activateNavBar();
 
+        String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -194,6 +153,4 @@ public class inboxActivity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
-
-
 }
