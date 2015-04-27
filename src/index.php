@@ -81,16 +81,6 @@ switch($_GET["rtype"])
 		echo $dbconn->checkEmail($_POST["email"]);
 		break;	
 		
-	case 'accountActivate':
-		$activationId = $dbconn->getActivationId($_GET["username"]);
-		echo $activationId;
-		
-		if(isset($activationId) && !$activationId = ' ')
-			sendEmail($_GET["emailAddress"], $activationId, $_GET["username"]);
-		else
-			echo "Message no Sent";
-		break;
-		
 	case 'accountConfirm':
 		$dbconn->accountConfirm($_GET["actId"], $_GET["username"]);
 		echo "Thanks for activiating your account. You can now use StudyBear.";

@@ -106,11 +106,8 @@ class DBConnector
 				$class = $stm2->fetch();
 
 				$classes_array;
-				if($class == false)
-				{
-					$classes_array = array(array("classId"=>"No Classes","className"=>" ","professorLname"=>" ","professorFname"=>" "));
-					return json_encode($classes_array);
-				}
+				if($class == false)				
+					$result["classList"] = null;				
 				else
 				{			
 					while($class[0] != null)
@@ -161,7 +158,7 @@ class DBConnector
 				$classes_array;
 				if($class == false)
 				{
-					$classes_array = array(array("classId"=>"No Classes","className"=>" ","professorLname"=>" ","professorFname"=>" "));
+					$classes_array["classList"] = null;
 					return json_encode($classes_array);
 				}
 				else
