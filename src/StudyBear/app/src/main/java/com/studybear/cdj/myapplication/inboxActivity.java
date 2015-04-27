@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class inboxActivity extends ActionBarActivity {
     public NetworkController networkRequest;
-    public NavigationBarController navigationBarRequest;
+    public NavigationBarController navigationBar;
     public String username;
     public ArrayList<String> buddies = new ArrayList<String>();
     public int counter = 0;
@@ -68,8 +68,7 @@ public class inboxActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        navigationBarRequest = NavigationBarController.getInstance(this, username);
-        navigationBarRequest.activateNavBar();
+        navigationBar = new NavigationBarController(this, username);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
 

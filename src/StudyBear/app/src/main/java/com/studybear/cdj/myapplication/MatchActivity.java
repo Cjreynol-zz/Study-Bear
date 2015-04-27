@@ -36,7 +36,7 @@ public class MatchActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        navBar = NavigationBarController.getInstance(this, username);
+        navBar = new NavigationBarController(this, username);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username="+username;
 
