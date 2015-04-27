@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-/**
- * Created by chadreynolds on 4/25/15.
- */
 public class NavigationBarController {
 
     private static NavigationBarController navBarInstance;
@@ -22,16 +19,10 @@ public class NavigationBarController {
     private ImageButton classButton;
     private ImageButton profileButton;
 
-    private NavigationBarController(Activity activity, String uname) {
+    public NavigationBarController(Activity activity, String uname) {
         currentActivity = activity;
         username = uname;
-    }
-
-    public static synchronized NavigationBarController getInstance(Activity activity, String username){
-        if(navBarInstance == null){
-            navBarInstance = new NavigationBarController(activity, username);
-        }
-        return navBarInstance;
+        activateNavBar();
     }
 
     public void activateNavBar() {
