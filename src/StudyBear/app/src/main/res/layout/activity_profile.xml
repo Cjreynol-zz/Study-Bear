@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:divider="#FFFFFF"
         android:weightSum="1"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_weight="0.06">
+        android:layout_weight=".15">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +35,9 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="#FFFFFF"
-                android:hint="Name" />
+                android:hint="Name"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -47,12 +48,46 @@
                 android:layout_alignLeft="@+id/Name"
                 android:layout_alignStart="@+id/Name"
                 android:textSize="16sp"
-                android:layout_marginTop="7dp"
-                android:layout_marginLeft="5dp"
                 android:textColor="#FFFFFF"
-                android:hint="School" />
+                android:hint="School"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Biography:"
+            android:id="@+id/textView8"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/Biography"
+            android:textColor="#FFFFFF"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Classes:"
+            android:id="@+id/textView9"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <ScrollView
@@ -74,31 +109,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Biography:"
-                android:id="@+id/textView8"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/Biography"
-                android:layout_marginBottom="25dp"
-                android:layout_marginLeft="5dp"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Classes:"
-                android:id="@+id/textView9"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/Classes"
                 android:layout_marginBottom="25dp"
@@ -107,74 +117,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#ff84cdff">
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Find Match"
-            android:id="@+id/button4"
-            android:onClick="findMatch"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            />
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Messaging"
-            android:id="@+id/button6"
-            android:onClick="inboxActivity"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/button4"
-            android:layout_toEndOf="@+id/button4" />
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:id="@+id/button7"
-            android:onClick="Logout"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/button6"
-            android:layout_toEndOf="@+id/button6" />
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            android:id="@+id/button8"
-            android:onClick="EditProfile"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/button7"
-            android:layout_toEndOf="@+id/button7" />
-    </RelativeLayout>
-
+    <include layout="@layout/activity_action_bar"/>
 </LinearLayout>
 

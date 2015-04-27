@@ -24,12 +24,14 @@
                 android:layout_marginTop="10sp"
                 android:layout_marginBottom="10sp"
                 style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/sback"
+                android:background="@drawable/button"
                 android:id="@+id/button"
                 android:text="New Message"
+                android:clickable="true"
                 android:onClick="NewMessage"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
+
     </LinearLayout>
 
     <ScrollView
@@ -37,8 +39,9 @@
         android:layout_height="0dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/scrollView"
         android:background="#00ffffff"
+        android:id="@+id/scrollView"
+        android:scrollbars="none"
         android:layout_weight="1">
 
         <LinearLayout
@@ -50,73 +53,6 @@
             </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#5AB7D1"
-        android:layout_marginTop="10sp">
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Find Match"
-            android:id="@+id/button4"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/button6"
-            android:layout_toStartOf="@+id/button6" />
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Messaging"
-            android:id="@+id/button6"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/button7"
-            android:layout_toStartOf="@+id/button7"
-            android:onClick="inboxActivity"
-            />
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:id="@+id/button7"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/button8"
-            android:layout_toStartOf="@+id/button8"
-            android:onClick="Logout"/>
-
-        <Button
-            android:background="#4675A3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="3sp"
-            android:padding="3sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            android:id="@+id/button8"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="EditProfile"/>
-    </RelativeLayout>
+    <include layout="@layout/activity_action_bar"/>
 
 </LinearLayout>

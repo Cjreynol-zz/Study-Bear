@@ -25,5 +25,7 @@
     <string name="title_activity_edit_classes">EditClasses</string>
     <string name="title_activity_email_submit">EmailSubmit</string>
     <string name="title_activity_regitration_confirmation">RegitrationConfirmation</string>
+    <string name="title_activity_account">Account</string>
+    <string name="title_activity_block_list">BlockList</string>
 
 </resources>

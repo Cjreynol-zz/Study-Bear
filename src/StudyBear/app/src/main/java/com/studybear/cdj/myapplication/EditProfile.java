@@ -72,10 +72,6 @@ public class EditProfile extends ActionBarActivity {
                     biographyView.setText(json.getString("biography"));
                     fnameView.setText(json.getString("firstName"));
                     lnameView.setText(json.getString("lastName"));
-                    universityList.add(json.getString("universityName"));
-                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner);
-                    universityListAdapater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, universityList);
-                    universitySpinner.setAdapter(universityListAdapater);
 
                     JSONArray classList = json.getJSONArray("classList");
                     StringBuilder classListString = new StringBuilder();
@@ -110,13 +106,16 @@ public class EditProfile extends ActionBarActivity {
             @Override
             public void onResponse(JSONObject json) {
                 try {
+                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner);
+
                     JSONArray jsonArray = json.getJSONArray("List");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        universityListAdapater.add(jsonObject.getString("universityName"));
-                        universityListAdapater.notifyDataSetChanged();
+                        universityList.add(jsonObject.getString("universityName"));
                     }
+                    universityListAdapater = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, universityList);
+                    universitySpinner.setAdapter(universityListAdapater);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -200,13 +199,20 @@ public class EditProfile extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 

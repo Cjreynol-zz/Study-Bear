@@ -59,7 +59,7 @@
             android:ems="10"
             android:hint="User Name"
             android:textColor="#FFFFFF"
-            android:text="jscott88" />
+            android:text="odarcie" />
 
         <EditText
             android:layout_width="match_parent"
@@ -77,7 +77,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             style="?android:attr/borderlessButtonStyle"
-            android:background="@drawable/sback"
+            android:background="@drawable/button"
             android:text="Login"
             android:textColor="#FFFFFF"
             android:clickable="true"

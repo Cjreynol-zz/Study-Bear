@@ -51,19 +51,43 @@ public class EditClasses extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_classes);
         networkController = NetworkController.getInstance(getApplicationContext());
+
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String [] parse = intent.getStringExtra("classes").split("\n");
-        originalClassList = new ArrayList<>();
-        addList = new ArrayList<>();
-        insertList = new ArrayList<>();
-        for(int i = 0; i < parse.length; i++){
-            originalClassList.add(parse[i]);
-            addList.add(parse[i]);
-        }
 
         adapterClassList = new ArrayList<>();
         removeList = new ArrayList<>();
+        addList = new ArrayList<>();
+        insertList = new ArrayList<>();
+        originalClassList = new ArrayList<>();
+
+        String url = getResources().getString(R.string.server_address) + "?rtype=getUserClasses&username="+username;
+        JsonObjectRequest classListRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject json) {
+                try {
+                    Log.d(TAG, json.toString());
+                    JSONArray jsonArray = json.getJSONArray("classList");
+                    JSONObject classItem;
+                    for (int i = 0; i < jsonArray.length(); i++){
+
+                        classItem =  jsonArray.getJSONObject(i);
+                        String classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+                        originalClassList.add(classItemString);
+                        addList.add(classItemString);
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(),volleyError.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+        networkController.addToRequestQueue(classListRequest);
+
         insertListAdapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, addList);
         ListView lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(insertListAdapter);
@@ -78,9 +102,8 @@ public class EditClasses extends ActionBarActivity {
             }
         });
 
-
-        String url = getResources().getString(R.string.server_address) + "?rtype=getUniversity&username="+username;
-        JsonObjectRequest universityListRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        String url2 = getResources().getString(R.string.server_address) + "?rtype=getUniversity&username="+username;
+        JsonObjectRequest universityListRequest = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
                 try {
@@ -95,7 +118,6 @@ public class EditClasses extends ActionBarActivity {
 
                     final ArrayAdapter<String> universityAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, adapterClassList);
                     universitySpinner.setAdapter(universityAdapter);
-
                     universitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -126,12 +148,10 @@ public class EditClasses extends ActionBarActivity {
 
         String encodedParam = URLEncoder.encode(university,"UTF-8");
         String url = getResources().getString(R.string.server_address) + "?rtype=getClasses&username="+username +"&university=" + encodedParam;
-        //Toast.makeText(getApplicationContext(),url,Toast.LENGTH_LONG).show();
         Log.d(TAG, url);
         JsonObjectRequest classListRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
-                //Toast.makeText(getApplicationContext(),json.toString(),Toast.LENGTH_LONG).show();
                 Log.d(TAG, json.toString());
                 try {
                     final Spinner classSpinner = (Spinner) findViewById(R.id.spinner3);
@@ -225,7 +245,7 @@ public class EditClasses extends ActionBarActivity {
             }
         };
         networkController.addToRequestQueue(saveRequest);
-        Intent intent = new Intent(this, EditProfile.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
@@ -233,7 +253,7 @@ public class EditClasses extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this, EditProfile.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("username",username);
         startActivity(intent);
         finish();
@@ -251,13 +271,19 @@ public class EditClasses extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

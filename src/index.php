@@ -62,7 +62,6 @@ switch($_GET["rtype"])
 		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
 		break;
 			
-
 	case 'getMessages':
 		echo $dbconn->getMessages($_GET["username"]);
 		break;
@@ -87,9 +86,6 @@ switch($_GET["rtype"])
 			echo $dbconn->saveClasses($_POST["username"], $_POST["removeList"], $_POST["insertList"]);
 		break;
 
-	case 'checkTo':
-		echo $dbconn->checkTo($_POST["mTo"]);
-		break;
 	case 'checkEmail':
 		echo $dbconn->checkEmail($_POST["email"]);
 		break;	
