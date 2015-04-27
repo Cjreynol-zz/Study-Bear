@@ -4,6 +4,7 @@
 class DBConnector
 {	
 	private $conn;
+	#public $test = new PHPMailer();
 	function __construct()
 	{
 		require_once 'DBConstants.php';
@@ -21,31 +22,29 @@ class DBConnector
 			echo "Connection failed: </br>" . $e->getMessage();
 		}
 	}
-	
+
 	function Login($uname, $pword)
 	{
 		#Getting user password hash from database and comparing against rehashed user provided password
 		#If matched, return true and log user in, if false, return error string
-		$sql = "SELECT password, accountStatus FROM USER WHERE userName = '$uname';";
+		$sql = "SELECT password FROM USER WHERE userName = '$uname';";
 	    $stm = $this->conn->prepare($sql);
 		if($stm->execute())
 		{
 			$result = $stm->fetch();
-			if(password_verify($pword, $result[0]) && $result[1] == 'A')
+			if(password_verify($pword, $result[0]))
 				return "success";
-			else if (password_verify($pword, $result[0]) && $result[1] == 'I')
-				return "inactive";
 			else
 				return "incorrect username/password.";
 		}
 		else
-			return "error";
+			return "database error";
 	}
 
-		#require "PHPMailerAutoLoader.php"
 	function Register($uname, $fname, $lname, $email, $pword)
 	{
 		#Email funtion to be implemented
+		#require "PHPMailerAutoLoader.php"
 
 		$password = $pword;
 		#Creating password hash using BLOWFISH encryption with randomized SALT to add complexity
@@ -56,29 +55,22 @@ class DBConnector
 		$stm1 = $this->conn->prepare($sql_checkuser);
 		$stm1->execute();
 		$result = $stm1->fetch();
-
+		
 		if($result[0] == $uname)
 			return "uname_error";
 		else
 		{
 			#Inserting new users into database and returning success message if sql passes, error otherwise
-			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', ' ', 'I');";
+			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', ' ', '');";
 			$stm = $this->conn->prepare($sql);
-			$stm->execute();
-
-			$activationId = uniqid('', true);
-			$sql2 = "INSERT INTO USER_ACTIVATION VALUES('$uname', '$activationId');";
-			$stm2 = $this->conn->prepare($sql2);
-			if($stm2->execute()){
-				$this->accountActivation($uname, $activationId, $email);
-				return "success";
-			}
 			
-			else
-				echo "Message no Sent";
-			}			
+			if($stm->execute())
+				return "success";
+			else 
+				return "this error";
 			#Email functionality to be implemented 
 		}
+	}
 	
 	function getProfile($uname)
 	{
@@ -106,8 +98,11 @@ class DBConnector
 				$class = $stm2->fetch();
 
 				$classes_array;
-				if($class == false)				
-					$result["classList"] = null;				
+				if($class == false)
+				{
+					$classes_array = array(array("classId"=>"No Classes","className"=>" ","professorLname"=>" ","professorFname"=>" "));
+					return json_encode($classes_array);
+				}
 				else
 				{			
 					while($class[0] != null)
@@ -139,40 +134,6 @@ class DBConnector
 		return "error";
 	}
 	
-	function getUserClasses($username){
-		$classes_sql = 
-		"SELECT C.classId, C.className, D.professorLname,D.professorFname
-		FROM USER_ENROLLMENT A 
-			inner join TEACHING B ON A.professorId = B.professorId
-			and A.classId = B.classId
-			inner join CLASS C ON B.classId = C.classId
-			inner join PROFESSOR D ON B.professorId = D.professorId
-		WHERE A.userName = '$username';";
-			
-		$stm2 = $this->conn->prepare($classes_sql);
-		$result;
-			if($stm2->execute())
-			{
-				$class = $stm2->fetch();
-
-				$classes_array;
-				if($class == false)
-				{
-					$classes_array["classList"] = null;
-					return json_encode($classes_array);
-				}
-				else
-				{			
-					while($class[0] != null)
-					{
-						$classes_array[] = $class;
-						$class = $stm2->fetch();
-					}
-					$result["classList"] = $classes_array;
-					return json_encode($result);
-				}
-			}
-	}
 	#Make sure client populates whats already saved in database first and then call this function
 	function editProfile($fname, $lname, $biography, $university, $uname){
 		
@@ -248,8 +209,8 @@ class DBConnector
 		return json_encode($result);
 	}
 
-	function getConvo($buddy){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
+	function getConvo($buddy, $username){
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where (sendingUser = '$buddy' and receivingUser = '$username') or (receivingUser = '$buddy' and sendingUser = '$username') order by dateTime ASC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -355,30 +316,6 @@ class DBConnector
 		else
 			return "succes";
 	}
-	
-	function accountActivation($username, $activationId, $email){	
-		include 'EmailServer.php';
-		return sendEmail($username, $activationId, $email);
-	
-	}
-	
-	function accountConfirm($actId, $username){
-		$sql = "SELECT actId FROM USER_ACTIVATION WHERE userName = '$username';";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute();
-		$confirmId = $stm->fetch();
-		
-		if($confirmId[0] == $actId)
-		{
-			$sql2 = "UPDATE USER SET accountStatus = 'A' WHERE userName = '$username';";
-			$stm2 = $this->conn->prepare($sql2);
-			if($stm2->execute())
-				echo "success";
-			else
-				echo "fail";
-		}
-	}
-	
 }
 ?>
 

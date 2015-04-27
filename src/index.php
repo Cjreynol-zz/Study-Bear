@@ -58,7 +58,7 @@ switch($_GET["rtype"])
 		break;
 		
 	case 'getConvo':
-		echo $dbconn->getConvo($_GET["buddy"]);
+		echo $dbconn->getConvo($_GET["buddy"], $_GET["username"]);
 		break;
 		
 	case 'newMessage':
