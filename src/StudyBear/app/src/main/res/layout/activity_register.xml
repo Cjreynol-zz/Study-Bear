@@ -23,7 +23,8 @@
                 android:id="@+id/firstname"
                 android:ems="10"
                 android:textColor="#FFFFFF"
-                android:hint="First Name" />
+                android:hint="First Name"
+                android:text="J" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -33,7 +34,8 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:textColor="#FFFFFF"
-                android:hint="Last Name" />
+                android:hint="Last Name"
+                android:text="J" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -43,7 +45,8 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:hint="User Name"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:text="J" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -53,7 +56,8 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:hint="Email"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:text="jeremy.scott88@gmail.com" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -63,7 +67,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:hint="Password"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:text="11111111" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -73,7 +78,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:hint="Confirm Password"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:text="11111111" />
 
             <Button
                 android:layout_width="match_parent"

@@ -3,12 +3,14 @@ package com.studybear.cdj.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,13 +22,19 @@ import java.util.Map;
 
 public class RegisterActivity extends ActionBarActivity {
     NetworkController networkRequest;
+    String fname;
+    String lname;
+    String uname;
+    String email;
+    String pword;
+    String pconfirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         networkRequest = NetworkController.getInstance(getApplicationContext());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,12 +65,12 @@ public class RegisterActivity extends ActionBarActivity {
         TextView pwordview = (TextView) findViewById(R.id.password);
         TextView confirm = (TextView) findViewById(R.id.confirmpassword);
 
-        final String fname = fnameview.getText().toString().trim();
-        final String lname = lnameview.getText().toString().trim();
-        final String uname = unameview.getText().toString().trim().toLowerCase();
-        final String email = emailview.getText().toString().trim();
-        final String pword = pwordview.getText().toString();
-        final String pconfirm = confirm.getText().toString();
+        fname = fnameview.getText().toString().trim();
+        lname = lnameview.getText().toString().trim();
+        uname = unameview.getText().toString().trim().toLowerCase();
+        email = emailview.getText().toString().trim();
+        pword = pwordview.getText().toString();
+        pconfirm = confirm.getText().toString();
 
         if(fname.contains(" ") || lname.contains(" ") || uname.contains(" ") || email.contains(" "))
             Toast.makeText(getBaseContext(),"User fields cannot contain spaces.", Toast.LENGTH_LONG).show();
@@ -70,8 +78,8 @@ public class RegisterActivity extends ActionBarActivity {
         else if(fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || email.isEmpty())
             Toast.makeText(getBaseContext(),"All user fields must be filled out.", Toast.LENGTH_LONG).show();
 
-        else if(!email.contains("@") || !email.contains("edu") || !email.contains("."))
-            Toast.makeText(getBaseContext(),"Invalid email format.", Toast.LENGTH_LONG).show();
+      //  else if(!email.contains("@") || !email.contains("edu") || !email.contains("."))
+       //     Toast.makeText(getBaseContext(),"Invalid email format.", Toast.LENGTH_LONG).show();
 
         else if(!pword.equals(pconfirm)) {
             Toast.makeText(getBaseContext(),"Password fields do not match", Toast.LENGTH_LONG).show();
@@ -91,14 +99,13 @@ public class RegisterActivity extends ActionBarActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //Testing to see if login passed or failed. If passed, the Server returns the string success/failed returns error
-                        //Log.d("Response", response);
+                        Log.d("Response", response);
                         if(response.trim().equals("success"))
-                            Toast.makeText(getBaseContext(),"Registration Success",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),"Registration Success" + response,Toast.LENGTH_LONG).show();
                         else if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Username Already Taken!" + response.toString(), Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(getBaseContext(), "Registration Error!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Registration Error!" + response, Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -119,9 +126,8 @@ public class RegisterActivity extends ActionBarActivity {
                 return params;
             }
         } ;
-            //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
+            registerPost.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             networkRequest.addToRequestQueue(registerPost);
-
             Intent intent = new Intent(this, RegisterConfirm.class);
             startActivity(intent);
             finish();
