@@ -34,9 +34,10 @@
             android:id="@+id/spinner2"
             android:layout_weight="0.00"
             android:layout_marginBottom="10dp"
-            android:background="#6196CA" />
+            android:background="#6196CA"
+            android:popupBackground="#6196CA" />
 
-        <TextView
+ "       <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -52,7 +53,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner3"
             android:layout_weight="0.00"
-            android:background="#6196CA" />
+            android:background="#6196CA"
+            android:popupBackground="#6196CA"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -77,7 +79,7 @@
         android:layout_weight="0.00">
 
         <Button
-            android:background="#4675A3"
+            android:background="@drawable/button"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
             android:padding="3sp"
@@ -89,7 +91,7 @@
             android:onClick="Add"/>
 
         <Button
-            android:background="@drawable/sback"
+            android:background="@drawable/button"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
             android:padding="3sp"
@@ -105,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="*Tap a class to remove."
+            android:text="*Tap and hold a class to remove."
             android:id="@+id/textView10"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
