@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,26 +17,65 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class RegisterActivity extends ActionBarActivity {
     NetworkController networkRequest;
-    String fname;
-    String lname;
-    String uname;
-    String email;
-    String pword;
-    String pconfirm;
+    private String fname;
+    private String lname;
+    private  String uname;
+    private String email;
+    private String pword;
+    private String pconfirm;
+    private String university;
+    private ArrayList<String> universityList;
+    private ArrayAdapter<String> universityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         networkRequest = NetworkController.getInstance(getApplicationContext());
+        universityList = new ArrayList<>();
+
+        String url2 = getResources().getString(R.string.server_address) + "?rtype=getUniversityList";
+        JsonObjectRequest universityListRequest = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject json) {
+                try {
+                    Log.d("RESPONSE", json.toString());
+                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner4);
+                    JSONArray jsonArray = json.getJSONArray("List");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        universityList.add(jsonObject.getString("universityName"));
+                    }
+                    universityAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, universityList);
+                    universitySpinner.setAdapter(universityAdapter);
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        networkRequest.addToRequestQueue(universityListRequest);
     }
 
     @Override
@@ -64,6 +106,7 @@ public class RegisterActivity extends ActionBarActivity {
         TextView emailview = (TextView) findViewById(R.id.email);
         TextView pwordview = (TextView) findViewById(R.id.password);
         TextView confirm = (TextView) findViewById(R.id.confirmpassword);
+        Spinner universityView = (Spinner) findViewById(R.id.spinner4);
 
         fname = fnameview.getText().toString().trim();
         lname = lnameview.getText().toString().trim();
@@ -71,11 +114,12 @@ public class RegisterActivity extends ActionBarActivity {
         email = emailview.getText().toString().trim();
         pword = pwordview.getText().toString();
         pconfirm = confirm.getText().toString();
+        university = universityAdapter.getItem(universityView.getSelectedItemPosition()).trim();
 
-        if(fname.contains(" ") || lname.contains(" ") || uname.contains(" ") || email.contains(" "))
+        if(fname.contains(" ") || lname.contains(" ") || uname.contains(" ") || email.contains(" ") || university.isEmpty())
             Toast.makeText(getBaseContext(),"User fields cannot contain spaces.", Toast.LENGTH_LONG).show();
 
-        else if(fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || email.isEmpty())
+        else if(fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || email.isEmpty() || university.isEmpty())
             Toast.makeText(getBaseContext(),"All user fields must be filled out.", Toast.LENGTH_LONG).show();
 
       //  else if(!email.contains("@") || !email.contains("edu") || !email.contains("."))
@@ -123,6 +167,7 @@ public class RegisterActivity extends ActionBarActivity {
                 params.put("email", email);
                 params.put("pword", pword);
                 params.put("pconfirm", pconfirm);
+                params.put("university", university);
                 return params;
             }
         } ;

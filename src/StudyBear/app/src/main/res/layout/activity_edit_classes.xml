@@ -34,7 +34,8 @@
             android:id="@+id/spinner2"
             android:layout_weight="0.00"
             android:layout_marginBottom="10dp"
-            android:background="#6196CA" />
+            android:background="#6196CA"
+            android:popupBackground="#4675A3"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner3"
             android:layout_weight="0.00"
-            android:background="#6196CA" />
+            android:background="#6196CA"
+            android:popupBackground="#4675A3"/>
 
         <TextView
             android:layout_width="match_parent"

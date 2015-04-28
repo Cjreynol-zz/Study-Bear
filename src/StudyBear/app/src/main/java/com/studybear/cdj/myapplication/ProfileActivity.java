@@ -181,7 +181,7 @@ public class ProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     public void inboxActivity (View v)
     {
         Intent intent = new Intent(this, inboxActivity.class);
@@ -203,6 +203,7 @@ public class ProfileActivity extends ActionBarActivity {
         editBio.setText(bio);
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
         switcher.showNext(); //or switcher.showPrevious();
-    }
 
+    }
+*/
 }

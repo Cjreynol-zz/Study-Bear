@@ -15,6 +15,14 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center">
 
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner4"
+                android:background="#6196CA"
+                android:popupBackground="#4675A3"
+                android:layout_marginBottom="7dp"/>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
