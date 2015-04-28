@@ -99,7 +99,6 @@ public class RegisterActivity extends ActionBarActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
-<<<<<<< HEAD
                         if (response.trim().equals("uname_error"))
                             Toast.makeText(getBaseContext(), "Username Already Taken!" + response, Toast.LENGTH_LONG).show();
                         else if (!(response.trim().equals("success")))
@@ -110,21 +109,6 @@ public class RegisterActivity extends ActionBarActivity {
                             startActivity(intent);
                             finish();
                         }
-||||||| merged common ancestors
-                        if(response.trim().equals("success"))
-                            Toast.makeText(getBaseContext(),"Registration Success" + response,Toast.LENGTH_LONG).show();
-                        else if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!" + response.toString(), Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(getBaseContext(), "Registration Error!" + response, Toast.LENGTH_LONG).show();
-=======
-                        if(response.trim().equals("success"))
-                            Toast.makeText(getBaseContext(),"Email Sent" ,Toast.LENGTH_LONG).show();
-                        else if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(getBaseContext(), "Server Error!" + response, Toast.LENGTH_LONG).show();
->>>>>>> 6a0afbbf9033f01c60f8f681200cc9c34ff2b0e4
                     }
                 }, new Response.ErrorListener() {
             @Override
