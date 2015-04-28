@@ -62,7 +62,7 @@ class DBConnector
 		else
 		{
 			#Inserting new users into database and returning success message if sql passes, error otherwise
-			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', $university, 'I');";
+			$sql = "INSERT INTO USER VALUES('$uname', '$fname', '$lname', '$pw_hash', '$email', '', '$university', 'I');";
 			$stm = $this->conn->prepare($sql);
 			$stm->execute();
 
