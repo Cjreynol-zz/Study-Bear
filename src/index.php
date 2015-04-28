@@ -90,6 +90,10 @@ switch($_GET["rtype"])
 		$dbconn->accountConfirm($_GET["actId"], $_GET["username"]);
 		echo "Thanks for activiating your account. You can now use StudyBear.";
 		break;
+
+	case 'saveBio':
+		echo $dbconn->saveBio($_POST["biography"], $_POST["username"]);
+		break;
 }
 
 ?>

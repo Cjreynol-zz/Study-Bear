@@ -1,58 +1,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width = "match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/layoutB"
     android:layout_weight="1"
     android:background="@drawable/gradient">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:weightSum="1"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight=".15">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/LinearLayout1"
-            android:orientation="vertical"
-            android:background="#4675A3">
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/gradient2">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/Name"
-                android:layout_above="@+id/University"
-                android:layout_centerHorizontal="true"
-                android:textSize="16sp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="5dp"
+                android:textSize="30sp"
                 android:textColor="#FFFFFF"
-                android:hint="Name"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp" />
+                android:text="Darcie Odom" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/University"
-                android:layout_centerVertical="true"
-                android:layout_alignLeft="@+id/Name"
-                android:layout_alignStart="@+id/Name"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColor="#FFFFFF"
-                android:hint="School"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp" />
+                android:text="Georgia Regents University" />
         </LinearLayout>
 
     </LinearLayout>
@@ -61,33 +43,140 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Biography:"
-            android:id="@+id/textView8"
-            android:textColor="#FFFFFF" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50sp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/Biography"
-            android:textColor="#FFFFFF"
-            android:layout_margin="5dp" />
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="0.8">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Classes:"
-            android:id="@+id/textView9"
-            android:textColor="#FFFFFF" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:textSize="20sp"
+                    android:textColor="#315172"
+                    android:text="About Me"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.2"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editBioButton"
+                    android:background="#00FFFFFF"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:padding="12sp"
+                    android:src="@drawable/edit"
+                    android:clickable="true"
+                    android:onClick="editBiography"/>
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/saveBioButton"
+                    android:background="#00FFFFFF"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:padding="12sp"
+                    android:src="@drawable/check2"
+                    android:clickable="true"
+                    android:onClick="saveBiography"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ViewSwitcher
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/my_switcher"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:id="@+id/Biography"
+                android:textSize="16sp"
+                android:maxLength="140"
+                android:textColor="#FFFFFF"
+                android:text="Hi! I'm a computer science major looking for motivated study buddies. Let me know if you want to meet up!"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:id="@+id/editBio"
+                android:textSize="16sp"
+                android:maxLength="140"
+                android:textColor="#FFFFFF" >
+            </EditText>
+        </ViewSwitcher>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50sp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="0.8">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:textSize="20sp"
+                    android:textColor="#315172"
+                    android:text="Classes"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.2"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editClassesButton"
+                    android:background="#00FFFFFF"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:padding="12sp"
+                    android:src="@drawable/edit"
+                    android:clickable="true"
+                    android:onClick="editClasses"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
     <ScrollView

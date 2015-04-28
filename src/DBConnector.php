@@ -365,7 +365,7 @@ class DBConnector
 		else
 			return "succes";
 	}
-	
+
 	function accountActivation($username, $activationId, $email){	
 		include 'EmailServer.php';
 		return sendEmail($username, $activationId, $email);
@@ -388,7 +388,14 @@ class DBConnector
 				echo "fail";
 		}
 	}
-	
+
+	function saveBio($bio, $username){
+	$sql = "UPDATE User SET biography = '$bio' WHERE username = '$username';";
+		
+	$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+			echo $bio;
+	}
 }
 ?>
 

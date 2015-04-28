@@ -1,13 +1,13 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,16 +17,20 @@ import android.widget.ViewSwitcher;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ProfileActivity extends ActionBarActivity {
     public NetworkController networkRequest;
+    public NavigationBarController navigationBar;
     public TextView bio;
     public TextView classes;
     public TextView name;
@@ -38,53 +42,10 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ImageButton matchButton  = (ImageButton) findViewById(R.id.matchButton);
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton messageButton  = (ImageButton) findViewById(R.id.messageButton);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), inboxActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton classButton  = (ImageButton) findViewById(R.id.classButton);
-        classButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton profileButton  = (ImageButton) findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        navigationBar = new NavigationBarController(this, username);
         String url = getResources().getString(R.string.server_address) + "?rtype=getProfile&username=" + username;
 
         bio = (TextView) findViewById(R.id.Biography);
@@ -148,18 +109,6 @@ public class ProfileActivity extends ActionBarActivity {
         finish();
     }
 
-    public void Logout(View v)
-    {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -172,12 +121,20 @@ public class ProfileActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
+<<<<<<< HEAD
 
         return super.onOptionsItemSelected(item);
     }
@@ -195,15 +152,93 @@ public class ProfileActivity extends ActionBarActivity {
         intent.putExtra("username", username);
         startActivity(intent);
         finish();
+=======
+        return true;
+>>>>>>> 649df37b753d11860aef6e963e63823bb032a8ba
     }
 
-    public void editBiography (View V) {EditText editBio = (EditText) findViewById(R.id.editBio);
+    public void editBiography (View V) {
+        EditText editBio = (EditText) findViewById(R.id.editBio);
+        ImageButton editBioButton = (ImageButton) findViewById(R.id.editBioButton);
+        ImageButton saveBioButton = (ImageButton) findViewById(R.id.saveBioButton);
         TextView Biography = (TextView) findViewById(R.id.Biography);
         String bio = Biography.getText().toString();
         editBio.setText(bio);
+        editBio.setSelection(editBio.getText().length());
+        editBioButton.setVisibility(View.GONE);
+        saveBioButton.setVisibility(View.VISIBLE);
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
         switcher.showNext(); //or switcher.showPrevious();
+<<<<<<< HEAD
 
     }
 */
 }
+=======
+        InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editBio, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    /* Whoever can make this work is my hero */
+    public void saveBiography(View v){
+
+        final TextView editBio = (TextView) findViewById(R.id.editBio);
+
+        /* if I save this as:
+        final String = newBio "Hello there"
+        it saves to the db and works as expected */
+        final String newBio = editBio.getText().toString().trim();
+
+        /* Toast displays expected newBio value */
+        Toast.makeText(getBaseContext(), "newBio = " + newBio, Toast.LENGTH_LONG).show();
+
+        ImageButton editBioButton = (ImageButton) findViewById(R.id.editBioButton);
+        ImageButton saveBioButton = (ImageButton) findViewById(R.id.saveBioButton);
+        TextView BiographyText = (TextView) findViewById(R.id.Biography);
+        BiographyText.setText(newBio);
+        saveBioButton.setVisibility(View.GONE);
+        editBioButton.setVisibility(View.VISIBLE);
+        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
+        switcher.showNext(); //or switcher.showPrevious();
+        InputMethodManager imm = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editBio.getWindowToken(), 0);
+
+            String url = getResources().getString(R.string.server_address) + "?rtype=saveBio";
+            StringRequest saveBio = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //Testing to see if login passed or failed. If passed, the Server returns the string success/failed returns error
+                            //Log.d("Response", response);
+                            if (response.trim().equals("success"))
+                                Toast.makeText(getBaseContext(), "Please enter a registered email address", Toast.LENGTH_LONG).show();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getBaseContext(), "Server Error", Toast.LENGTH_LONG).show();
+                }
+            }) {
+
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("biography", newBio);
+                    params.put("username", username);
+                    return params;
+                }
+            };
+            //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
+            networkRequest.addToRequestQueue(saveBio);
+        }
+
+    public void editClasses(View v){
+        Intent intent = new Intent(this, EditClasses.class);
+        intent.putExtra("username",username);
+//        intent.putExtra("classes", classes);
+//        intent.putExtra("university", university);
+        startActivity(intent);
+        finish();
+    }
+}
+>>>>>>> 649df37b753d11860aef6e963e63823bb032a8ba

@@ -4,6 +4,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 
 public class BlockList extends ActionBarActivity {
@@ -13,7 +16,6 @@ public class BlockList extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_list);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

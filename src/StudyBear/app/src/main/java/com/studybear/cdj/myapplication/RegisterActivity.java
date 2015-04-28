@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class RegisterActivity extends ActionBarActivity {
     NetworkController networkRequest;
     private String fname;
@@ -144,12 +143,16 @@ public class RegisterActivity extends ActionBarActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
-                        if(response.trim().equals("success"))
-                            Toast.makeText(getBaseContext(),"Email Sent" ,Toast.LENGTH_LONG).show();
-                        else if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(getBaseContext(), "Server Error!" + response, Toast.LENGTH_LONG).show();
+                        if (response.trim().equals("uname_error"))
+                            Toast.makeText(getBaseContext(), "Username Already Taken!" + response, Toast.LENGTH_LONG).show();
+                        else if (!(response.trim().equals("success")))
+                            Toast.makeText(getBaseContext(), "Registration Error!" + response, Toast.LENGTH_LONG).show();
+                        else{
+                            Toast.makeText(getBaseContext(),"Registration Success" + response,Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(RegisterActivity.this, RegisterConfirm.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -173,9 +176,6 @@ public class RegisterActivity extends ActionBarActivity {
         } ;
             registerPost.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             networkRequest.addToRequestQueue(registerPost);
-            Intent intent = new Intent(this, RegisterConfirm.class);
-            startActivity(intent);
-            finish();
         }
     }
     @Override

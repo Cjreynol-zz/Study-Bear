@@ -60,7 +60,7 @@ public class ForgotPassword extends ActionBarActivity {
         }
         else {
             String url = getResources().getString(R.string.server_address) + "?rtype=checkEmail";
-            StringRequest registerPost = new StringRequest(Request.Method.POST, url,
+            StringRequest emailSubmit = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -90,7 +90,7 @@ public class ForgotPassword extends ActionBarActivity {
                 }
             };
             //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
-            networkRequest.addToRequestQueue(registerPost);
+            networkRequest.addToRequestQueue(emailSubmit);
         }
     }
 

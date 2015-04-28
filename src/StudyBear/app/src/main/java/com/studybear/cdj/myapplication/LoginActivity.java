@@ -21,13 +21,11 @@ import java.util.Map;
 
 public class LoginActivity extends ActionBarActivity {
     private  NetworkController networkController;
-    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Intent intent = getIntent();
 
         //Creating NetworkController to handle Http/Network Request made by the application
         //NetworkController follows the singleton design pattern
@@ -73,7 +71,7 @@ public class LoginActivity extends ActionBarActivity {
         final String password = v2.getText().toString();
 
         //Constructing URL to be requested
-        url = getResources().getString(R.string.server_address) + "index.php?rtype=login";
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=login";
 
         //Creating Volley String Request which is a class that constructs a simple Http request that will receive a response back
         //in the form of a string
@@ -125,5 +123,7 @@ public class LoginActivity extends ActionBarActivity {
         Intent intent = new Intent(this,ForgotPassword.class);
         startActivity(intent);
     }
-}
 
+    @Override
+    public void onBackPressed(){}
+}
