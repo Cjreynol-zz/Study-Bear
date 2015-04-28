@@ -316,6 +316,14 @@ class DBConnector
 		else
 			return "succes";
 	}
+
+	function saveBio($bio, $username){
+	$sql = "UPDATE User SET biography = '$bio' WHERE username = '$username';";
+		
+	$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+			echo $bio;
+	}
 }
 ?>
 

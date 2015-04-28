@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile" >
+            android:label="" >
         </activity>
         <activity
             android:name=".RegisterActivity"

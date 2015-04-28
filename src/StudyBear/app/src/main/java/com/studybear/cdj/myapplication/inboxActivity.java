@@ -8,7 +8,6 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +27,7 @@ public class inboxActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public NavigationBarController navigationBar;
     public String username;
-    public ArrayList<String> buddies = new ArrayList<String>();
+    public ArrayList<String> buddies = new ArrayList<>();
     public int counter = 0;
 
     public void printMessages(final String user, String message){
@@ -79,7 +78,7 @@ public class inboxActivity extends ActionBarActivity {
                 {
                     JSONArray messageList = json.getJSONArray("messageList");
                     JSONObject messageItem;
-                    String message = "";
+                    String message;
 
                     for(int i = 0; i < messageList.length(); i++)
                     {

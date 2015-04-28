@@ -1,12 +1,36 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.studybear.cdj.myapplication.BlockList">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width = "match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/gradient">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ViewSwitcher
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_switcher"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:textSize="16sp"
+            android:maxLength="140"
+            android:textColor="#FFFFFF"
+            android:text="Hi! I'm a computer science major looking for motivated study buddies. Let me know if you want to meet up!"
+            />
+
+        <EditText
+            android:id="@+id/hidden_edit_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="140"
+            android:hint="Yo!" >
+        </EditText>
+    </ViewSwitcher>
+
+
+
+</LinearLayout>
+

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class RegisterConfirm extends ActionBarActivity {
 
     @Override
@@ -14,7 +13,6 @@ public class RegisterConfirm extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_confirm);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

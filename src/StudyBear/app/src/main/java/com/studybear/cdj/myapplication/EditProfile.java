@@ -164,15 +164,6 @@ public class EditProfile extends ActionBarActivity {
         networkRequest.addToRequestQueue(postRequest);
     }
 
-    public void editClasses(View v){
-        Intent intent = new Intent(this, EditClasses.class);
-        intent.putExtra("username", username);
-        intent.putExtra("classes", classes);
-        intent.putExtra("university", university);
-        startActivity(intent);
-        finish();
-    }
-
     public void Back(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("username", username);
@@ -199,22 +190,22 @@ public class EditProfile extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            // action with ID action_settings was selected
-            case R.id.action_logout:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
-
+    public void editClasses(View v){
+        Intent intent = new Intent(this, EditClasses.class);
+        intent.putExtra("username", username);
+//        intent.putExtra("classes", classes);
+//        intent.putExtra("university", university);
+        startActivity(intent);
+        finish();
+    }
 
 }

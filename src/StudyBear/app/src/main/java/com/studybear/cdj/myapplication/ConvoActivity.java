@@ -2,15 +2,14 @@ package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ import org.json.JSONObject;
 
 public class ConvoActivity extends ActionBarActivity {
     public NetworkController networkRequest;
+    public NavigationBarController navigationBar;
     public String buddy;
     public String username;
     
@@ -35,61 +35,16 @@ public class ConvoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convo);
 
-
-        ImageButton matchButton  = (ImageButton) findViewById(R.id.matchButton);
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MatchActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton messageButton  = (ImageButton) findViewById(R.id.messageButton);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), inboxActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton classButton  = (ImageButton) findViewById(R.id.classButton);
-        classButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditClasses.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        ImageButton profileButton  = (ImageButton) findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                intent.putExtra("username",username);
-                startActivity(intent);
-                finish();
-            }
-        });
-
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        navigationBar = new NavigationBarController(this, username);
         buddy = intent.getStringExtra("buddy");
         setTitle(buddy);
         Button convoButton = (Button) findViewById(R.id.convoButton);
         convoButton.setText("Send " + buddy + " a message");
-        TextView tv = new TextView(this);
 
-        String url = getResources().getString(R.string.server_address)+"?rtype=getConvo&buddy="+buddy;
+        String url = getResources().getString(R.string.server_address)+"?rtype=getConvo&buddy="+buddy+"&username="+username;
         final LinearLayout convoLayout  = (LinearLayout) findViewById(R.id.convoLayout);
 
         JsonObjectRequest getMessagesRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

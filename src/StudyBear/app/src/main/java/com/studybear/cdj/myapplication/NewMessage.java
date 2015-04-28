@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,34 +40,6 @@ public class NewMessage extends ActionBarActivity {
             messageTo.setText(fillTo, TextView.BufferType.EDITABLE);
             messageBody.requestFocus();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_message, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            // action with ID action_settings was selected
-            case R.id.action_logout:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-        }
-        return true;
     }
 
     public void SendMessage(View v) {
@@ -118,6 +89,35 @@ public class NewMessage extends ActionBarActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_new_message, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return true;
+    }
+
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, inboxActivity.class);

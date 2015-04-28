@@ -1,17 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.studybear.cdj.myapplication.inboxActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/action_settings"
-        android:title="Edit Profile"
-        android:orderInCategory="1"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="Privacy"
+        android:title="Account"
         android:orderInCategory="1"
         app:showAsAction="never" />
 
