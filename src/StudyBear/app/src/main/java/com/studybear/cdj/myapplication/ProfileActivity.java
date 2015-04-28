@@ -134,7 +134,9 @@ public class ProfileActivity extends ActionBarActivity {
                 finish();
                 break;
         }
-        return true;
+
+        return super.onOptionsItemSelected(item);
+        //return true;
     }
 
     public void editBiography (View V) {
@@ -215,3 +217,4 @@ public class ProfileActivity extends ActionBarActivity {
         finish();
     }
 }
+

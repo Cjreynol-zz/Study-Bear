@@ -24,8 +24,8 @@ switch($_GET["rtype"])
 		break;
 				
 	case 'register':
-		if(isset($_POST["fname"], $_POST["lname"], $_POST["uname"], $_POST["email"], $_POST["pword"], $_POST["pconfirm"]))
-			echo $dbconn->Register($_POST["uname"], $_POST["fname"], $_POST["lname"], $_POST["email"], $_POST["pword"]);
+		if(isset($_POST["fname"], $_POST["lname"], $_POST["uname"], $_POST["email"], $_POST["pword"], $_POST["pconfirm"], $_POST["university"]))
+			echo $dbconn->Register($_POST["uname"], $_POST["fname"], $_POST["lname"], $_POST["email"], $_POST["pword"], $_POST["university"]);
 				break;
 				
 	case 'getProfile':
@@ -45,6 +45,11 @@ switch($_GET["rtype"])
 	case 'getUniversity':
 		echo $dbconn->getUniversity($_GET["username"]);
 		break;
+		
+	case 'getUniversityList':
+		echo $dbconn->getUniversityList();
+		break;
+	
 	case 'getUserClasses':
 		echo $dbconn->getUserClasses($_GET["username"]);
 		break;
