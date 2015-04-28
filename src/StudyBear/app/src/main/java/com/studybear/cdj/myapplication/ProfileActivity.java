@@ -134,27 +134,9 @@ public class ProfileActivity extends ActionBarActivity {
                 finish();
                 break;
         }
-<<<<<<< HEAD
 
         return super.onOptionsItemSelected(item);
-    }
-/*
-    public void inboxActivity (View v)
-    {
-        Intent intent = new Intent(this, inboxActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
-    }
-
-    public void findMatch (View v) {
-        Intent intent = new Intent(this, MatchActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
-=======
-        return true;
->>>>>>> 649df37b753d11860aef6e963e63823bb032a8ba
+        //return true;
     }
 
     public void editBiography (View V) {
@@ -169,12 +151,6 @@ public class ProfileActivity extends ActionBarActivity {
         saveBioButton.setVisibility(View.VISIBLE);
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
         switcher.showNext(); //or switcher.showPrevious();
-<<<<<<< HEAD
-
-    }
-*/
-}
-=======
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
         imm.showSoftInput(editBio, InputMethodManager.SHOW_IMPLICIT);
     }
@@ -241,4 +217,4 @@ public class ProfileActivity extends ActionBarActivity {
         finish();
     }
 }
->>>>>>> 649df37b753d11860aef6e963e63823bb032a8ba
+
