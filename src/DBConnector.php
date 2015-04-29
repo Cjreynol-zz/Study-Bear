@@ -258,8 +258,8 @@ class DBConnector
 		return json_encode($result);
 	}
 
-	function getConvo($buddy){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
+	function getConvo($buddy, $username){
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where (sendingUser = '$buddy' and receivingUser = '$username' ) or (receivingUser = '$buddy' and sendingUser = '$username') order by dateTime ASC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
