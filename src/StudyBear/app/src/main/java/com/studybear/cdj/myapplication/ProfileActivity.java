@@ -60,7 +60,11 @@ public class ProfileActivity extends ActionBarActivity {
                 {
                     Log.d("JSONRESPONSE", json.toString());
                     bio.setText(json.getString("biography"));
-                    name.setText(json.getString("firstName") + " " + json.getString("lastName"));
+                    String firstName = json.getString("firstName");
+                    String lastName = json.getString("lastName");
+                    String firstName1 = firstName.substring(0,1).toUpperCase() + firstName.substring(1);
+                    String lastName1 = lastName.substring(0,1).toUpperCase() + lastName.substring(1);
+                    name.setText(firstName1 + " " + lastName1);
                     university.setText(json.getString("universityName"));
 
                     if(!json.isNull("classList")) {
@@ -71,7 +75,7 @@ public class ProfileActivity extends ActionBarActivity {
 
                         for (int i = 0; i < classList.length(); i++) {
                             classItem = classList.getJSONObject(i);
-                            classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+                            classItemString = classItem.getString("classId") + ": " + classItem.getString("className") + "\n" + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
 
                             if (i + 1 == classList.length())
                                 classListString.append(classItemString);
@@ -155,18 +159,10 @@ public class ProfileActivity extends ActionBarActivity {
         imm.showSoftInput(editBio, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    /* Whoever can make this work is my hero */
     public void saveBiography(View v){
 
         final TextView editBio = (TextView) findViewById(R.id.editBio);
-
-        /* if I save this as:
-        final String = newBio "Hello there"
-        it saves to the db and works as expected */
         final String newBio = editBio.getText().toString().trim();
-
-        /* Toast displays expected newBio value */
-        Toast.makeText(getBaseContext(), "newBio = " + newBio, Toast.LENGTH_LONG).show();
 
         ImageButton editBioButton = (ImageButton) findViewById(R.id.editBioButton);
         ImageButton saveBioButton = (ImageButton) findViewById(R.id.saveBioButton);
@@ -215,6 +211,10 @@ public class ProfileActivity extends ActionBarActivity {
 //        intent.putExtra("university", university);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed(){
     }
 }
 

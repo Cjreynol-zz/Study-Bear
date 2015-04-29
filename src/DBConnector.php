@@ -126,7 +126,7 @@ class DBConnector
 		{
 			
 			$university = $stm3->fetch();
-			$universityArray;
+			$universityArray = null;
 			while ($university[0] != null)
 			{
 				$universityArray[] = $university;

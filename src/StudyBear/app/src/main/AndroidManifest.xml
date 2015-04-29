@@ -37,7 +37,7 @@
         </activity>
         <activity
             android:name=".EditClasses"
-            android:label="@string/title_activity_edit_classes" >
+            android:label="Edit Classes" >
         </activity>
         <activity
             android:name=".inboxActivity"

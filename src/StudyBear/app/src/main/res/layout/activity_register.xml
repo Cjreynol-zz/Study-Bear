@@ -15,13 +15,24 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7sp"
+                android:text="University"
+                android:layout_marginLeft="1dp"
+                android:textSize="19sp"
+                />
+
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner4"
-                android:background="#6196CA"
+                android:background="#4675A3"
                 android:popupBackground="#4675A3"
-                android:layout_marginBottom="7dp"/>
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="1dp"
+                android:hint="Select University"/>
 
             <EditText
                 android:layout_width="match_parent"
