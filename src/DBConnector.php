@@ -318,6 +318,8 @@ class DBConnector
 	}
 	
 	function storeMatchResponse($userName, $otherUserName, $response) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
 		$sql = "INSERT INTO MatchResponse(userName, otherUserName, response)
 				VALUES('$userName', '$otherUserName', '$response');";
 				
@@ -329,6 +331,8 @@ class DBConnector
 	}
 	
 	function storeBlock($userName, $otherUserName) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
 		$sql = "INSERT INTO USER_BLOCKED(userName, blockeduserName)
 				VALUES('$userName', '$otherUserName');";
 				

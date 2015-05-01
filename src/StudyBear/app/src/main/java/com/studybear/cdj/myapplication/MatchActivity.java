@@ -116,13 +116,13 @@ public class MatchActivity extends ActionBarActivity {
 
 
     private void sendMatchResponse(String otherUser, String response) {
-        String url = getResources().getString(R.string.server_address) + "?rtype=sendMatchReponse&username="+username+"&otheruser="+otherUser+"&response="+response;
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendMatchResponse&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20")+"&response="+response.replaceAll(" ", "%20");
         JsonObjectRequest matchResponse = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
         networkRequest.addToRequestQueue(matchResponse);
     }
 
     private void sendBlockRequest(String otherUser) {
-        String url = getResources().getString(R.string.server_address) + "?rtype=sendBlockRequest&username="+username+"&otheruser="+otherUser;
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20");
         JsonObjectRequest blockRequest = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
         networkRequest.addToRequestQueue(blockRequest);
     }
