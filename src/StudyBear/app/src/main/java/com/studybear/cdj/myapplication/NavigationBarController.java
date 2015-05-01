@@ -1,15 +1,11 @@
 package com.studybear.cdj.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 public class NavigationBarController {
-
-    private static NavigationBarController navBarInstance;
 
     private Activity currentActivity;
     private String username;

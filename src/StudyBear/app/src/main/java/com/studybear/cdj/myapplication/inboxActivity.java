@@ -8,6 +8,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +70,8 @@ public class inboxActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         navigationBar = new NavigationBarController(this, username);
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.messageButton);
+        activeIcon.setImageResource(R.drawable.messagea);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
 

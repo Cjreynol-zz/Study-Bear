@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class MatchActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         navBar = new NavigationBarController(this, username);
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.matchButton);
+        activeIcon.setImageResource(R.drawable.matcha);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username="+username;
 

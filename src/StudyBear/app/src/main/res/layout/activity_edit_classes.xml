@@ -53,6 +53,7 @@
             android:id="@+id/spinner3"
             android:layout_weight="0.00"
             android:background="@drawable/button"
+            android:padding="5sp"
             android:popupBackground="@drawable/button"/>
 
         <TextView

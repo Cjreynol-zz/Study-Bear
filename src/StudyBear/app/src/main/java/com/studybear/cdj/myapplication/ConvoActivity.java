@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,6 @@ import org.json.JSONObject;
 
 public class ConvoActivity extends ActionBarActivity {
     public NetworkController networkRequest;
-    public NavigationBarController navigationBar;
     public String buddy;
     public String username;
     
@@ -39,7 +37,6 @@ public class ConvoActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        navigationBar = new NavigationBarController(this, username);
         buddy = intent.getStringExtra("buddy");
         setTitle(buddy);
         Button convoButton = (Button) findViewById(R.id.convoButton);
@@ -68,7 +65,7 @@ public class ConvoActivity extends ActionBarActivity {
                         tv.setPadding(30, 30, 30, 30);
                         tv.setTextColor(Color.parseColor("#FFFFFF"));
                         tv.setBackgroundColor(Color.parseColor("#99315172"));
-                        tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.sback));
+                        tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.button));
                         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         tv.setWidth(600);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -87,20 +84,16 @@ public class ConvoActivity extends ActionBarActivity {
                         timeStamp.setLayoutParams(params2);
 
                         if(sUser.equals(username)){
-                            params.gravity = Gravity.RIGHT;
+                            params.gravity = Gravity.END;
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.rback));
                             tv.setLayoutParams(params);
-                            params2.gravity = Gravity.RIGHT;
-                            timeStamp.setGravity(Gravity.RIGHT);
+                            params2.gravity = Gravity.END;
+                            timeStamp.setGravity(Gravity.END);
                             timeStamp.setLayoutParams(params2);
                         }
                         convoLayout.addView(timeStamp);
                         convoLayout.addView(tv);
-                        if (2==2){
-
-
-                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -162,7 +155,7 @@ public class ConvoActivity extends ActionBarActivity {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, inboxActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("username",username);
         startActivity(intent);
         finish();
     }

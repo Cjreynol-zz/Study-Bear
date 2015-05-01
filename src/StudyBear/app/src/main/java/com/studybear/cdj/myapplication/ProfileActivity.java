@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class ProfileActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public NavigationBarController navigationBar;
@@ -46,6 +45,9 @@ public class ProfileActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         navigationBar = new NavigationBarController(this, username);
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.profileButton);
+        activeIcon.setImageResource(R.drawable.profilea);
+
         String url = getResources().getString(R.string.server_address) + "?rtype=getProfile&username=" + username;
 
         bio = (TextView) findViewById(R.id.Biography);
@@ -97,20 +99,6 @@ public class ProfileActivity extends ActionBarActivity {
             }
         });
         networkRequest.addToRequestQueue(profileAttr);
-    }
-
-    public void EditProfile(View v)
-    {
-        Intent intent = new Intent(this, EditProfile.class);
-        String [] nameArray = name.getText().toString().trim().split(" ");
-        intent.putExtra("fname", nameArray[0]);
-        intent.putExtra("lname", nameArray[1]);
-        intent.putExtra("username", username);
-        intent.putExtra("bio", bio.getText().toString().trim());
-        intent.putExtra("university", university.getText().toString().trim());
-        intent.putExtra("classes", classes.getText().toString().trim());
-        startActivity(intent);
-        finish();
     }
 
     @Override

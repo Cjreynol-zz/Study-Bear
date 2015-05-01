@@ -1,8 +1,6 @@
-package com.studybear.cdj.myapplication; /**
- * Created by Jeremy on 3/15/2015.
- */
-import android.content.Context;
+package com.studybear.cdj.myapplication;
 
+import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;

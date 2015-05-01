@@ -28,8 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner4"
-                android:background="#4675A3"
-                android:popupBackground="#4675A3"
+                android:background="@drawable/button"
+                android:popupBackground="@drawable/button"
                 android:layout_marginBottom="7dp"
                 android:layout_marginLeft="1dp"
                 android:hint="Select University"/>

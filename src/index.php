@@ -94,6 +94,10 @@ switch($_GET["rtype"])
 	case 'saveBio':
 		echo $dbconn->saveBio($_POST["biography"], $_POST["username"]);
 		break;
+
+	case 'editAccount':
+		echo $dbconn->editAccount($_GET["username"]);
+		break;
 }
 
 ?>

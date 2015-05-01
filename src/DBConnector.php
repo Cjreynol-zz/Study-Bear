@@ -242,7 +242,7 @@ class DBConnector
 	
 	#messages
 	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -259,7 +259,7 @@ class DBConnector
 	}
 
 	function getConvo($buddy, $username){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where (sendingUser = '$buddy' and receivingUser = '$username' ) or (receivingUser = '$buddy' and sendingUser = '$username') order by dateTime ASC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%l:%i%p %m/%d/%y ') AS niceDate from messages where (sendingUser = '$buddy' and receivingUser = '$username' ) or (receivingUser = '$buddy' and sendingUser = '$username') order by dateTime ASC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -395,6 +395,20 @@ class DBConnector
 	$stm = $this->conn->prepare($sql);
 		if($stm->execute())
 			echo $bio;
+	}
+
+	function editAccount ($username){
+		$sql = "SELECT firstName, lastName, email, universityName FROM USER where username = '$username';";
+		$stm = $this->conn->prepare($sql);
+	
+	if($stm->execute()){
+		$account = $stm->fetch(PDO::FETCH_ASSOC);
+
+		$result = $account;
+		return json_encode($result);
+	}
+		else
+			return "error";
 	}
 }
 ?>

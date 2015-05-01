@@ -17,7 +17,6 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class NewMessage extends ActionBarActivity {
     public NetworkController networkRequest;
     public TextView messageTo;

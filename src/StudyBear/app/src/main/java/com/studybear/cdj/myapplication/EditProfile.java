@@ -1,21 +1,19 @@
 package com.studybear.cdj.myapplication;
 
-import android.content.DialogInterface;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,13 +28,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static com.android.volley.Response.*;
 
 
 public class EditProfile extends ActionBarActivity {
+
     private NetworkController networkRequest;
     public NavigationBarController navigationBar;
     private String username;
@@ -45,12 +41,14 @@ public class EditProfile extends ActionBarActivity {
     private EditText lnameView;
     private EditText emailView;
     private Spinner spinnerView;
-    public static JSONArray classList;
     private static final String TAG = "EditProfile";
     private ArrayList<String> universityList;
     private ArrayAdapter<String> universityAdapter;
     private String classes;
     private ArrayAdapter<String> universityListAdapater;
+
+    public EditProfile() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +58,25 @@ public class EditProfile extends ActionBarActivity {
         Intent getUserInfo = getIntent();
         username = getUserInfo.getStringExtra("username");
         navigationBar = new NavigationBarController(this, username);
-
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.settingsButton);
+        activeIcon.setImageResource(R.drawable.settingsa);
+        fnameView = (EditText) findViewById(R.id.firstname);
+        lnameView = (EditText) findViewById(R.id.lastname);
+        emailView = (EditText) findViewById(R.id.email);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=editAccount&username=" + username;
         JsonObjectRequest profileAttr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
 
-                fnameView = (EditText) findViewById(R.id.firstname);
-                lnameView = (EditText) findViewById(R.id.lastname);
-                emailView = (EditText) findViewById(R.id.email);
-
                 try
                 {
-                    fnameView.setText(json.getString("firstName"));
-                    lnameView.setText(json.getString("lastName"));
+                    String firstName = json.getString("firstName");
+                    String lastName = json.getString("lastName");
+                    String firstName1 = firstName.substring(0,1).toUpperCase() + firstName.substring(1);
+                    String lastName1 = lastName.substring(0,1).toUpperCase() + lastName.substring(1);
+                    fnameView.setText(firstName1);
+                    lnameView.setText(lastName1);
                     emailView.setText(json.getString("email"));
 
                 } catch (JSONException e) {
