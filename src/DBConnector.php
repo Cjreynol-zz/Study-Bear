@@ -294,7 +294,13 @@ class DBConnector
 	}
 
 	function getMatches($userName) {
-		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";
+		$sql = "SELECT userName, firstName, lastName, biography 
+				FROM USER 
+				WHERE userName <> '$userName' 
+					AND userName NOT IN (
+						SELECT blockeduserName 
+						FROM USER_BLOCKED 
+						WHERE userName='$userName');";
 		
 		$stm = $this->conn->prepare($sql);
 		if ($stm->execute()) {
@@ -309,6 +315,28 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
+	}
+	
+	function storeMatchResponse($userName, $otherUserName, $response) {
+		$sql = "INSERT INTO MatchResponse(userName, otherUserName, response)
+				VALUES('$userName', '$otherUserName', '$response');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "match response success";
+		else
+			return "match response fail";
+	}
+	
+	function storeBlock($userName, $otherUserName) {
+		$sql = "INSERT INTO USER_BLOCKED(userName, blockeduserName)
+				VALUES('$userName', '$otherUserName');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "block success";
+		else
+			return "block fail";
 	}
 	
 	function saveClasses($username, $removeList, $insertList){

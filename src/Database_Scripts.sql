@@ -72,3 +72,12 @@ actId VARCHAR(30),
 FOREIGN KEY(userName) REFERENCES USER(userName)
 )ENGINE=INNODB;
 
+CREATE TABLE MatchResponse(
+responseId INTEGER NOT NULL AUTO_INCREMENT,
+userName VARCHAR(20),
+otherUserName VARCHAR(20),
+response VARCHAR(20),
+PRIMARY KEY (responseId),
+FOREIGN KEY (userName) REFERENCES USER(userName),
+FOREIGN KEY (otherUserName) REFERENCES USER(userName)
+)ENGINE=INNODB;

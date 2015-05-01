@@ -30,6 +30,9 @@ public class MatchActivity extends ActionBarActivity {
     public TextView matchUserName;
     public TextView matchBio;
 
+    public JSONArray matchList;
+    public int matchIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,20 +51,18 @@ public class MatchActivity extends ActionBarActivity {
         matchUserName = (TextView) findViewById(R.id.userNameTextView);
         matchBio = (TextView) findViewById(R.id.bioTextView);
 
-        populateMatches(url);
+        matchIndex = 0;
+        getMatches(url);
     }
 
-    private void populateMatches(String url) {
+    private void getMatches(String url) {
         JsonObjectRequest matchRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
                 try
                 {
-                    JSONObject matchedUser = json.getJSONArray("userList").getJSONObject(0);
-                    matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
-                    matchUserName.setText(matchedUser.getString("userName"));
-                    matchBio.setText("biography:\n" + matchedUser.getString("biography"));
-
+                    matchList = json.getJSONArray("userList");
+                    displayMatch();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -69,10 +70,61 @@ public class MatchActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(getBaseContext(), "Error retrieving matches from server", Toast.LENGTH_LONG).show();
             }
         });
         networkRequest.addToRequestQueue(matchRequest);
+    }
+
+    private void displayMatch() {
+        if (matchIndex < matchList.length()) {
+            try {
+                JSONObject matchedUser = matchList.getJSONObject(matchIndex);
+                matchIndex++;
+                matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
+                matchUserName.setText(matchedUser.getString("userName"));
+                matchBio.setText("biography:\n" + matchedUser.getString("biography"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getBaseContext(), "Out of matches, please try again!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onBlock(View v) {
+        sendBlockRequest(matchUserName.getText().toString());
+        displayMatch();
+    }
+
+    public void onStudy(View v) {
+        sendMatchResponse(matchUserName.getText().toString(), "study");
+
+        // start a message to them
+        Intent intent = new Intent(this, NewMessage.class);
+        intent.putExtra("username", username);
+        intent.putExtra("fillTo", matchUserName.getText().toString());
+        startActivity(intent);
+        finish();
+    }
+
+    public void onPass(View v) {
+        sendMatchResponse(matchUserName.getText().toString(), "pass");
+        displayMatch();
+    }
+
+
+    private void sendMatchResponse(String otherUser, String response) {
+        String url = getResources().getString(R.string.server_address) + "?rtype=sendMatchReponse&username="+username+"&otheruser="+otherUser+"&response="+response;
+        JsonObjectRequest matchResponse = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
+        networkRequest.addToRequestQueue(matchResponse);
+    }
+
+    private void sendBlockRequest(String otherUser) {
+        String url = getResources().getString(R.string.server_address) + "?rtype=sendBlockRequest&username="+username+"&otheruser="+otherUser;
+        JsonObjectRequest blockRequest = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
+        networkRequest.addToRequestQueue(blockRequest);
     }
 
     @Override
