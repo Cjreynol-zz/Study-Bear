@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="Account"
-        android:orderInCategory="1"
-        app:showAsAction="never" />
-
-    <item
         android:orderInCategory="2"
         android:id="@+id/action_logout"
         android:title="Logout"

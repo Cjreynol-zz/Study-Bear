@@ -35,7 +35,7 @@ public class inboxActivity extends ActionBarActivity {
         TextView tv = new TextView(getApplicationContext());
         tv.setText(message);
         tv.setTextColor(Color.parseColor("#315172"));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         tv.setPadding(10, 30, 5, 30);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(params);
@@ -146,9 +146,5 @@ public class inboxActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
     }
 }

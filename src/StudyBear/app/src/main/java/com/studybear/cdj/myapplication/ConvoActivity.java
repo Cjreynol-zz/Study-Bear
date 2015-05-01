@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ public class ConvoActivity extends ActionBarActivity {
                         message = messageList.getJSONObject(i);
                         final String body = message.getString("body");
                         final String sUser = message.getString("sendingUser");
+                        final String time  = message.getString("niceDate").toLowerCase();
 
                         TextView tv = new TextView(getApplicationContext());
                         tv.setText(body);
@@ -69,19 +71,36 @@ public class ConvoActivity extends ActionBarActivity {
                         tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.sback));
                         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         tv.setWidth(600);
-                        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
-                        llp.setMargins(0, 0, 0, 50); // llp.setMargins(left, top, right, bottom);
-                        tv.setLayoutParams(llp);
+                        params.setMargins(0, 0, 0, 20); // llp.setMargins(left, top, right, bottom);
+                        tv.setLayoutParams(params);
+                        TextView timeStamp = new TextView(getApplicationContext());
+                        timeStamp.setText(time);
+                        timeStamp.setPadding(5, 0, 5, 5);
+                        timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params2.setMargins(0, 0, 0, 0); // llp.setMargins(left, top, right, bottom);
+                        timeStamp.setLayoutParams(params2);
 
                         if(sUser.equals(username)){
-                            llp.gravity = Gravity.RIGHT;
+                            params.gravity = Gravity.RIGHT;
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.rback));
-                            tv.setLayoutParams(llp);
+                            tv.setLayoutParams(params);
+                            params2.gravity = Gravity.RIGHT;
+                            timeStamp.setGravity(Gravity.RIGHT);
+                            timeStamp.setLayoutParams(params2);
                         }
+                        convoLayout.addView(timeStamp);
                         convoLayout.addView(tv);
+                        if (2==2){
+
+
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

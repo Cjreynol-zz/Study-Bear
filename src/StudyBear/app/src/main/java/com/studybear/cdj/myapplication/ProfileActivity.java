@@ -138,9 +138,7 @@ public class ProfileActivity extends ActionBarActivity {
                 finish();
                 break;
         }
-
-        return super.onOptionsItemSelected(item);
-        //return true;
+        return true;
     }
 
     public void editBiography (View V) {
@@ -154,7 +152,7 @@ public class ProfileActivity extends ActionBarActivity {
         editBioButton.setVisibility(View.GONE);
         saveBioButton.setVisibility(View.VISIBLE);
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
-        switcher.showNext(); //or switcher.showPrevious();
+        switcher.showNext();
         InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
         imm.showSoftInput(editBio, InputMethodManager.SHOW_IMPLICIT);
     }
@@ -171,7 +169,7 @@ public class ProfileActivity extends ActionBarActivity {
         saveBioButton.setVisibility(View.GONE);
         editBioButton.setVisibility(View.VISIBLE);
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
-        switcher.showNext(); //or switcher.showPrevious();
+        switcher.showNext();
         InputMethodManager imm = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editBio.getWindowToken(), 0);
 

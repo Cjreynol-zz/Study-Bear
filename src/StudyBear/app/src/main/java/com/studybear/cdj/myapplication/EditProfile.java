@@ -38,14 +38,17 @@ import static com.android.volley.Response.*;
 
 public class EditProfile extends ActionBarActivity {
     private NetworkController networkRequest;
+    public NavigationBarController navigationBar;
     private String username;
     private String university;
     private EditText fnameView;
     private EditText lnameView;
-    private EditText biographyView;
+    private EditText emailView;
+    private Spinner spinnerView;
     public static JSONArray classList;
     private static final String TAG = "EditProfile";
     private ArrayList<String> universityList;
+    private ArrayAdapter<String> universityAdapter;
     private String classes;
     private ArrayAdapter<String> universityListAdapater;
 
@@ -56,39 +59,24 @@ public class EditProfile extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent getUserInfo = getIntent();
         username = getUserInfo.getStringExtra("username");
-        classList = new JSONArray();
-        universityList = new ArrayList<>();
+        navigationBar = new NavigationBarController(this, username);
 
-        fnameView = (EditText) findViewById(R.id.Fname);
-        lnameView = (EditText) findViewById(R.id.Lname);
-        biographyView = (EditText) findViewById(R.id.Biography);
 
-        String url = getResources().getString(R.string.server_address) + "?rtype=getProfile&username=" + username;
+        String url = getResources().getString(R.string.server_address) + "?rtype=editAccount&username=" + username;
         JsonObjectRequest profileAttr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
+
+                fnameView = (EditText) findViewById(R.id.firstname);
+                lnameView = (EditText) findViewById(R.id.lastname);
+                emailView = (EditText) findViewById(R.id.email);
+
                 try
                 {
-                    biographyView.setText(json.getString("biography"));
                     fnameView.setText(json.getString("firstName"));
                     lnameView.setText(json.getString("lastName"));
+                    emailView.setText(json.getString("email"));
 
-                    JSONArray classList = json.getJSONArray("classList");
-                    StringBuilder classListString = new StringBuilder();
-                    JSONObject classItem;
-                    String classItemString;
-
-                    for(int i = 0; i < classList.length(); i++)
-                    {
-                        classItem = classList.getJSONObject(i);
-                        classItemString = classItem.getString("classId") + ", " + classItem.getString("className") + ", " + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
-
-                        if(i + 1 == classList.length())
-                            classListString.append(classItemString);
-                        else
-                            classListString.append(classItemString + "\n");
-                    }
-                    classes = classListString.toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -101,32 +89,35 @@ public class EditProfile extends ActionBarActivity {
         });
         networkRequest.addToRequestQueue(profileAttr);
 
-        String url2 = getResources().getString(R.string.server_address) + "?rtype=getUniversity&username="+username;
+        universityList = new ArrayList<>();
+
+        String url2 = getResources().getString(R.string.server_address) + "?rtype=getUniversity&username=" + username;
         JsonObjectRequest universityListRequest = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
                 try {
-                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner);
-
+                    Log.d("RESPONSE", json.toString());
+                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner4);
                     JSONArray jsonArray = json.getJSONArray("List");
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         universityList.add(jsonObject.getString("universityName"));
                     }
-                    universityListAdapater = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, universityList);
-                    universitySpinner.setAdapter(universityListAdapater);
-                } catch (JSONException e) {
+                    universityAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, universityList);
+                    universitySpinner.setAdapter(universityAdapter);
+
+                } catch (JSONException e){
                     e.printStackTrace();
                 }
             }
-    }, new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(),volleyError.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), volleyError.toString(), Toast.LENGTH_LONG).show();
             }
         });
         networkRequest.addToRequestQueue(universityListRequest);
+
     }
 
     public void Submit(View v){
@@ -155,7 +146,6 @@ public class EditProfile extends ActionBarActivity {
                 params.put("fname", fnameView.getText().toString().trim());
                 params.put("lname", lnameView.getText().toString().trim());
                 params.put("university", university);
-                params.put("biography", biographyView.getText().toString().trim());
                 params.put("uname", username);
 
                 return params;
@@ -172,13 +162,6 @@ public class EditProfile extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username",username);
-        startActivity(intent);
-        finish();
-    }
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit_profile, menu);
@@ -190,22 +173,24 @@ public class EditProfile extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    public void editClasses(View v){
-        Intent intent = new Intent(this, EditClasses.class);
-        intent.putExtra("username", username);
-//        intent.putExtra("classes", classes);
-//        intent.putExtra("university", university);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onBackPressed(){
     }
 
 }
