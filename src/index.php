@@ -49,13 +49,17 @@ switch($_GET["rtype"])
 	case 'getUniversityList':
 		echo $dbconn->getUniversityList();
 		break;
+		
+	case 'getMajor':
+		echo $dbconn->getMajor($_GET["university"]);
+		break;
 	
 	case 'getUserClasses':
 		echo $dbconn->getUserClasses($_GET["username"]);
 		break;
 			
 	case 'getClasses':
-		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
+		echo $dbconn->getClasses($_GET["username"], $_GET["university"], $_GET["major"]);
 		break;
 			
 	case 'getMessages':

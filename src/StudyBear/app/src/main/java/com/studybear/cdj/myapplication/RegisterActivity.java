@@ -1,5 +1,6 @@
 package com.studybear.cdj.myapplication;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -115,7 +116,7 @@ public class RegisterActivity extends ActionBarActivity {
         pconfirm = confirm.getText().toString();
         university = universityAdapter.getItem(universityView.getSelectedItemPosition()).trim();
 
-        if(fname.contains(" ") || lname.contains(" ") || uname.contains(" ") || email.contains(" ") || university.isEmpty())
+        if(fname.contains(" ") || lname.contains(" ") || uname.contains(" ") || email.contains(" "))
             Toast.makeText(getBaseContext(),"User fields cannot contain spaces.", Toast.LENGTH_LONG).show();
 
         else if(fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || email.isEmpty() || university.isEmpty())
@@ -144,7 +145,7 @@ public class RegisterActivity extends ActionBarActivity {
                     public void onResponse(String response) {
                         Log.d("Response", response);
                         if (response.trim().equals("uname_error"))
-                            Toast.makeText(getBaseContext(), "Username Already Taken!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Username/Email Already Taken!", Toast.LENGTH_LONG).show();
                         else if (!(response.trim().equals("success")))
                             Toast.makeText(getBaseContext(), "Registration Error!", Toast.LENGTH_LONG).show();
                         else{

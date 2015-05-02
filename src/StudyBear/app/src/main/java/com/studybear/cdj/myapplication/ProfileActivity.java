@@ -80,8 +80,7 @@ public class ProfileActivity extends ActionBarActivity {
                         }
                         classes.setText(classListString.toString());
                     }
-                    else
-                        classes.setText("No Classes");
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

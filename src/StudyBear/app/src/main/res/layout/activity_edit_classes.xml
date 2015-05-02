@@ -15,8 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:id="@+id/LinearLayoutC"
-        android:layout_marginTop="20dp">
+        android:id="@+id/LinearLayoutC">
 
         <TextView
             android:layout_width="match_parent"
@@ -25,16 +24,34 @@
             android:text="School"
             android:id="@+id/textView"
             android:layout_weight="0.00"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:textColor="#FFFFFF" />
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
+            android:id="@+id/universitySpinner"
             android:layout_weight="0.00"
             android:layout_marginBottom="10dp"
-            android:background="#6196CA"
+            android:background="#4675A3"
+            android:popupBackground="#4675A3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Major"
+            android:id="@+id/textView8"
+            android:layout_marginBottom="5dp"
+            android:textColor="#FFFFFF" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/majorSpinner"
+            android:layout_marginBottom="10dp"
+            android:textColor="#FFFFFF"
+            android:background="#4675A3"
             android:popupBackground="#4675A3"/>
 
         <TextView
@@ -44,16 +61,16 @@
             android:text="Classes"
             android:id="@+id/textView2"
             android:layout_weight="0.00"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:clickable="true"
             android:textColor="#FFFFFF" />
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner3"
+            android:id="@+id/classSpinner"
             android:layout_weight="0.00"
-            android:background="#6196CA"
+            android:background="#4675A3"
             android:popupBackground="#4675A3"/>
 
         <TextView
@@ -67,7 +84,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"
+            android:id="@+id/classListView"
             android:layout_weight="0.00" />
 
     </LinearLayout>

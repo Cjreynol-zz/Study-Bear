@@ -57,7 +57,7 @@ class DBConnector
 		$stm1->execute();
 		$result = $stm1->fetch();
 
-		if($result[0] == $uname)
+		if($result[0] == $uname || $result[4] == $email)
 			return "uname_error";
 		else
 		{
@@ -208,13 +208,22 @@ class DBConnector
 		return json_encode($universityList);
 	}
 	
-	function getClasses($username, $university){
+	function getMajor($university){
+		$sql_major = "SELECT DISTINCT major FROM class WHERE universityName = '$university' ORDER BY universityName ASC;";
+							
+		$stm = $this->conn->prepare($sql_major);
+		$stm->execute();	
+		$majorList["majorList"] = $stm->fetchAll();
+		return json_encode($majorList);
+	}
+	
+	function getClasses($username, $university, $major){
 		$classes_sql = 
-		"SELECT B.classId, B.className,C.professorLname, C.professorFname
+		"SELECT B.classId, B.className,C.professorLname, C.professorFname, B.major
 		FROM TEACHING A 
 			inner join CLASS B on A.classId = B.classId
 			inner join PROFESSOR C on A.professorId = C.professorId
-		WHERE B.universityName = '$university' order by 1 asc;";
+		WHERE B.universityName = '$university' AND B.major = '$major' order by 1 asc;";
 		$result;
 		$stm2 = $this->conn->prepare($classes_sql);
 			if($stm2->execute())
@@ -223,7 +232,7 @@ class DBConnector
 
 				$classes_array;
 				if($class == false){
-					$classes_array["classList"] = array(array("No Classes"));
+					$classes_array["classList"] = null;
 					return json_encode($classes_array);
 				}
 				else
@@ -349,7 +358,10 @@ class DBConnector
 			and classId = '$classId' and username = '$username';";
 			$stm = $this->conn->prepare($sql);
 			$stm->execute();
+			echo $sql;
 		}
+		
+		
 					
 	}
 
