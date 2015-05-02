@@ -1,22 +1,18 @@
 package com.studybear.cdj.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 public class NavigationBarController {
-
-    private static NavigationBarController navBarInstance;
 
     private Activity currentActivity;
     private String username;
 
     private ImageButton matchButton;
     private ImageButton messageButton;
-    private ImageButton classButton;
+    private ImageButton settingsButton;
     private ImageButton profileButton;
 
     public NavigationBarController(Activity activity, String uname) {
@@ -34,7 +30,7 @@ public class NavigationBarController {
         // if the nav bar layout changes then these will have to be updated
         matchButton = (ImageButton) activity.findViewById(R.id.matchButton);
         messageButton = (ImageButton) activity.findViewById(R.id.messageButton);
-        classButton = (ImageButton) activity.findViewById(R.id.classButton);
+        settingsButton = (ImageButton) activity.findViewById(R.id.settingsButton);
         profileButton = (ImageButton) activity.findViewById(R.id.profileButton);
     }
 
@@ -60,20 +56,19 @@ public class NavigationBarController {
             }
         });
 
-        classButton.setOnClickListener(new View.OnClickListener() {
+        profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, EditClasses.class);
+                Intent intent = new Intent(activity, ProfileActivity.class);
                 intent.putExtra("username",username);
                 activity.startActivity(intent);
                 activity.finish();
             }
         });
-
-        profileButton.setOnClickListener(new View.OnClickListener() {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, ProfileActivity.class);
+                Intent intent = new Intent(activity, EditProfile.class);
                 intent.putExtra("username",username);
                 activity.startActivity(intent);
                 activity.finish();

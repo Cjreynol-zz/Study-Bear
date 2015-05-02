@@ -8,6 +8,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ public class inboxActivity extends ActionBarActivity {
         TextView tv = new TextView(getApplicationContext());
         tv.setText(message);
         tv.setTextColor(Color.parseColor("#315172"));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         tv.setPadding(10, 30, 5, 30);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(params);
@@ -68,6 +70,8 @@ public class inboxActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         navigationBar = new NavigationBarController(this, username);
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.messageButton);
+        activeIcon.setImageResource(R.drawable.messagea);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMessages&username="+username;
 
@@ -146,9 +150,5 @@ public class inboxActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-        finish();
     }
 }

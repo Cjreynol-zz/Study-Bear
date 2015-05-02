@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -28,6 +30,9 @@ public class MatchActivity extends ActionBarActivity {
     public TextView matchUserName;
     public TextView matchBio;
 
+    public JSONArray matchList;
+    public int matchIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,8 @@ public class MatchActivity extends ActionBarActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         navBar = new NavigationBarController(this, username);
+        ImageButton activeIcon = (ImageButton) findViewById(R.id.matchButton);
+        activeIcon.setImageResource(R.drawable.matcha);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username="+username;
 
@@ -44,20 +51,18 @@ public class MatchActivity extends ActionBarActivity {
         matchUserName = (TextView) findViewById(R.id.userNameTextView);
         matchBio = (TextView) findViewById(R.id.bioTextView);
 
-        populateMatches(url);
+        matchIndex = 0;
+        getMatches(url);
     }
 
-    private void populateMatches(String url) {
+    private void getMatches(String url) {
         JsonObjectRequest matchRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
                 try
                 {
-                    JSONObject matchedUser = json.getJSONArray("userList").getJSONObject(0);
-                    matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
-                    matchUserName.setText(matchedUser.getString("userName"));
-                    matchBio.setText("biography:\n" + matchedUser.getString("biography"));
-
+                    matchList = json.getJSONArray("userList");
+                    displayMatch();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -65,18 +70,61 @@ public class MatchActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(getBaseContext(), "Error retrieving matches from server", Toast.LENGTH_LONG).show();
             }
         });
         networkRequest.addToRequestQueue(matchRequest);
     }
 
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, ProfileActivity.class);
+    private void displayMatch() {
+        if (matchIndex < matchList.length()) {
+            try {
+                JSONObject matchedUser = matchList.getJSONObject(matchIndex);
+                matchIndex++;
+                matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
+                matchUserName.setText(matchedUser.getString("userName"));
+                matchBio.setText(matchedUser.getString("biography"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getBaseContext(), "Out of matches, please try again!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onBlock(View v) {
+        sendBlockRequest(matchUserName.getText().toString());
+        displayMatch();
+    }
+
+    public void onStudy(View v) {
+        sendMatchResponse(matchUserName.getText().toString(), "study");
+
+        // start a message to them
+        Intent intent = new Intent(this, NewMessage.class);
         intent.putExtra("username", username);
+        intent.putExtra("fillTo", matchUserName.getText().toString());
         startActivity(intent);
         finish();
+    }
+
+    public void onPass(View v) {
+        sendMatchResponse(matchUserName.getText().toString(), "pass");
+        displayMatch();
+    }
+
+
+    private void sendMatchResponse(String otherUser, String response) {
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendMatchResponse&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20")+"&response="+response.replaceAll(" ", "%20");
+        JsonObjectRequest matchResponse = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
+        networkRequest.addToRequestQueue(matchResponse);
+    }
+
+    private void sendBlockRequest(String otherUser) {
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20");
+        JsonObjectRequest blockRequest = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
+        networkRequest.addToRequestQueue(blockRequest);
     }
 
     @Override
@@ -91,13 +139,23 @@ public class MatchActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
+        return true;
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onBackPressed(){
     }
 }

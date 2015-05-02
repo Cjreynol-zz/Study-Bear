@@ -1,6 +1,4 @@
-
-
-    <LinearLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -67,7 +65,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/classButton"
+                    android:id="@+id/profileButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="#00FFFFFF"
@@ -75,7 +73,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:padding="10sp"
-                    android:src="@drawable/classes"
+                    android:src="@drawable/profile"
                     android:clickable="true"/>
             </LinearLayout>
 
@@ -91,7 +89,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/profileButton"
+                    android:id="@+id/settingsButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="#00FFFFFF"
@@ -99,7 +97,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:padding="10sp"
-                    android:src="@drawable/profile"
+                    android:src="@drawable/settings"
                     android:clickable="true"/>
             </LinearLayout>
 

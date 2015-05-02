@@ -126,7 +126,7 @@ class DBConnector
 		{
 			
 			$university = $stm3->fetch();
-			$universityArray;
+			$universityArray = null;
 			while ($university[0] != null)
 			{
 				$universityArray[] = $university;
@@ -251,7 +251,7 @@ class DBConnector
 	
 	#messages
 	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -267,8 +267,8 @@ class DBConnector
 		return json_encode($result);
 	}
 
-	function getConvo($buddy){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y %H:%i') AS niceDate from messages where sendingUser = '$buddy' or receivingUser = '$buddy' order by dateTime ASC;";
+	function getConvo($buddy, $username){
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%l:%i%p %m/%d/%y ') AS niceDate from messages where (sendingUser = '$buddy' and receivingUser = '$username' ) or (receivingUser = '$buddy' and sendingUser = '$username') order by dateTime ASC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -303,7 +303,48 @@ class DBConnector
 	}
 
 	function getMatches($userName) {
-		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";
+		# weights for each portion of the query
+		$classWeight = "3";
+		$prevResponseWeight = "2";
+		$sameResponseWeight = "1";
+		
+		$sql = "SELECT userName, firstName, lastName, biography, 
+				
+					((IFNULL((SELECT COUNT(*) 
+								FROM USER_ENROLLMENT A
+									JOIN USER_ENROLLMENT B 
+										ON A.professorId = B.professorId 
+											AND A.classId = B.classId
+								WHERE A.userName = '$userName'
+									AND b.userName = U.userName),0) * $classWeight) +
+					(IFNULL((SELECT COUNT(*)
+								FROM MatchResponse
+								WHERE userName = '$userName'
+									AND otherUserName = U.userName
+									AND response = 'study'
+								GROUP BY userName, otherUserName, response),0) * $prevResponseWeight) -
+					(IFNULL((SELECT COUNT(*)
+							FROM MatchResponse
+							WHERE userName = '$userName'
+								AND otherUserName = U.userName
+								AND response = 'pass'
+							GROUP BY userName, otherUserName, response),0)) * $prevResponseWeight) +
+					(IFNULL((SELECT COUNT(*) 
+							FROM MatchResponse A 
+								JOIN MatchResponse B 
+									ON A.otherUserName = B.otherUserName 
+										AND A.response = B.response 
+							WHERE A.userName = '$userName' 
+								AND B.userName = U.userName),0) * $sameResponseWeight)
+				AS total_weight
+
+				FROM USER U
+				WHERE userName <> '$userName' 
+					AND userName NOT IN (
+						SELECT blockeduserName 
+						FROM USER_BLOCKED 
+						WHERE userName='$userName')
+				ORDER BY total_weight DESC;";
 		
 		$stm = $this->conn->prepare($sql);
 		if ($stm->execute()) {
@@ -318,6 +359,32 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
+	}
+	
+	function storeMatchResponse($userName, $otherUserName, $response) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
+		$sql = "INSERT INTO MatchResponse(userName, otherUserName, response)
+				VALUES('$userName', '$otherUserName', '$response');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "match response success";
+		else
+			return "match response fail";
+	}
+	
+	function storeBlock($userName, $otherUserName) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
+		$sql = "INSERT INTO USER_BLOCKED(userName, blockeduserName)
+				VALUES('$userName', '$otherUserName');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "block success";
+		else
+			return "block fail";
 	}
 	
 	function saveClasses($username, $removeList, $insertList){
@@ -407,6 +474,20 @@ class DBConnector
 	$stm = $this->conn->prepare($sql);
 		if($stm->execute())
 			echo $bio;
+	}
+
+	function editAccount ($username){
+		$sql = "SELECT firstName, lastName, email, universityName FROM USER where username = '$username';";
+		$stm = $this->conn->prepare($sql);
+	
+	if($stm->execute()){
+		$account = $stm->fetch(PDO::FETCH_ASSOC);
+
+		$result = $account;
+		return json_encode($result);
+	}
+		else
+			return "error";
 	}
 }
 ?>

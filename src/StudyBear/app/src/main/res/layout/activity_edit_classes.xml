@@ -33,8 +33,8 @@
             android:id="@+id/universitySpinner"
             android:layout_weight="0.00"
             android:layout_marginBottom="10dp"
-            android:background="#4675A3"
-            android:popupBackground="#4675A3"/>
+            android:background="@drawable/button"
+            android:popupBackground="@drawable/button"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,10 +51,10 @@
             android:id="@+id/majorSpinner"
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"
-            android:background="#4675A3"
-            android:popupBackground="#4675A3"/>
+            android:background="@drawable/button"
+            android:popupBackground="@drawable/button"/>
 
-        <TextView
+       <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -70,8 +70,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/classSpinner"
             android:layout_weight="0.00"
-            android:background="#4675A3"
-            android:popupBackground="#4675A3"/>
+            android:background="@drawable/button"
+            android:padding="5sp"
+            android:popupBackground="@drawable/button"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -96,7 +97,7 @@
         android:layout_weight="0.00">
 
         <Button
-            android:background="#4675A3"
+            android:background="@drawable/button"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
             android:padding="3sp"
@@ -108,7 +109,7 @@
             android:onClick="Add"/>
 
         <Button
-            android:background="@drawable/sback"
+            android:background="@drawable/button"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"
             android:padding="3sp"
@@ -124,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="*Tap a class to remove."
+            android:text="*Tap and hold a class to remove."
             android:id="@+id/textView10"
             android:textColor="#FFFFFF"
             android:layout_margin="3dp"

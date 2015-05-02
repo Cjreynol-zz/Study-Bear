@@ -41,6 +41,36 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block"
+            android:id="@+id/blockButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="50dp"
+            android:onClick="onBlock" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Study"
+            android:id="@+id/studyButton"
+            android:layout_alignTop="@+id/blockButton"
+            android:layout_centerHorizontal="true"
+            android:onClick="onStudy" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pass"
+            android:id="@+id/passButton"
+            android:layout_alignTop="@+id/studyButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="onPass" />
+
     </RelativeLayout>
 
     <include layout="@layout/activity_action_bar"/>

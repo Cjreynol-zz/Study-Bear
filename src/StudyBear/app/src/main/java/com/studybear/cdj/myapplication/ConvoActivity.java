@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 public class ConvoActivity extends ActionBarActivity {
     public NetworkController networkRequest;
-    public NavigationBarController navigationBar;
     public String buddy;
     public String username;
     
@@ -38,7 +37,6 @@ public class ConvoActivity extends ActionBarActivity {
         networkRequest = NetworkController.getInstance(getApplicationContext());
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        navigationBar = new NavigationBarController(this, username);
         buddy = intent.getStringExtra("buddy");
         setTitle(buddy);
         Button convoButton = (Button) findViewById(R.id.convoButton);
@@ -60,27 +58,41 @@ public class ConvoActivity extends ActionBarActivity {
                         message = messageList.getJSONObject(i);
                         final String body = message.getString("body");
                         final String sUser = message.getString("sendingUser");
+                        final String time  = message.getString("niceDate").toLowerCase();
 
                         TextView tv = new TextView(getApplicationContext());
                         tv.setText(body);
                         tv.setPadding(30, 30, 30, 30);
                         tv.setTextColor(Color.parseColor("#FFFFFF"));
                         tv.setBackgroundColor(Color.parseColor("#99315172"));
-                        tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.sback));
+                        tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.button));
                         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         tv.setWidth(600);
-                        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
-                        llp.setMargins(0, 0, 0, 50); // llp.setMargins(left, top, right, bottom);
-                        tv.setLayoutParams(llp);
+                        params.setMargins(0, 0, 0, 20); // llp.setMargins(left, top, right, bottom);
+                        tv.setLayoutParams(params);
+                        TextView timeStamp = new TextView(getApplicationContext());
+                        timeStamp.setText(time);
+                        timeStamp.setPadding(5, 0, 5, 5);
+                        timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params2.setMargins(0, 0, 0, 0); // llp.setMargins(left, top, right, bottom);
+                        timeStamp.setLayoutParams(params2);
 
                         if(sUser.equals(username)){
-                            llp.gravity = Gravity.RIGHT;
+                            params.gravity = Gravity.END;
                             tv.setTextColor(Color.parseColor("#315172"));
                             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.rback));
-                            tv.setLayoutParams(llp);
+                            tv.setLayoutParams(params);
+                            params2.gravity = Gravity.END;
+                            timeStamp.setGravity(Gravity.END);
+                            timeStamp.setLayoutParams(params2);
                         }
+                        convoLayout.addView(timeStamp);
                         convoLayout.addView(tv);
                     }
                 } catch (JSONException e) {
@@ -143,7 +155,7 @@ public class ConvoActivity extends ActionBarActivity {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, inboxActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("username",username);
         startActivity(intent);
         finish();
     }

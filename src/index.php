@@ -80,6 +80,20 @@ switch($_GET["rtype"])
 		else
 			echo $dbconn->getMatches("");
 		break;
+		
+	case 'sendMatchResponse':
+		if (isset($_GET["username"], $_GET["otheruser"], $_GET["response"]))
+			echo $dbconn->storeMatchResponse($_GET["username"], $_GET["otheruser"], $_GET["response"]);
+		else
+			echo "URL parameters not set for match response";
+		break;
+	
+	case 'sendBlockRequest':
+		if (isset($_GET["username"], $_GET["otheruser"]))
+			echo $dbconn->storeBlock($_GET["username"], $_GET["otheruser"]);
+		else
+			echo "URL parameters not set for block request";
+		break;
 	
 	case 'saveClasses':
 		if (isset($_POST["username"]))
@@ -97,6 +111,10 @@ switch($_GET["rtype"])
 
 	case 'saveBio':
 		echo $dbconn->saveBio($_POST["biography"], $_POST["username"]);
+		break;
+
+	case 'editAccount':
+		echo $dbconn->editAccount($_GET["username"]);
 		break;
 }
 
