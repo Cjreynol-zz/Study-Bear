@@ -83,7 +83,7 @@ public class MatchActivity extends ActionBarActivity {
                 matchIndex++;
                 matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
                 matchUserName.setText(matchedUser.getString("userName"));
-                matchBio.setText("biography:\n" + matchedUser.getString("biography"));
+                matchBio.setText(matchedUser.getString("biography"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

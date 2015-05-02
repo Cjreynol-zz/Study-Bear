@@ -294,13 +294,48 @@ class DBConnector
 	}
 
 	function getMatches($userName) {
-		$sql = "SELECT userName, firstName, lastName, biography 
-				FROM USER 
+		# weights for each portion of the query
+		$classWeight = "3";
+		$prevResponseWeight = "2";
+		$sameResponseWeight = "1";
+		
+		$sql = "SELECT userName, firstName, lastName, biography, 
+				
+					((IFNULL((SELECT COUNT(*) 
+								FROM USER_ENROLLMENT A
+									JOIN USER_ENROLLMENT B 
+										ON A.professorId = B.professorId 
+											AND A.classId = B.classId
+								WHERE A.userName = '$userName'
+									AND b.userName = U.userName),0) * $classWeight) +
+					(IFNULL((SELECT COUNT(*)
+								FROM MatchResponse
+								WHERE userName = '$userName'
+									AND otherUserName = U.userName
+									AND response = 'study'
+								GROUP BY userName, otherUserName, response),0) * $prevResponseWeight) -
+					(IFNULL((SELECT COUNT(*)
+							FROM MatchResponse
+							WHERE userName = '$userName'
+								AND otherUserName = U.userName
+								AND response = 'pass'
+							GROUP BY userName, otherUserName, response),0)) * $prevResponseWeight) +
+					(IFNULL((SELECT COUNT(*) 
+							FROM MatchResponse A 
+								JOIN MatchResponse B 
+									ON A.otherUserName = B.otherUserName 
+										AND A.response = B.response 
+							WHERE A.userName = '$userName' 
+								AND B.userName = U.userName),0) * $sameResponseWeight)
+				AS total_weight
+
+				FROM USER U
 				WHERE userName <> '$userName' 
 					AND userName NOT IN (
 						SELECT blockeduserName 
 						FROM USER_BLOCKED 
-						WHERE userName='$userName');";
+						WHERE userName='$userName')
+				ORDER BY total_weight DESC;";
 		
 		$stm = $this->conn->prepare($sql);
 		if ($stm->execute()) {
