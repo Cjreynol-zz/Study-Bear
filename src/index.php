@@ -49,13 +49,17 @@ switch($_GET["rtype"])
 	case 'getUniversityList':
 		echo $dbconn->getUniversityList();
 		break;
+		
+	case 'getMajor':
+		echo $dbconn->getMajor($_GET["university"]);
+		break;
 	
 	case 'getUserClasses':
 		echo $dbconn->getUserClasses($_GET["username"]);
 		break;
 			
 	case 'getClasses':
-		echo $dbconn->getClasses($_GET["username"], $_GET["university"]);
+		echo $dbconn->getClasses($_GET["username"], $_GET["university"], $_GET["major"]);
 		break;
 			
 	case 'getMessages':
@@ -75,6 +79,20 @@ switch($_GET["rtype"])
 			echo $dbconn->getMatches($_GET["username"]);
 		else
 			echo $dbconn->getMatches("");
+		break;
+		
+	case 'sendMatchResponse':
+		if (isset($_GET["username"], $_GET["otheruser"], $_GET["response"]))
+			echo $dbconn->storeMatchResponse($_GET["username"], $_GET["otheruser"], $_GET["response"]);
+		else
+			echo "URL parameters not set for match response";
+		break;
+	
+	case 'sendBlockRequest':
+		if (isset($_GET["username"], $_GET["otheruser"]))
+			echo $dbconn->storeBlock($_GET["username"], $_GET["otheruser"]);
+		else
+			echo "URL parameters not set for block request";
 		break;
 	
 	case 'saveClasses':

@@ -57,7 +57,7 @@ class DBConnector
 		$stm1->execute();
 		$result = $stm1->fetch();
 
-		if($result[0] == $uname)
+		if($result[0] == $uname || $result[4] == $email)
 			return "uname_error";
 		else
 		{
@@ -208,13 +208,22 @@ class DBConnector
 		return json_encode($universityList);
 	}
 	
-	function getClasses($username, $university){
+	function getMajor($university){
+		$sql_major = "SELECT DISTINCT major FROM class WHERE universityName = '$university' ORDER BY universityName ASC;";
+							
+		$stm = $this->conn->prepare($sql_major);
+		$stm->execute();	
+		$majorList["majorList"] = $stm->fetchAll();
+		return json_encode($majorList);
+	}
+	
+	function getClasses($username, $university, $major){
 		$classes_sql = 
-		"SELECT B.classId, B.className,C.professorLname, C.professorFname
+		"SELECT B.classId, B.className,C.professorLname, C.professorFname, B.major
 		FROM TEACHING A 
 			inner join CLASS B on A.classId = B.classId
 			inner join PROFESSOR C on A.professorId = C.professorId
-		WHERE B.universityName = '$university' order by 1 asc;";
+		WHERE B.universityName = '$university' AND B.major = '$major' order by 1 asc;";
 		$result;
 		$stm2 = $this->conn->prepare($classes_sql);
 			if($stm2->execute())
@@ -223,7 +232,7 @@ class DBConnector
 
 				$classes_array;
 				if($class == false){
-					$classes_array["classList"] = array(array("No Classes"));
+					$classes_array["classList"] = null;
 					return json_encode($classes_array);
 				}
 				else
@@ -294,7 +303,48 @@ class DBConnector
 	}
 
 	function getMatches($userName) {
-		$sql = "SELECT firstName, lastName, userName, biography FROM USER WHERE USER.userName <> '$userName' LIMIT 5;";
+		# weights for each portion of the query
+		$classWeight = "3";
+		$prevResponseWeight = "2";
+		$sameResponseWeight = "1";
+		
+		$sql = "SELECT userName, firstName, lastName, biography, 
+				
+					((IFNULL((SELECT COUNT(*) 
+								FROM USER_ENROLLMENT A
+									JOIN USER_ENROLLMENT B 
+										ON A.professorId = B.professorId 
+											AND A.classId = B.classId
+								WHERE A.userName = '$userName'
+									AND b.userName = U.userName),0) * $classWeight) +
+					(IFNULL((SELECT COUNT(*)
+								FROM MatchResponse
+								WHERE userName = '$userName'
+									AND otherUserName = U.userName
+									AND response = 'study'
+								GROUP BY userName, otherUserName, response),0) * $prevResponseWeight) -
+					(IFNULL((SELECT COUNT(*)
+							FROM MatchResponse
+							WHERE userName = '$userName'
+								AND otherUserName = U.userName
+								AND response = 'pass'
+							GROUP BY userName, otherUserName, response),0)) * $prevResponseWeight) +
+					(IFNULL((SELECT COUNT(*) 
+							FROM MatchResponse A 
+								JOIN MatchResponse B 
+									ON A.otherUserName = B.otherUserName 
+										AND A.response = B.response 
+							WHERE A.userName = '$userName' 
+								AND B.userName = U.userName),0) * $sameResponseWeight)
+				AS total_weight
+
+				FROM USER U
+				WHERE userName <> '$userName' 
+					AND userName NOT IN (
+						SELECT blockeduserName 
+						FROM USER_BLOCKED 
+						WHERE userName='$userName')
+				ORDER BY total_weight DESC;";
 		
 		$stm = $this->conn->prepare($sql);
 		if ($stm->execute()) {
@@ -309,6 +359,32 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
+	}
+	
+	function storeMatchResponse($userName, $otherUserName, $response) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
+		$sql = "INSERT INTO MatchResponse(userName, otherUserName, response)
+				VALUES('$userName', '$otherUserName', '$response');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "match response success";
+		else
+			return "match response fail";
+	}
+	
+	function storeBlock($userName, $otherUserName) {
+		$userName = str_replace('%20', ' ', $userName);
+		$otherUserName = str_replace('%20', ' ', $otherUserName);
+		$sql = "INSERT INTO USER_BLOCKED(userName, blockeduserName)
+				VALUES('$userName', '$otherUserName');";
+				
+		$stm = $this->conn->prepare($sql);
+		if ($stm->execute())
+			return "block success";
+		else
+			return "block fail";
 	}
 	
 	function saveClasses($username, $removeList, $insertList){
@@ -349,7 +425,10 @@ class DBConnector
 			and classId = '$classId' and username = '$username';";
 			$stm = $this->conn->prepare($sql);
 			$stm->execute();
+			echo $sql;
 		}
+		
+		
 					
 	}
 
