@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".inboxActivity"
-            android:label="Messages" >
+            android:label="" >
         </activity>
         <activity
             android:name=".NewMessage"
@@ -57,7 +57,7 @@
         </activity>
         <activity
             android:name=".MatchActivity"
-            android:label="@string/title_activity_match" >
+            android:label="" >
         </activity>
         <activity
             android:name=".EmailSubmit"
@@ -69,7 +69,7 @@
         </activity>
         <activity
             android:name=".BlockList"
-            android:label="@string/title_activity_block_list" >
+            android:label="" >
         </activity>
     </application>
 

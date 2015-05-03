@@ -38,7 +38,7 @@ public class inboxActivity extends ActionBarActivity {
         tv.setText(message);
         tv.setTextColor(Color.parseColor("#315172"));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        tv.setPadding(10, 30, 5, 30);
+        tv.setPadding(30, 30, 30, 30);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(params);
         tv.setClickable(true);
