@@ -251,7 +251,28 @@ class DBConnector
 	
 	#messages
 	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate 
+				from messages 
+				where (sendingUser = '$userName'
+							AND receivingUser NOT IN (
+								SELECT blockeduserName
+								FROM USER_BLOCKED
+								WHERE userName='$userName')
+							AND receivingUser NOT IN (
+								SELECT userName
+								FROM USER_BLOCKED
+								WHERE blockeduserName='$userName'))
+					
+					or (receivingUser = '$userName'
+							AND sendingUser NOT IN (
+								SELECT userName
+								FROM USER_BLOCKED
+								WHERE blockeduserName='$userName')
+							AND sendingUser NOT IN (
+								SELECT blockeduserName
+								FROM USER_BLOCKED
+								WHERE userName='$userName'))
+				order by dateTime DESC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -310,26 +331,26 @@ class DBConnector
 		
 		$sql = "SELECT userName, firstName, lastName, biography, 
 				
-					((IFNULL((SELECT COUNT(*) 
+					((IFNULL((SELECT COUNT(1) 
 								FROM USER_ENROLLMENT A
 									JOIN USER_ENROLLMENT B 
 										ON A.professorId = B.professorId 
 											AND A.classId = B.classId
 								WHERE A.userName = '$userName'
 									AND b.userName = U.userName),0) * $classWeight) +
-					(IFNULL((SELECT COUNT(*)
+					(IFNULL((SELECT COUNT(1)
 								FROM MatchResponse
 								WHERE userName = '$userName'
 									AND otherUserName = U.userName
 									AND response = 'study'
 								GROUP BY userName, otherUserName, response),0) * $prevResponseWeight) -
-					(IFNULL((SELECT COUNT(*)
+					(IFNULL((SELECT COUNT(1)
 							FROM MatchResponse
 							WHERE userName = '$userName'
 								AND otherUserName = U.userName
 								AND response = 'pass'
 							GROUP BY userName, otherUserName, response),0)) * $prevResponseWeight) +
-					(IFNULL((SELECT COUNT(*) 
+					(IFNULL((SELECT COUNT(1) 
 							FROM MatchResponse A 
 								JOIN MatchResponse B 
 									ON A.otherUserName = B.otherUserName 
@@ -341,9 +362,13 @@ class DBConnector
 				FROM USER U
 				WHERE userName <> '$userName' 
 					AND userName NOT IN (
-						SELECT blockeduserName 
-						FROM USER_BLOCKED 
+						SELECT blockeduserName
+						FROM USER_BLOCKED
 						WHERE userName='$userName')
+					AND userName NOT IN (
+						SELECT userName
+						FROM USER_BLOCKED
+						WHERE blockeduserName='$userName')
 				ORDER BY total_weight DESC;";
 		
 		$stm = $this->conn->prepare($sql);
