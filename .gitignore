@@ -2,5 +2,5 @@
 *.test
 system_vars.xml
 .idea
-.iml
+*.iml
 *.class
