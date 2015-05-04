@@ -24,14 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Name"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/University"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 

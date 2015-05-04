@@ -2,6 +2,7 @@ package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class EditProfile extends ActionBarActivity {
+public class EditProfile extends FragmentActivity {
 
     private NetworkController networkRequest;
     public NavigationBarController navigationBar;
@@ -197,6 +198,13 @@ public class EditProfile extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
+    }
+
+    public void blockList(View v){
+        Intent intent = new Intent(this, BlockList.class);
+        startActivity(intent);
+        intent.putExtra("username",username);
+        finish();
     }
 
 }

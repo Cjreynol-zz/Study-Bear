@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width = "match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient">
 
     <ScrollView
@@ -22,9 +22,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/convoLayout"
-            android:layout_marginBottom="15dp">
-            </LinearLayout>
+            android:layout_marginBottom="15dp"
+            android:id="@+id/convoLayout">
+        </LinearLayout>
 
     </ScrollView>
 
@@ -35,20 +35,19 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_horizontal_margin">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/button"
-                android:id="@+id/convoButton"
-                android:clickable="true"
-                android:onClick="NewMessage"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="5sp"
-                />
-    </LinearLayout>
 
-    <!--<include layout="@layout/activity_action_bar"/>-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/button"
+            android:id="@+id/convoButton"
+            android:clickable="true"
+            android:onClick="NewMessage"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="5sp" />
+
+    </LinearLayout>
 
 </LinearLayout>
 
