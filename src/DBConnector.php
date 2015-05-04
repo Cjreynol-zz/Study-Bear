@@ -189,7 +189,7 @@ class DBConnector
 								return "error";	
 				}
 				else
-					return "error";
+					return "wrongPassword";
 			}
 		} else{
 			$sql3 = "UPDATE USER SET firstName = '$fname', lastName = '$lname', universityname = '$university' WHERE userName = '$uname';";	

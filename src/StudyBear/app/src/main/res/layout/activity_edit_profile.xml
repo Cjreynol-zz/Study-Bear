@@ -104,6 +104,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/oldpassword"
+            android:textColor="#FFFFFF"
             android:hint="Current Password" />
 
         <EditText

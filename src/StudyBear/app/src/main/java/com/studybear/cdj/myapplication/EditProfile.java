@@ -131,8 +131,8 @@ public class EditProfile extends ActionBarActivity {
                 public void onResponse(String s) {
                     if (s.trim().equals("success"))
                         Toast.makeText(getBaseContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
+                    else if (s.trim().equals("wrongPassword"))
+                        Toast.makeText(getBaseContext(), "Incorrect password", Toast.LENGTH_LONG).show();
                     Log.d(TAG, s);
                 }
             }, new Response.ErrorListener() {
@@ -157,7 +157,7 @@ public class EditProfile extends ActionBarActivity {
             networkRequest.addToRequestQueue(postRequest);
         }
         else
-            Toast.makeText(getBaseContext(), "Password Fields to not match.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Password fields to not match.", Toast.LENGTH_LONG).show();
     }
 
     public void Back(View v){
