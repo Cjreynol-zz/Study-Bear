@@ -116,6 +116,10 @@ switch($_GET["rtype"])
 	case 'editAccount':
 		echo $dbconn->editAccount($_GET["username"]);
 		break;
+
+	case 'addBlockedUser':
+		echo $dbconn->addBlockedUser($_POST["username"], $_POST["blockedUserName"]);
+		break;
 }
 
 ?>

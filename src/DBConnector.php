@@ -489,6 +489,24 @@ class DBConnector
 		else
 			return "error";
 	}
+
+	function addBlockedUser ($username, $blockeduserName){
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE username = '$username');";
+
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return "error";
+		else{
+		$sql = "INSERT into user_blocked VALUES ('$username', '$blockeduserName');";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+			echo "success";
+	}
+}
 }
 ?>
 

@@ -34,7 +34,7 @@
 		//$mail->AddAttachment("images/phpmailer.gif");      // attachment
 		//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 		if(!$mail->Send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
+			echo "Mailer Error: " . $email . $mail->ErrorInfo;
 		} 
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 	
