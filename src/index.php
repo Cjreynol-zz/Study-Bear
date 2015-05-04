@@ -120,12 +120,14 @@ if(isset($_GET["rtype"])){
 			include 'EmailServer.php';
 			echo sendPasswordLink($_POST["email"]);
 		}
-	else{
-
-	switch($_POST["rtype"]){
-		case 'resetPassword':
-			echo $dbconn->resetPassword($_POST["email"], $_POST["password"], $_POST["confirmpassword"]);
 		break;
 	}
 }
+	else{
+			switch($_POST["rtype"]){
+				case 'resetPassword':
+				echo $dbconn->resetPassword($_POST["email"], $_POST["password"], $_POST["confirmpassword"]);
+			break;
+		}
+	}
 ?>

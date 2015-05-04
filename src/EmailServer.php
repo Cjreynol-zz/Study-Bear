@@ -8,7 +8,7 @@
 							<title>Studybear</title>
 							<body>
 							<h1>Confirm Your StudyBear Account Now!</h1>
-							<p><a href=\"http://192.168.43.138/index.php?rtype=accountConfirm&actId=$activationId&username=$username\">Click here to confirm your account</p>
+							<p><a href=\"http://10.10.168.169/index.php?rtype=accountConfirm&actId=$activationId&username=$username\">Click here to confirm your account</p>
 							</body>
 							</html>"; 
 		//$body             = eregi_replace("[\]",'',$body);
@@ -48,7 +48,7 @@
 							<title>Studybear</title>
 							<body>
 							<h1>StudyBear Password Reset</h1>
-							<p>Click the link to reset your password. <a href=\"http://192.168.43.138/reset.php?email=$email\">Password Reset</a></p>
+							<p>Click the link to reset your password. <a href=\"http://10.10.168.169/reset.php?email=$email\">Password Reset</a></p>
 							</body>
 							</html>"; 
 		//$body             = eregi_replace("[\]",'',$body);
