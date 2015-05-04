@@ -202,8 +202,8 @@ public class EditProfile extends FragmentActivity {
 
     public void blockList(View v){
         Intent intent = new Intent(this, BlockList.class);
-        startActivity(intent);
         intent.putExtra("username",username);
+        startActivity(intent);
         finish();
     }
 

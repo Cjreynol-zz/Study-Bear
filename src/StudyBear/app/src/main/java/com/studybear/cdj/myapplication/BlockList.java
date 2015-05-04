@@ -64,7 +64,7 @@ public class BlockList extends FragmentActivity {
 
     public void account(View v){
         Intent intent = new Intent(this, EditProfile.class);
-        intent.putExtra("username", username);
+        intent.putExtra("username",username);
         startActivity(intent);
         finish();
     }
