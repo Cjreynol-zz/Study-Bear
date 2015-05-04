@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS PROFESSOR;
 DROP TABLE IF EXISTS TEACHING;
 DROP TABLE IF EXISTS USER_ENROLLMENT;
 DROP TABLE IF EXISTS USER_ACTIVATION;
+DROP TABLE IF EXISTS MatchResponse;
 
 
 CREATE TABLE UNIVERSITY ( 
@@ -192,6 +193,9 @@ INSERT INTO TEACHING VALUES
 INSERT INTO USER VALUES 
 ('creynolds','Chad','Reynolds','$2y$10$tXV0VFMPwOxAp0nMx.RlKe85jbvJRjPIDRKY4CUBL.Yf8QbG8Zuba','creyno17@gru.edu','','Georgia Regents University','A'),
 ('jscott88','Jeremy','Scott','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','jeremy.scott88@gmail.com','','Georgia Regents University','A'),
+('dcal','Daz','Callaham','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
+('someguy','some','guy','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
+('somegal','some','gal','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
 ('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','','Georgia Regents University','A');
 
 SET FOREIGN_KEY_CHECKS = 1;
