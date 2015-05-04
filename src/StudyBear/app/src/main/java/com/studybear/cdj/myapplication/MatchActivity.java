@@ -1,8 +1,8 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +45,7 @@ public class MatchActivity extends ActionBarActivity {
         ImageButton activeIcon = (ImageButton) findViewById(R.id.matchButton);
         activeIcon.setImageResource(R.drawable.matcha);
 
-        String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username="+username;
+        String url = getResources().getString(R.string.server_address) + "?rtype=getMatches&username=" + username;
 
         matchName = (TextView) findViewById(R.id.nameTextView);
         matchUserName = (TextView) findViewById(R.id.userNameTextView);
@@ -59,8 +59,7 @@ public class MatchActivity extends ActionBarActivity {
         JsonObjectRequest matchRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject json) {
-                try
-                {
+                try {
                     matchList = json.getJSONArray("userList");
                     displayMatch();
                 } catch (JSONException e) {
@@ -116,13 +115,13 @@ public class MatchActivity extends ActionBarActivity {
 
 
     private void sendMatchResponse(String otherUser, String response) {
-        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendMatchResponse&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20")+"&response="+response.replaceAll(" ", "%20");
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendMatchResponse&username=" + username.replaceAll(" ", "%20") + "&otheruser=" + otherUser.replaceAll(" ", "%20") + "&response=" + response.replaceAll(" ", "%20");
         JsonObjectRequest matchResponse = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
         networkRequest.addToRequestQueue(matchResponse);
     }
 
     private void sendBlockRequest(String otherUser) {
-        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username="+username.replaceAll(" ", "%20")+"&otheruser="+otherUser.replaceAll(" ", "%20");
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username=" + username.replaceAll(" ", "%20") + "&otheruser=" + otherUser.replaceAll(" ", "%20");
         JsonObjectRequest blockRequest = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
         networkRequest.addToRequestQueue(blockRequest);
     }
@@ -156,6 +155,6 @@ public class MatchActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
     }
 }

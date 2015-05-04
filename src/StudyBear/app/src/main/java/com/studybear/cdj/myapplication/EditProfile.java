@@ -1,10 +1,7 @@
 package com.studybear.cdj.myapplication;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,13 +36,13 @@ public class EditProfile extends ActionBarActivity {
     private String university;
     private EditText fnameView;
     private EditText lnameView;
-    private EditText emailView;
+    private EditText oldpwView;
+    private EditText newpwView;
+    private EditText confirmpwView;
     private Spinner spinnerView;
     private static final String TAG = "EditProfile";
     private ArrayList<String> universityList;
     private ArrayAdapter<String> universityAdapter;
-    private String classes;
-    private ArrayAdapter<String> universityListAdapater;
 
     public EditProfile() {
     }
@@ -62,7 +59,9 @@ public class EditProfile extends ActionBarActivity {
         activeIcon.setImageResource(R.drawable.settingsa);
         fnameView = (EditText) findViewById(R.id.firstname);
         lnameView = (EditText) findViewById(R.id.lastname);
-        emailView = (EditText) findViewById(R.id.email);
+        oldpwView = (EditText) findViewById(R.id.oldpassword);
+        newpwView = (EditText) findViewById(R.id.password);
+        confirmpwView = (EditText) findViewById(R.id.confirmpassword);
 
         String url = getResources().getString(R.string.server_address) + "?rtype=editAccount&username=" + username;
         JsonObjectRequest profileAttr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -77,7 +76,6 @@ public class EditProfile extends ActionBarActivity {
                     String lastName1 = lastName.substring(0,1).toUpperCase() + lastName.substring(1);
                     fnameView.setText(firstName1);
                     lnameView.setText(lastName1);
-                    emailView.setText(json.getString("email"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -99,7 +97,7 @@ public class EditProfile extends ActionBarActivity {
             public void onResponse(JSONObject json) {
                 try {
                     Log.d("RESPONSE", json.toString());
-                    Spinner universitySpinner = (Spinner) findViewById(R.id.spinner4);
+                    Spinner universitySpinner = (Spinner) findViewById(R.id.registerUniversity);
                     JSONArray jsonArray = json.getJSONArray("List");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -122,38 +120,44 @@ public class EditProfile extends ActionBarActivity {
 
     }
 
-    public void Submit(View v){
-        Spinner universitySpinner = (Spinner) findViewById(R.id.spinner);
-        university = universityListAdapater.getItem(universitySpinner.getSelectedItemPosition());
+    public void Update(View v){
 
-        String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                if(s.trim().equals("success"))
-                Toast.makeText(getBaseContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
-                Log.d(TAG, s);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(),"Server Error"+error.toString(),Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> params = new HashMap<>();
-                params.put("fname", fnameView.getText().toString().trim());
-                params.put("lname", lnameView.getText().toString().trim());
-                params.put("university", university);
-                params.put("uname", username);
+        if(newpwView.getText().toString().equals(confirmpwView.getText().toString())) {
+            Spinner universitySpinner = (Spinner) findViewById(R.id.registerUniversity);
+            university = universityAdapter.getItem(universitySpinner.getSelectedItemPosition());
+            String url = getResources().getString(R.string.server_address) + "?rtype=editProfile";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    if (s.trim().equals("success"))
+                        Toast.makeText(getBaseContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
+                    Log.d(TAG, s);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getBaseContext(), "Server Error" + error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("fname", fnameView.getText().toString().trim());
+                    params.put("lname", lnameView.getText().toString().trim());
+                    params.put("university", university);
+                    params.put("uname", username);
+                    params.put("oldpassword", oldpwView.getText().toString());
+                    params.put("newpassword", newpwView.getText().toString());
 
-                return params;
-            }
-        };
-        networkRequest.addToRequestQueue(postRequest);
+                    return params;
+                }
+            };
+            networkRequest.addToRequestQueue(postRequest);
+        }
+        else
+            Toast.makeText(getBaseContext(), "Password Fields to not match.", Toast.LENGTH_LONG).show();
     }
 
     public void Back(View v){

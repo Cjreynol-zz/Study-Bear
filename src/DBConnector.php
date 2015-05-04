@@ -45,19 +45,17 @@ class DBConnector
 		#require "PHPMailerAutoLoader.php"
 	function Register($uname, $fname, $lname, $email, $pword, $university)
 	{
-		#Email funtion to be implemented
-
 		$password = $pword;
 		#Creating password hash using BLOWFISH encryption with randomized SALT to add complexity
 		$pw_hash = password_hash($password, PASSWORD_BCRYPT);
 		
 		#Checking for existing user name and returning true if exists, false otherwise
-		$sql_checkuser = "SELECT userName FROM USER WHERE userName = '$uname';";
+		$sql_checkuser = "SELECT userName, email FROM USER WHERE userName = '$uname';";
 		$stm1 = $this->conn->prepare($sql_checkuser);
 		$stm1->execute();
 		$result = $stm1->fetch();
 
-		if($result[0] == $uname || $result[4] == $email)
+		if($result[0] == $uname || $result[1] == $email)
 			return "uname_error";
 		else
 		{
@@ -69,14 +67,12 @@ class DBConnector
 			$activationId = uniqid('', true);
 			$sql2 = "INSERT INTO USER_ACTIVATION VALUES('$uname', '$activationId');";
 			$stm2 = $this->conn->prepare($sql2);
-			if($stm2->execute()){
-				$this->accountActivation($uname, $activationId, $email);
-				return "success";
-			}
 			
+			if($stm2->execute())
+				return $this->accountActivation($uname, $activationId, $email);		
 			else
 				echo "Message no Sent";
-			}			
+		}			
 			#Email functionality to be implemented 
 		}
 	
@@ -174,17 +170,35 @@ class DBConnector
 			}
 	}
 	#Make sure client populates whats already saved in database first and then call this function
-	function editProfile($fname, $lname, $biography, $university, $uname){
-		
-		$sql = "UPDATE USER 
-		SET firstName = '$fname', lastName = '$lname', biography = '$biography', universityname = '$university' 
-		WHERE userName = '$uname';";	
-		$stm = $this->conn->prepare($sql);
-	
-	if($stm->execute())
-			return "success";
-		else
-			return "error";
+	function editProfile($fname, $lname, $oldPassword, $newPassword, $university, $uname){
+		if(isset($oldPassword, $newPassword) && strlen($newPassword) >= 8){
+			$sql = "SELECT password, accountStatus FROM USER WHERE userName = '$uname';";
+			$stm = $this->conn->prepare($sql);
+			if($stm->execute())
+			{
+				$result = $stm->fetch();
+				if(password_verify($oldPassword, $result[0]) && $result[1] == 'A'){
+					$password = $newPassword;
+					$pw_hash = password_hash($password, PASSWORD_BCRYPT);
+					
+					$sql2 = "UPDATE USER SET firstName = '$fname', lastName = '$lname', universityname = '$university', password = '$pw_hash' WHERE userName = '$uname';";	
+					$stm2 = $this->conn->prepare($sql2);
+							if($stm2->execute())
+								return "success";
+							else
+								return "error";	
+				}
+				else
+					return "error";
+			}
+		} else{
+			$sql3 = "UPDATE USER SET firstName = '$fname', lastName = '$lname', universityname = '$university' WHERE userName = '$uname';";	
+					$stm3 = $this->conn->prepare($sql3);
+					if($stm3->execute())
+						return "success";
+					else
+						return "error";
+				}
 	}
 	
 	function getUniversity($username){
@@ -251,7 +265,28 @@ class DBConnector
 	
 	#messages
 	function getMessages($userName){
-		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate from messages where sendingUser = '$userName' or receivingUser = '$userName' order by dateTime DESC;";
+		$sql  = "SELECT *, DATE_FORMAT(dateTime, '%m/%d/%y') AS niceDate 
+				from messages 
+				where (sendingUser = '$userName'
+							AND receivingUser NOT IN (
+								SELECT blockeduserName
+								FROM USER_BLOCKED
+								WHERE userName='$userName')
+							AND receivingUser NOT IN (
+								SELECT userName
+								FROM USER_BLOCKED
+								WHERE blockeduserName='$userName'))
+					
+					or (receivingUser = '$userName'
+							AND sendingUser NOT IN (
+								SELECT userName
+								FROM USER_BLOCKED
+								WHERE blockeduserName='$userName')
+							AND sendingUser NOT IN (
+								SELECT blockeduserName
+								FROM USER_BLOCKED
+								WHERE userName='$userName'))
+				order by dateTime DESC;";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -310,26 +345,26 @@ class DBConnector
 		
 		$sql = "SELECT userName, firstName, lastName, biography, 
 				
-					((IFNULL((SELECT COUNT(*) 
+					((IFNULL((SELECT COUNT(1) 
 								FROM USER_ENROLLMENT A
 									JOIN USER_ENROLLMENT B 
 										ON A.professorId = B.professorId 
 											AND A.classId = B.classId
 								WHERE A.userName = '$userName'
 									AND b.userName = U.userName),0) * $classWeight) +
-					(IFNULL((SELECT COUNT(*)
+					(IFNULL((SELECT COUNT(1)
 								FROM MatchResponse
 								WHERE userName = '$userName'
 									AND otherUserName = U.userName
 									AND response = 'study'
 								GROUP BY userName, otherUserName, response),0) * $prevResponseWeight) -
-					(IFNULL((SELECT COUNT(*)
+					(IFNULL((SELECT COUNT(1)
 							FROM MatchResponse
 							WHERE userName = '$userName'
 								AND otherUserName = U.userName
 								AND response = 'pass'
 							GROUP BY userName, otherUserName, response),0)) * $prevResponseWeight) +
-					(IFNULL((SELECT COUNT(*) 
+					(IFNULL((SELECT COUNT(1) 
 							FROM MatchResponse A 
 								JOIN MatchResponse B 
 									ON A.otherUserName = B.otherUserName 
@@ -341,9 +376,13 @@ class DBConnector
 				FROM USER U
 				WHERE userName <> '$userName' 
 					AND userName NOT IN (
-						SELECT blockeduserName 
-						FROM USER_BLOCKED 
+						SELECT blockeduserName
+						FROM USER_BLOCKED
 						WHERE userName='$userName')
+					AND userName NOT IN (
+						SELECT userName
+						FROM USER_BLOCKED
+						WHERE blockeduserName='$userName')
 				ORDER BY total_weight DESC;";
 		
 		$stm = $this->conn->prepare($sql);
@@ -387,8 +426,7 @@ class DBConnector
 			return "block fail";
 	}
 	
-	function saveClasses($username, $removeList, $insertList){
-		
+	function saveClasses($username, $removeList, $insertList){	
 		$deleteDecode = json_decode($removeList);
 		$insertDecode = json_decode($insertList);
 		
@@ -425,30 +463,12 @@ class DBConnector
 			and classId = '$classId' and username = '$username';";
 			$stm = $this->conn->prepare($sql);
 			$stm->execute();
-			echo $sql;
-		}
-		
-		
-					
-	}
-
-	function checkEmail($email){
-		$sql = "SELECT EXISTS(SELECT * FROM user WHERE email = '$email');";
-
-		$stm = $this->conn->prepare($sql);
-		$stm->execute();
-		$result = $stm->fetch();
-		
-		if($result[0] == 0)
-			return "error";
-		else
-			return "succes";
+		}				
 	}
 
 	function accountActivation($username, $activationId, $email){	
 		include 'EmailServer.php';
-		return sendEmail($username, $activationId, $email);
-	
+		return sendActivationEmail($username, $activationId, $email);
 	}
 	
 	function accountConfirm($actId, $username){
@@ -461,11 +481,17 @@ class DBConnector
 		{
 			$sql2 = "UPDATE USER SET accountStatus = 'A' WHERE userName = '$username';";
 			$stm2 = $this->conn->prepare($sql2);
-			if($stm2->execute())
-				echo "success";
+			if($stm2->execute()){
+				$sql3 = "DELETE FROM USER_ACTIVATION WHERE userName = '$username';";
+				$stm3 = $this->conn->prepare($sql3);		
+				$stm3->execute();
+				return "Thanks for activiating your account. You can now use StudyBear.";
+			}
 			else
-				echo "fail";
+				return "There was a problem activating your account.";
 		}
+		else
+			return "There was a problem activating your account. Either it has already been activated or the account has expired.";
 	}
 
 	function saveBio($bio, $username){
@@ -490,6 +516,7 @@ class DBConnector
 			return "error";
 	}
 
+
 	function addBlockedUser ($username, $blockeduserName){
 		$sql = "SELECT EXISTS(SELECT * FROM user WHERE username = '$username');";
 
@@ -507,6 +534,42 @@ class DBConnector
 			echo "success";
 	}
 }
+	
+	function verifyEmail($email){
+	$sql = "SELECT EXISTS(SELECT * FROM user WHERE email = '$email');";
+		$stm = $this->conn->prepare($sql);
+		$stm->execute();
+		$result = $stm->fetch();
+		
+		if($result[0] == 0)
+			return false;
+		else return true;
+	}
+	
+	function resetPassword($email, $password, $confirmpassword){
+				
+		if(isset($password, $confirmpassword) && strlen($password) >= 8 && $password == $confirmpassword){
+			$sql = "SELECT userName, accountStatus FROM USER WHERE email = '$email';";
+			$stm = $this->conn->prepare($sql);
+			if($stm->execute())
+			{
+				$result = $stm->fetch();
+				if($result[0] != null && $result[1] == 'A'){
+					$username = $result[0];
+					$pw_hash = password_hash($password, PASSWORD_BCRYPT);
+					
+					$sql2 = "UPDATE USER SET password = '$pw_hash' WHERE userName = '$username';";	
+					$stm2 = $this->conn->prepare($sql2);
+					if($stm2->execute())
+						return "Password successfully reset.";
+					else
+						return "Make sure passwords match!";	
+				}
+				else
+					echo $sql. "addresserror";
+			}
+		}
+	}
 }
 ?>
 

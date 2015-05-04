@@ -6,15 +6,14 @@ require_once "DBConnector.php";
 $dbconn = new DBConnector();
 //require_once "EmailServer.php";
 
-switch($_GET["rtype"])
-{
+if(isset($_GET["rtype"])){
+	switch($_GET["rtype"])
+	{
 	case 'login': 
-		if(isset($_POST["username"], $_POST["password"]))
-		{
-			if(strpos($_POST["username"], ' ') === false && strlen($_POST["password"]) >= 8)
-			{
-					echo $dbconn->Login($_POST["username"], $_POST["password"]);
-						break;		
+		if(isset($_POST["username"], $_POST["password"])){
+			if(strpos($_POST["username"], ' ') === false && strlen($_POST["password"]) >= 8){
+				echo $dbconn->Login($_POST["username"], $_POST["password"]);
+				break;		
 			}
 			else
 				echo "error";
@@ -37,9 +36,9 @@ switch($_GET["rtype"])
 			
 	case 'editProfile':
 		if($_POST["fname"] != null &&  $_POST["lname"] != null)
-			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["biography"], $_POST["university"], $_POST["uname"]);
+			echo $dbconn->editProfile($_POST["fname"], $_POST["lname"], $_POST["oldpassword"], $_POST["newpassword"], $_POST["university"], $_POST["uname"]);
 		else
-			echo "error1";
+			echo "error";
 		break;
 			
 	case 'getUniversity':
@@ -100,13 +99,8 @@ switch($_GET["rtype"])
 			echo $dbconn->saveClasses($_POST["username"], $_POST["removeList"], $_POST["insertList"]);
 		break;
 
-	case 'checkEmail':
-		echo $dbconn->checkEmail($_POST["email"]);
-		break;	
-		
 	case 'accountConfirm':
-		$dbconn->accountConfirm($_GET["actId"], $_GET["username"]);
-		echo "Thanks for activiating your account. You can now use StudyBear.";
+		echo $dbconn->accountConfirm($_GET["actId"], $_GET["username"]);
 		break;
 
 	case 'saveBio':
@@ -120,6 +114,18 @@ switch($_GET["rtype"])
 	case 'addBlockedUser':
 		echo $dbconn->addBlockedUser($_POST["username"], $_POST["blockedUserName"]);
 		break;
-}
+	
+	case 'sendPasswordLink':
+		if($dbconn->verifyEmail($_POST["email"])){
+			include 'EmailServer.php';
+			echo sendPasswordLink($_POST["email"]);
+		}
+	else{
 
+	switch($_POST["rtype"]){
+		case 'resetPassword':
+			echo $dbconn->resetPassword($_POST["email"], $_POST["password"], $_POST["confirmpassword"]);
+		break;
+	}
+}
 ?>
