@@ -1,5 +1,7 @@
 package com.studybear.cdj.myapplication;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

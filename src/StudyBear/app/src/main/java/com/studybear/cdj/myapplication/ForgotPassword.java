@@ -1,14 +1,16 @@
 package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,6 +28,11 @@ public class ForgotPassword extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         networkRequest = NetworkController.getInstance(getApplicationContext());
+
+        TextView emailView = (TextView) findViewById(R.id.fpEmail);
+        final String email = emailView.getText().toString().trim();
+
+
     }
 
     @Override
@@ -50,38 +57,36 @@ public class ForgotPassword extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void submitEmail(View v){
+    public void submitEmail(View v) {
 
         TextView fpEmail = (TextView) findViewById(R.id.fpEmail);
         final String email = fpEmail.getText().toString().trim();
 
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             Toast.makeText(getBaseContext(), "Please enter an email address", Toast.LENGTH_LONG).show();
-        }
-        else {
-            String url = getResources().getString(R.string.server_address) + "?rtype=checkEmail";
-            StringRequest emailSubmit = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //Testing to see if login passed or failed. If passed, the Server returns the string success/failed returns error
-                            //Log.d("Response", response);
-                            if (response.trim().equals("error"))
-                                Toast.makeText(getBaseContext(), "Please enter a registered email address", Toast.LENGTH_LONG).show();
-                            else {
-                                Intent intent = new Intent(ForgotPassword.this, EmailSubmit.class);
-                                startActivity(intent);
-                                Toast.makeText(getBaseContext(), "Password request submitted", Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
+        } else {
+            String url = getResources().getString(R.string.server_address) + "?rtype=sendPasswordLink";
+            StringRequest pwResetRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    if (s.trim().equals("success"))
+                        Toast.makeText(getApplicationContext(), "Password reset link sent to: " + email, Toast.LENGTH_LONG).show();
+
+                    else if (s.trim().equals("addresserror"))
+                        Toast.makeText(getApplicationContext(), "Email address not found or Account is not activiated. " + email, Toast.LENGTH_LONG).show();
+                    else {
+                        Log.d("RESPONSE", s);
+                        Toast.makeText(getApplicationContext(), "Error sending email. Try again.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getBaseContext(), "Server Error", Toast.LENGTH_LONG).show();
+                    Log.d("ERROR RESPONSE", error.toString());
+                    Toast.makeText(getApplicationContext(), "Cannot communicate with the server.", Toast.LENGTH_LONG).show();
                 }
-            }) {
-
+            }){
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
@@ -89,13 +94,13 @@ public class ForgotPassword extends ActionBarActivity {
                     return params;
                 }
             };
-            //Toast.makeText(getBaseContext(), "Sent request to server", Toast.LENGTH_LONG).show();
-            networkRequest.addToRequestQueue(emailSubmit);
+            pwResetRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            networkRequest.addToRequestQueue(pwResetRequest);
         }
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
