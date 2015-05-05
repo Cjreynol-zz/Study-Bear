@@ -191,12 +191,12 @@ INSERT INTO TEACHING VALUES
 (10,7,'CSCI 3532');
 
 INSERT INTO USER VALUES 
-('creynolds','Chad','Reynolds','$2y$10$tXV0VFMPwOxAp0nMx.RlKe85jbvJRjPIDRKY4CUBL.Yf8QbG8Zuba','creyno17@gru.edu','','Georgia Regents University','A'),
-('jscott88','Jeremy','Scott','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','jeremy.scott88@gmail.com','','Georgia Regents University','A'),
-('dcal','Daz','Callaham','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
-('someguy','some','guy','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
-('somegal','some','gal','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
-('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','','Georgia Regents University','A');
+('creynolds','Chad','Reynolds','$2y$10$tXV0VFMPwOxAp0nMx.RlKe85jbvJRjPIDRKY4CUBL.Yf8QbG8Zuba','creyno17@gru.edu','I write code','Georgia Regents University','A'),
+('jscott88','Jeremy','Scott','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','jeremy.scott88@gmail.com','Cheeeese','Georgia Regents University','A'),
+('dcal','Daz','Callaham','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','Lets study','Georgia Regents University','A'),
+('someguy','some','guy','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','Yo','Georgia Regents University','A'),
+('somegal','some','gal','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','Yo','Georgia Regents University','A'),
+('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','Hi!','Georgia Regents University','A');
 
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'hey! we have some classes together. Wanna study sometime?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'sure, when can you meet up?', 'hi', now());

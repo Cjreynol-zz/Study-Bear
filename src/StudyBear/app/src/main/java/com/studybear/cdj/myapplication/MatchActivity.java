@@ -99,6 +99,7 @@ public class MatchActivity extends ActionBarActivity {
                 matchBio.setText(matchedUser.getString("biography"));
                 matchUniversity.setText(matchedUser.getString("universityName"));
                 matchUser = matchedUser.getString("userName");
+                classes.setText("");
                 getClasses(matchUser);
 
             } catch (JSONException e) {
