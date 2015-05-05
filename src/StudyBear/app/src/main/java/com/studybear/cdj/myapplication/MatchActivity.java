@@ -37,6 +37,8 @@ public class MatchActivity extends ActionBarActivity {
     public TextView matchName;
     public TextView matchUserName;
     public TextView matchBio;
+    public TextView matchUniversity;
+    public TextView classes;
 
     public JSONArray matchList;
     public int matchIndex;
@@ -58,9 +60,12 @@ public class MatchActivity extends ActionBarActivity {
         matchName = (TextView) findViewById(R.id.nameTextView);
         matchUserName = (TextView) findViewById(R.id.userNameTextView);
         matchBio = (TextView) findViewById(R.id.bioTextView);
+        matchUniversity = (TextView) findViewById(R.id.universityTextView);
+        classes = (TextView) findViewById(R.id.Classes);
 
         matchIndex = 0;
         getMatches(url);
+
     }
 
     private void getMatches(String url) {
@@ -88,9 +93,50 @@ public class MatchActivity extends ActionBarActivity {
             try {
                 JSONObject matchedUser = matchList.getJSONObject(matchIndex);
                 matchIndex++;
-                matchName.setText("Name:  " + matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
+                matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
                 matchUserName.setText("Username:  " + matchedUser.getString("userName"));
-                matchBio.setText("Biography:  " + matchedUser.getString("biography"));
+                matchBio.setText(matchedUser.getString("biography"));
+                matchUniversity.setText(matchedUser.getString("universityName"));
+                String matchUser = matchUserName.getText().toString();
+
+
+                String url2 = getResources().getString(R.string.server_address) + "?rtype=getMatchesClasses&username="+matchUser;
+
+                JsonObjectRequest getMatchesClasses = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject json) {
+                        try
+                        {
+                            if(!json.isNull("classList")) {
+
+                                Toast.makeText(getBaseContext(), "Got here", Toast.LENGTH_LONG).show();
+                                JSONArray classList = json.getJSONArray("classList");
+                                StringBuilder classListString = new StringBuilder();
+                                JSONObject classItem;
+                                String classItemString;
+
+                                for (int i = 0; i < classList.length(); i++) {
+                                    classItem = classList.getJSONObject(i);
+                                    classItemString = classItem.getString("classId") + ": " + classItem.getString("className") + "\n" + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+
+                                    if (i + 1 == classList.length())
+                                        classListString.append(classItemString);
+                                    else
+                                        classListString.append(classItemString + "\n\n");
+                                }
+                                classes.setText(classListString.toString());
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                    }
+                });
+                networkRequest.addToRequestQueue(getMatchesClasses);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -111,7 +157,7 @@ public class MatchActivity extends ActionBarActivity {
         // start a message to them
         Intent intent = new Intent(this, NewMessage.class);
         intent.putExtra("username", username);
-        intent.putExtra("fillTo", matchUserName.getText().toString());
+        intent.putExtra("fillTo", matchUserName.getText().toString().substring("Username:  ".length()).replaceAll(" ", "%20"));
         startActivity(intent);
         finish();
     }

@@ -343,7 +343,7 @@ class DBConnector
 		$prevResponseWeight = "2";
 		$sameResponseWeight = "1";
 		
-		$sql = "SELECT userName, firstName, lastName, biography, 
+		$sql = "SELECT userName, firstName, lastName, biography, universityName,
 				
 					((IFNULL((SELECT COUNT(1) 
 								FROM USER_ENROLLMENT A
@@ -398,6 +398,37 @@ class DBConnector
 			$result["userList"] = $userArray;
 			return json_encode($result);
 		}
+	}
+
+	function getMatchesClasses($uname){
+		$classes_sql = 
+		"SELECT C.classId, C.className, D.professorLname,D.professorFname
+		FROM USER_ENROLLMENT A 
+			inner join TEACHING B ON A.professorId = B.professorId
+			and A.classId = B.classId
+			inner join CLASS C ON B.classId = C.classId
+			inner join PROFESSOR D ON B.professorId = D.professorId
+		WHERE A.username = 'odarcie';";
+			
+		$stm2 = $this->conn->prepare($classes_sql);
+			if($stm2->execute())
+			{
+				$class = $stm2->fetch();
+
+				$classes_array;
+				if($class == false)				
+					$result["classList"] = null;				
+				else
+				{			
+					while($class[0] != null)
+					{
+						$classes_array[] = $class;
+						$class = $stm2->fetch();
+					}
+					$result["classList"] = $classes_array;
+					return json_encode($result);
+				}
+			}
 	}
 	
 	function storeMatchResponse($userName, $otherUserName, $response) {
