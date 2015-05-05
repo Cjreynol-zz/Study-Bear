@@ -114,18 +114,28 @@ if(isset($_GET["rtype"])){
 	case 'addBlockedUser':
 		echo $dbconn->addBlockedUser($_POST["username"], $_POST["blockedUserName"]);
 		break;
+		
+	case 'removeBlockedUser':
+		echo $dbconn->removeBlockedUser($_POST["username"], $_POST["blockedUserName"]);
+		break;
+
+	case 'getBlockList':
+		echo $dbconn->getBlockList($_GET["username"]);
+		break;
 	
 	case 'sendPasswordLink':
 		if($dbconn->verifyEmail($_POST["email"])){
 			include 'EmailServer.php';
 			echo sendPasswordLink($_POST["email"]);
 		}
-	else{
-
-	switch($_POST["rtype"]){
-		case 'resetPassword':
-			echo $dbconn->resetPassword($_POST["email"], $_POST["password"], $_POST["confirmpassword"]);
 		break;
 	}
 }
+	else{
+			switch($_POST["rtype"]){
+				case 'resetPassword':
+				echo $dbconn->resetPassword($_POST["email"], $_POST["password"], $_POST["confirmpassword"]);
+			break;
+		}
+	}
 ?>

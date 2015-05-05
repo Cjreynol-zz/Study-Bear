@@ -90,6 +90,9 @@ public class LoginActivity extends ActionBarActivity {
                             startActivity(intent);
                             finish();
                         }
+                        else if (response.trim().equals("inactive")){
+                            Toast.makeText(getBaseContext(),"Account is not activated",Toast.LENGTH_LONG).show();
+                        }
                         else {
                             Toast.makeText(getBaseContext(),"Check username and/or password",Toast.LENGTH_LONG).show();
                         }

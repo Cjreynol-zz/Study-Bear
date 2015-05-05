@@ -2,6 +2,7 @@ package com.studybear.cdj.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class EditProfile extends ActionBarActivity {
+public class EditProfile extends FragmentActivity {
 
     private NetworkController networkRequest;
     public NavigationBarController navigationBar;
@@ -131,8 +132,8 @@ public class EditProfile extends ActionBarActivity {
                 public void onResponse(String s) {
                     if (s.trim().equals("success"))
                         Toast.makeText(getBaseContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
+                    else if (s.trim().equals("wrongPassword"))
+                        Toast.makeText(getBaseContext(), "Incorrect password", Toast.LENGTH_LONG).show();
                     Log.d(TAG, s);
                 }
             }, new Response.ErrorListener() {
@@ -157,7 +158,7 @@ public class EditProfile extends ActionBarActivity {
             networkRequest.addToRequestQueue(postRequest);
         }
         else
-            Toast.makeText(getBaseContext(), "Password Fields to not match.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Password fields to not match.", Toast.LENGTH_LONG).show();
     }
 
     public void Back(View v){
@@ -197,6 +198,13 @@ public class EditProfile extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
+    }
+
+    public void blockList(View v){
+        Intent intent = new Intent(this, BlockList.class);
+        intent.putExtra("username",username);
+        startActivity(intent);
+        finish();
     }
 
 }
