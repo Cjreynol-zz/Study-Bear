@@ -553,7 +553,7 @@ class DBConnector
 	}
 
 	function getBlockList ($username){
-		$sql = "SELECT blockeduserName from user_blocked where userName = 'jscott88';";
+		$sql = "SELECT blockeduserName from user_blocked where userName = '$username';";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
@@ -606,5 +606,3 @@ class DBConnector
 	}
 }
 ?>
-
-
