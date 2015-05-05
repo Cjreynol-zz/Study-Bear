@@ -114,6 +114,14 @@ if(isset($_GET["rtype"])){
 	case 'addBlockedUser':
 		echo $dbconn->addBlockedUser($_POST["username"], $_POST["blockedUserName"]);
 		break;
+		
+	case 'removeBlockedUser':
+		echo $dbconn->removeBlockedUser($_POST["username"], $_POST["blockedUserName"]);
+		break;
+
+	case 'getBlockList':
+		echo $dbconn->getBlockList($_GET["username"]);
+		break;
 	
 	case 'sendPasswordLink':
 		if($dbconn->verifyEmail($_POST["email"])){

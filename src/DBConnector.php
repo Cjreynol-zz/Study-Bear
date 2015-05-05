@@ -516,9 +516,8 @@ class DBConnector
 			return "error";
 	}
 
-
 	function addBlockedUser ($username, $blockeduserName){
-		$sql = "SELECT EXISTS(SELECT * FROM user WHERE username = '$username');";
+		$sql = "SELECT EXISTS(SELECT * FROM user WHERE username = '$blockeduserName');";
 
 		$stm = $this->conn->prepare($sql);
 		$stm->execute();
@@ -527,13 +526,48 @@ class DBConnector
 		if($result[0] == 0)
 			return "error";
 		else{
-		$sql = "INSERT into user_blocked VALUES ('$username', '$blockeduserName');";
+			$sql = "SELECT EXISTS(SELECT * FROM user_blocked WHERE username = '$username' and blockeduserName = '$blockeduserName');";
+
+			$stm = $this->conn->prepare($sql);
+			$stm->execute();
+			$result = $stm->fetch();
+
+			if($result[0] != 0)
+				return "already";
+			else{
+				$sql = "INSERT into user_blocked VALUES ('$username', '$blockeduserName');";
+
+				$stm = $this->conn->prepare($sql);
+				if($stm->execute())
+					echo "success";
+			}
+		}
+	}
+
+	function removeBlockedUser ($username, $blockeduserName){
+		$sql = "DELETE from user_blocked where username = '$username' and blockedusername = '$blockeduserName';";
 
 		$stm = $this->conn->prepare($sql);
 		if($stm->execute())
 			echo "success";
 	}
-}
+
+	function getBlockList ($username){
+		$sql = "SELECT blockeduserName from user_blocked where userName = 'jscott88';";
+
+		$stm = $this->conn->prepare($sql);
+		if($stm->execute())
+
+			$blocked = $stm->fetch();
+			$blockedArray;
+			while ($blocked[0] != null){
+				$blockedArray[] = $blocked;
+				$blocked = $stm->fetch();
+			}
+
+			$result["blockedList"] = $blockedArray;
+			return json_encode($result);
+	}
 	
 	function verifyEmail($email){
 	$sql = "SELECT EXISTS(SELECT * FROM user WHERE email = '$email');";

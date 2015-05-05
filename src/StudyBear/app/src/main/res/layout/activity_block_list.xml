@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/account"
+                        android:id="@+id/blockUser"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:text="Add"
                         android:id="@+id/button10"
-                        android:onClick="Add"/>
+                        android:onClick="addBlock"/>
 
                 </LinearLayout>
 
@@ -166,6 +166,13 @@
         android:focusable="true"
         android:scrollbars="none">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/blockLayout">
+        </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -177,20 +184,10 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:background="@drawable/button"
-            android:textColor="#FFFFFF"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:id="@+id/button10"
-            android:onClick="Save"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10sp"
+            android:layout_marginLeft="5sp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="*Tap and hold a user to remove."
             android:id="@+id/textView10"
