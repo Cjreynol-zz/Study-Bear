@@ -191,12 +191,12 @@ INSERT INTO TEACHING VALUES
 (10,7,'CSCI 3532');
 
 INSERT INTO USER VALUES 
-('creynolds','Chad','Reynolds','$2y$10$tXV0VFMPwOxAp0nMx.RlKe85jbvJRjPIDRKY4CUBL.Yf8QbG8Zuba','creyno17@gru.edu','','Georgia Regents University','A'),
-('jscott88','Jeremy','Scott','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','jeremy.scott88@gmail.com','','Georgia Regents University','A'),
-('dcal','Daz','Callaham','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
+('creynolds','Chad','Reynolds','$2y$10$tXV0VFMPwOxAp0nMx.RlKe85jbvJRjPIDRKY4CUBL.Yf8QbG8Zuba','creyno17@gru.edu','I code','Georgia Regents University','A'),
+('jscott88','Jeremy','Scott','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','jeremy.scott88@gmail.com','Cheeeeeese','Georgia Regents University','A'),
+('dcal','Daz','Callaham','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','Lets Study!','Georgia Regents University','A'),
 ('someguy','some','guy','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
 ('somegal','some','gal','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
-('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','','Georgia Regents University','A');
+('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','Hi!','Georgia Regents University','A');
 
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jscott88', 'hey! we have some classes together. Wanna study sometime?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jscott88', 'odarcie', 'sure, when can you meet up?', 'hi', now());
@@ -230,4 +230,5 @@ insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) v
 insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('dcal', 3, 'CSCI 2700', 'A');
 insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('jscott88', 1, 'CSCI 3370', 'A');
 insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('jscott88', 3, 'CSCI 2700', 'A');
+	
 SET FOREIGN_KEY_CHECKS = 1;
