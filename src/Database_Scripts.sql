@@ -198,18 +198,18 @@ INSERT INTO USER VALUES
 ('somegal','some','gal','$2y$10$IA9WirbUDe/lNAsDqtNCXeWt4rgoG4VZPuQCAKyqMKNc5F0KPy802','@.edu','','Georgia Regents University','A'),
 ('odarcie','Darcie','Odom','$2y$10$nw6KWoHehoUlQ/b1AnlMiuMWbfvcfIbB/TaLFaGLCsTf42wXfTdTW','darcieo@gru.edu','','Georgia Regents University','A');
 
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'hey! we have some classes together. Wanna study sometime?', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'sure, when can you meet up?', 'hi', now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('odarcie', 'jbeezy88', 'does 6pm tomorrow at the school work for you?', 'hi', now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('jbeezy88', 'odarcie', 'yeah, lets meet at allgood and find a study room', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'perfect! see you tomorrow!', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jscott88', 'hey! we have some classes together. Wanna study sometime?', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jscott88', 'odarcie', 'sure, when can you meet up?', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('odarcie', 'jscott88', 'does 6pm tomorrow at the school work for you?', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('jscott88', 'odarcie', 'yeah, lets meet at allgood and find a study room', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jscott88', 'perfect! see you tomorrow!', 'hi' , now());
 
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jscott', 'yo!', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jscott', 'odarcie', 'howdy!', 'hi', now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('odarcie', 'jscott', 'this is cheese this is cheese this is cheese this is cheese', 'hi', now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('jscott', 'odarcie', 'cheeeeeeeeeeese', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jscott', ':)', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jscott', 'odarcie', 'so much cheese', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', 'yo!', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'howdy!', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('odarcie', 'jbeezy88', 'this is cheese this is cheese this is cheese this is cheese', 'hi', now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('jbeezy88', 'odarcie', 'cheeeeeeeeeeese', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'jbeezy88', ':)', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('jbeezy88', 'odarcie', 'so much cheese', 'hi', now());
 
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('creynolds', 'odarcie', 'how do you count cows? ', 'hi', now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'creynolds', 'how?', 'hi' , now());
@@ -222,4 +222,12 @@ insert into messages (sendingUser, receivingUser, body, subject, dateTime) value
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('dcal', 'odarcie', 'really Darcie?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'dcal', 'that was a good one!', 'hi' , now());
 
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('odarcie', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('odarcie', 4, 'CSCI 3500', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('creynolds', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('creynolds', 4, 'CSCI 3500', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('dcal', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('dcal', 3, 'CSCI 2700', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('jscott88', 1, 'CSCI 3370', 'A');
+insert into USER_ENROLLMENT (username, professorId, classId, enrollmentStatus) values ('jscott88', 3, 'CSCI 2700', 'A');
 SET FOREIGN_KEY_CHECKS = 1;
