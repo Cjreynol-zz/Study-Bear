@@ -215,11 +215,20 @@ insert into messages (sendingUser, receivingUser, body, subject, dateTime) value
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'creynolds', 'how?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values ('creynolds', 'odarcie', 'with a COWculator!', 'hi', now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('creynolds', 'odarcie', ':D', 'hi' , now());
-insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'creynolds', 'That was worse than a Dowell joke', 'hi' , now());
+insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie','creynolds', 'That was worse than a Dowell joke', 'hi' , now());
 
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'dcal', 'how do astronomers organize a party?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'dcal', 'they planet!', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('dcal', 'odarcie', 'really Darcie?', 'hi' , now());
 insert into messages (sendingUser, receivingUser, body, subject, dateTime) values('odarcie', 'dcal', 'that was a good one!', 'hi' , now());
+
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('odarcie', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('odarcie', 4, 'CSCI 3500', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('creynolds', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('creynolds', 4, 'CSCI 3500', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('jscott88', 1, 'CSCI 3370', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('jscott88', 3, 'CSCI 2700', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('dcal', 2, 'CSCI 4711', 'A');
+insert into USER_ENROLLMENT (userName, professorId, classId, enrollmentStatus) values('dcal', 3, 'CSCI 2700', 'A');
 
 SET FOREIGN_KEY_CHECKS = 1;
