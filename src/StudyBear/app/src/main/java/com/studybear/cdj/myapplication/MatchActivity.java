@@ -3,8 +3,10 @@ package com.studybear.cdj.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,6 +23,12 @@ import org.json.JSONObject;
 
 
 public class MatchActivity extends ActionBarActivity {
+
+    private final float MIN_DISTANCE = 300;
+    private float x1;
+    private float x2;
+    private float y1;
+    private float y2;
 
     public NetworkController networkRequest;
     public NavigationBarController navBar;
@@ -80,9 +88,9 @@ public class MatchActivity extends ActionBarActivity {
             try {
                 JSONObject matchedUser = matchList.getJSONObject(matchIndex);
                 matchIndex++;
-                matchName.setText(matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
-                matchUserName.setText(matchedUser.getString("userName"));
-                matchBio.setText(matchedUser.getString("biography"));
+                matchName.setText("Name:  " + matchedUser.getString("firstName") + " " + matchedUser.getString("lastName"));
+                matchUserName.setText("Username:  " + matchedUser.getString("userName"));
+                matchBio.setText("Biography:  " + matchedUser.getString("biography"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -92,12 +100,12 @@ public class MatchActivity extends ActionBarActivity {
         }
     }
 
-    public void onBlock(View v) {
+    public void onBlock() {
         sendBlockRequest(matchUserName.getText().toString());
         displayMatch();
     }
 
-    public void onStudy(View v) {
+    private void onStudy() {
         sendMatchResponse(matchUserName.getText().toString(), "study");
 
         // start a message to them
@@ -108,11 +116,58 @@ public class MatchActivity extends ActionBarActivity {
         finish();
     }
 
-    public void onPass(View v) {
+    private void onPass() {
         sendMatchResponse(matchUserName.getText().toString(), "pass");
         displayMatch();
     }
 
+    // detecting swipes
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1= event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float deltaX = x2 - x1;
+                float deltaY = y2 - y1;
+
+                // prioritize left and right swipes over top and bottom swipes
+                if (Math.abs(deltaX) > MIN_DISTANCE) {
+                    // Left to Right swipe action
+                    if (x2 > x1) {
+                        //Toast.makeText(this, "Left to Right swipe [Next]", Toast.LENGTH_SHORT).show();
+                        onStudy();
+                    }
+
+                    // Right to left swipe action
+                    else {
+                        //Toast.makeText(this, "Right to Left swipe [Previous]", Toast.LENGTH_SHORT).show();
+                        onPass();
+                    }
+
+                } else {
+                    if (Math.abs(deltaY) > MIN_DISTANCE) {
+
+                        // bottom to top swipe
+                        if (y1 > y2) {
+                            onBlock();
+                            //Toast.makeText(this, "Bottom to Top swipe [Previous]", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // top to bottom swipe
+                        else {
+                            //Toast.makeText(this, "Top to Bottom swipe [Previous]", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
 
     private void sendMatchResponse(String otherUser, String response) {
         String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendMatchResponse&username=" + username.replaceAll(" ", "%20") + "&otheruser=" + otherUser.replaceAll(" ", "%20") + "&response=" + response.replaceAll(" ", "%20");
@@ -121,7 +176,8 @@ public class MatchActivity extends ActionBarActivity {
     }
 
     private void sendBlockRequest(String otherUser) {
-        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username=" + username.replaceAll(" ", "%20") + "&otheruser=" + otherUser.replaceAll(" ", "%20");
+        String url = getResources().getString(R.string.server_address) + "index.php?rtype=sendBlockRequest&username=" + username.replaceAll(" ", "%20") + "&otheruser=" + otherUser.substring("Username:  ".length()).replaceAll(" ", "%20");
+        Log.d("blockcheck", "block request called with " + url);
         JsonObjectRequest blockRequest = new JsonObjectRequest(Request.Method.GET, url, null, null, null);
         networkRequest.addToRequestQueue(blockRequest);
     }
