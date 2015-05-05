@@ -33,6 +33,7 @@ public class MatchActivity extends ActionBarActivity {
     public NetworkController networkRequest;
     public NavigationBarController navBar;
     public String username;
+    public String matchUser;
 
     public TextView matchName;
     public TextView matchUserName;
@@ -97,46 +98,8 @@ public class MatchActivity extends ActionBarActivity {
                 matchUserName.setText("Username:  " + matchedUser.getString("userName"));
                 matchBio.setText(matchedUser.getString("biography"));
                 matchUniversity.setText(matchedUser.getString("universityName"));
-                String matchUser = matchUserName.getText().toString();
-
-
-                String url2 = getResources().getString(R.string.server_address) + "?rtype=getMatchesClasses&username="+matchUser;
-
-                JsonObjectRequest getMatchesClasses = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject json) {
-                        try
-                        {
-                            if(!json.isNull("classList")) {
-
-                                Toast.makeText(getBaseContext(), "Got here", Toast.LENGTH_LONG).show();
-                                JSONArray classList = json.getJSONArray("classList");
-                                StringBuilder classListString = new StringBuilder();
-                                JSONObject classItem;
-                                String classItemString;
-
-                                for (int i = 0; i < classList.length(); i++) {
-                                    classItem = classList.getJSONObject(i);
-                                    classItemString = classItem.getString("classId") + ": " + classItem.getString("className") + "\n" + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
-
-                                    if (i + 1 == classList.length())
-                                        classListString.append(classItemString);
-                                    else
-                                        classListString.append(classItemString + "\n\n");
-                                }
-                                classes.setText(classListString.toString());
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                    }
-                });
-                networkRequest.addToRequestQueue(getMatchesClasses);
+                matchUser = matchedUser.getString("userName");
+                getClasses(matchUser);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -259,4 +222,45 @@ public class MatchActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
     }
+
+    public void getClasses (String match){
+        String url = getResources().getString(R.string.server_address) + "?rtype=getMatchesClasses&uname="+match;
+
+        JsonObjectRequest getMatchesClasses = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject json) {
+                try
+                {
+                    if(!json.isNull("classList")) {
+
+                        JSONArray classList = json.getJSONArray("classList");
+                        StringBuilder classListString = new StringBuilder();
+                        JSONObject classItem;
+                        String classItemString;
+
+                        for (int i = 0; i < classList.length(); i++) {
+                            classItem = classList.getJSONObject(i);
+                            classItemString = classItem.getString("classId") + ": " + classItem.getString("className") + "\n" + classItem.getString("professorLname") + ", " + classItem.getString("professorFname");
+
+                            if (i + 1 == classList.length())
+                                classListString.append(classItemString);
+                            else
+                                classListString.append(classItemString + "\n\n");
+                        }
+                        classes.setText(classListString.toString());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+        networkRequest.addToRequestQueue(getMatchesClasses);
+    }
+
+
 }

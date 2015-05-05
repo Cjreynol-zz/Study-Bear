@@ -129,7 +129,6 @@ if(isset($_GET["rtype"])){
 			echo sendPasswordLink($_POST["email"]);
 		}
 		break;
-
 	case 'getMatchesClasses':
 		echo $dbconn->getMatchesClasses($_GET["uname"]);
 			break;	

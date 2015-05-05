@@ -408,7 +408,7 @@ class DBConnector
 			and A.classId = B.classId
 			inner join CLASS C ON B.classId = C.classId
 			inner join PROFESSOR D ON B.professorId = D.professorId
-		WHERE A.username = 'odarcie';";
+		WHERE A.username = '$uname';";
 			
 		$stm2 = $this->conn->prepare($classes_sql);
 			if($stm2->execute())
